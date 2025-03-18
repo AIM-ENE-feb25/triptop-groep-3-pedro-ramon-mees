@@ -1,5 +1,4 @@
-@startuml name
-set separator none
+@startuml Triptop
 title Triptop - System Context
 
 Top to bottom direction
@@ -7,24 +6,28 @@ Top to bottom direction
 !include <C4/C4>
 !include <C4/C4_Context>
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
-
-
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+SHOW_PERSON_OUTLINE()
 Person(Reiziger, "Reiziger", "Een gebruiker die zelf een reis plant.", $tags="person", $type="person")
 Person(ReisAgent, "Reis Agent", "Een gebruiker die de reiziger helpt bij het plannen van een reis", $tags="person",$type="person")
 
-System(Triptop, "Triptop", "Online platform voor vakantieplanning.", $tags="software system",$type="system software")
-System(IdentityProvider, "Identity Provider", "Biedt authenticatie via Google, Microsoft, AirBnb, etc.", $tags="software system",$type="system software")
-System(BoekingService, "Boeking Service", "Externe systemen zoals Booking.com en Airbnb.", $tags="software system",$type="system software")
-System(TransportService, "Transport Service", "Externe vervoersdiensten zoals NS, Deutsche Bahn, KLM.", $tags="software system",$type="system software")
-System(BetaalService, "Betaal Service", "Betaalsysteem voor afrekeningen.", $tags="software system",$type="system software")
 
+
+System_Boundary(c1, "Triptop omgeving", $tags=".") {
+    System(Triptop, "Triptop", "Online platform voor vakantieplanning.", $tags="software system",$type="system software")
+}
+
+System_Ext(IdentityProvider, "Identity Provider", "Biedt authenticatie via Google, Microsoft, AirBnb, etc.", $tags="software system",$type="system software")
+System_Ext(BoekingService, "Boeking Service", "Externe systemen zoals Booking.com en Airbnb.", $tags="software system",$type="system software")
+System_Ext(TransportService, "Transport Service", "Externe vervoersdiensten zoals NS, Deutsche Bahn, KLM.", $tags="software system",$type="system software")
+System_Ext(BetaalService, "Betaal Service", "Betaalsysteem voor afrekeningen.", $tags="software system",$type="klootzak system software")
+AddExternalSystemTag(BetaalService, )
 Rel(Triptop, IdentityProvider, "Authenticeert gebruikers via")
 Rel(Triptop, BoekingService, "Boekt accommodaties via")
 Rel(Triptop, TransportService, "Regelt vervoer via")
 Rel(Triptop, BetaalService, "Verwerkt betalingen via")
 Rel(Reiziger, Triptop, "Plant en beheert reizen via")
 Rel(ReisAgent, Triptop, "Helpt reiziger plannen via")
-
 SHOW_LEGEND(true)
 LAYOUT_WITH_LEGEND()
 @enduml
