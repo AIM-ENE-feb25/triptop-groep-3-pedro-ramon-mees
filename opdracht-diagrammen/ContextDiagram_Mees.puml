@@ -8,7 +8,11 @@ title C1 - Systeem Context Diagram voor de TripTop Vakantieplan App
 Person(reiziger, "Reiziger", "Maakt vakantieplannen via de app")
 Person(reisagent, "ReisAgent", "Tweedelijns support voor raadpleging")
 
-System(triptop, "TripTop Vakantieplan App", "Verbind reiziger met verschillende vakantie plan opties")
+
+System_Boundary(c1, "Triptop Omgeving", $tags=".") {
+    System(triptop, "TripTop Vakantieplan App", "Verbind reiziger met verschillende vakantie plan opties")
+}
+
 
 System_Ext(googleMapsAPI, "Google Maps API", "Biedt verschillende reis opties van A naar B")
 System_Ext(takeawayAPI, "Takeaway API", "Biedt voedselbezorging van verschillende restauranten")
