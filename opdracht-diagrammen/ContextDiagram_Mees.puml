@@ -1,7 +1,9 @@
 @startuml TripTop Context Diagram
+!include <C4/C4>
+!include <C4/C4_Context>
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
-title TripTop Vakantieplan App - System Context Diagram
+title C1 - Systeem Context Diagram voor de TripTop Vakantieplan App
 
 Person(reiziger, "Reiziger", "Maakt vakantieplannen via de app")
 Person(reisagent, "ReisAgent", "Tweedelijns support voor raadpleging")
@@ -24,5 +26,8 @@ Rel(triptop, idProvider, "Stuurt login process door")
 Rel(triptop, overnachtingProvider, "Vraagt voor overnachtings suggesties")
 Rel(triptop, autoHuurProvider, "Vraagt voor huurautos suggesties")
 Rel(triptop, activiteitProvider, "Vraagt voor suggesties van activiteiten")
+
+SHOW_LEGEND(true)
+LAYOUT_WITH_LEGEND()
 
 @enduml
