@@ -1,0 +1,28 @@
+@startuml TripTop Context Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title TripTop Vakantieplan App - System Context Diagram
+
+Person(reiziger, "Reiziger", "Maakt vakantieplannen via de app")
+Person(reisagent, "ReisAgent", "Tweedelijns support voor raadpleging")
+
+System(triptop, "TripTop Vakantieplan App", "Verbind reiziger met verschillende vakantie plan opties")
+
+System_Ext(googleMapsAPI, "Google Maps API", "Biedt verschillende reis opties van A naar B")
+System_Ext(takeawayAPI, "Takeaway API", "Biedt voedselbezorging van verschillende restauranten")
+System_Ext(idProvider, "IdentificatieProvider (Google, Microsoft, AirBnb)", "Verwerkt gebruiker authenticatie & authorizatie")
+System_Ext(overnachtingProvider, "OvernachtingProvider (Booking.com, AirBnB)", "Biedt overnachtingen aan")
+System_Ext(autoHuurProvider, "AutoHuurProvider (Sixt, Hertz)", "Biedt verschillende huurautos aan")
+System_Ext(activiteitProvider, "ActiviteitProvider (GetYourGuide, TripAdvisor)", "Biedt verschillende activiteiten aan")
+
+Rel(reiziger, triptop, "Maakt vakantieplannen")
+Rel(reisagent, triptop, "Raadpleging/Risico bespreking")
+
+Rel(triptop, googleMapsAPI, "Vraagt voor vervoers suggesties")
+Rel(triptop, takeawayAPI, "Vraagt voor voedings suggesties")
+Rel(triptop, idProvider, "Stuurt login process door")
+Rel(triptop, overnachtingProvider, "Vraagt voor overnachtings suggesties")
+Rel(triptop, autoHuurProvider, "Vraagt voor huurautos suggesties")
+Rel(triptop, activiteitProvider, "Vraagt voor suggesties van activiteiten")
+
+@enduml
