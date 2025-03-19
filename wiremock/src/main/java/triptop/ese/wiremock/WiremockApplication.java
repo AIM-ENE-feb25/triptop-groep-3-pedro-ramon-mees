@@ -16,5 +16,8 @@ public class WiremockApplication {
 
         ImplementationRamon implementationRamon = new ImplementationRamon();
         implementationRamon.run();
+
+        ImplementationPedro implementationPedro = new ImplementationPedro();
+        implementationPedro.run();
     }
 }
