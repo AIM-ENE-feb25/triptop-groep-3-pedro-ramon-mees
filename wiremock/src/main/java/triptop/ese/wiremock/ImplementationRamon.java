@@ -22,29 +22,30 @@ public class ImplementationRamon {
         requestBody.put("username", username);
         requestBody.put("password", password);
 
-        try{
+        try {
             return Unirest.post("https://triptop-identity.wiremockapi.cloud/login")
                     .header("Content-type", "application/json")
                     .body(requestBody.toString())
                     .asString();
-        } catch(UnirestException e){
+        } catch (UnirestException e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
+
     private void checkPerms(String token, String app) {
         JSONObject requestBody = new JSONObject();
         requestBody.put("username", username);
         requestBody.put("application", app);
 
-        try{
-            HttpResponse<String>  res = Unirest.post("https://triptop-identity.wiremockapi.cloud/checkAppAccess?token=" + token)
+        try {
+            HttpResponse<String> res = Unirest.post("https://triptop-identity.wiremockapi.cloud/checkAppAccess?token=" + token)
                     .header("Content-type", "application/json")
                     .body(requestBody.toString())
                     .asString();
 
             System.out.println(res.getBody());
-        } catch(UnirestException e){
+        } catch (UnirestException e) {
             System.out.println(e.getMessage());
         }
 
