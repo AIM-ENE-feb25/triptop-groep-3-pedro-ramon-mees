@@ -7,7 +7,7 @@ import kong.unirest.core.json.JSONObject;
 
 public class ImplementationMees {
 
-    public void executeLoginAndAuthorisation() {
+    public void run() {
         try {
             HttpResponse<String> response = doLogin("edevries", "3g2Rw9sT1x");
 

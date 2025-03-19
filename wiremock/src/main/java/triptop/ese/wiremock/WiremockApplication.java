@@ -11,8 +11,8 @@ public class WiremockApplication {
         SpringApplication.run(WiremockApplication.class, args);
 
         // Create an instance of the implementation class and call its method
-        ImplementationMees implementation = new ImplementationMees();
-        implementation.executeLoginAndAuthorisation();
+        ImplementationMees implementationMees = new ImplementationMees();
+        implementationMees.run();
 
         ImplementationRamon implementationRamon = new ImplementationRamon();
         implementationRamon.run();
