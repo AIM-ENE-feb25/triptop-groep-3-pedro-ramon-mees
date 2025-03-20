@@ -1,17 +1,15 @@
 @startuml
 
-!include <C4/C4>
-!include <C4/C4_Context>
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
-title Context: TripTop app
+title Context Diagram - TripTop app
 
 Person(reiziger,  "Reiziger",  "Plant reis in")
 Person(reisagent, "Reisagent", "Tweedelijns support")
 
-System(triptop, "TripTop Vakantieplan App", "Verbind reiziger .")
+System(triptop, "TripTop Vakantieplan App", "Verbind reiziger.")
 
-System_Ext(identityprovider, "IdentityProvider", "Zorgt voor auth")
+System_Ext(identityprovider, "IdentityProvider", "Zorgt voor authenticatie")
 System_Ext(booking,          "Booking.com",      "Voor overnachtingen")
 System_Ext(ns,               "NS",               "Vervoer tussen overnachtingen")
 System_Ext(klm,              "KLM",              "Eigen vervoer")

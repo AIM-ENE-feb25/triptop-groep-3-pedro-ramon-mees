@@ -1,4 +1,4 @@
-@startuml container_diagram_ramon_reis_boeken
+@startuml container_diagram_reis_boeken_ramon
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
