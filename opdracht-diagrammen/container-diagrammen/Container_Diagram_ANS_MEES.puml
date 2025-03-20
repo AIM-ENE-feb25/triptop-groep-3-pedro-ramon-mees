@@ -1,0 +1,34 @@
+@startuml
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+title Container Diagram - ANS
+
+Person(student,  "Student",  "A student who uses the system to make exams")
+Person(teacher, "Teacher", "A teacher who uses the system to create and grade exams")
+
+Container_Boundary(c1, "ANS Environment") {
+    Container(ans_frontend, "ANS Frontend", "?", "The frontend of the ANS system", $tags="software system")
+    Container(ans_backend, "ANS Backend", "?", "The backend of the ANS system", $tags="software system")
+    Container(ans_db, "ANS Database", "?", "The database of the ANS system", $tags="software system")
+}
+
+System_Ext(osiris, "Osiris", "Contains registered student for exams")
+System_Ext(schoolyear, "SchoolYear", "Secures ANS so it can only be used in a safe browser")
+System_Ext(surf, "SurfConext", "Handles user authentication")
+
+Rel(student, ans_frontend, "Makes exams")
+Rel(teacher, ans_frontend, "Creates and grades exams")
+Rel(ans_frontend, ans_backend, "Sends API requests")
+Rel_R(ans_backend, ans_db, "Reads and writes data")
+Rel(ans_backend, surf, "Sends user data", "?/HTTPS")
+Rel(ans_backend, osiris, "Gets student data and sends exam results")
+Rel(ans_backend, schoolyear, "Checks if the browser is safe")
+
+
+SHOW_LEGEND(true)
+LAYOUT_WITH_LEGEND()
+
+@enduml

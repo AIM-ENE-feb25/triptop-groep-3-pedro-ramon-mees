@@ -1,0 +1,45 @@
+@startuml container_diagram_mees
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+title C2 - Container Diagram voor de TripTop Vakantieplan App
+
+Person(reiziger, "Reiziger", "Maakt vakantieplannen via de app")
+Person(reisagent, "ReisAgent", "Tweedelijns support voor raadpleging")
+
+
+' TODO: Add Descriptions and Technologies
+Container_Boundary(cb, "TripTop Vakantieplan App", "Verbind reiziger met verschillende vakantie plan opties") {
+    Container(triptop_frontend, "TripTop Frontend", "REACT ?", "...Description...")
+    Container(triptop_backend, "TripTop Backend", "Spring Boot ?", "...Description...")
+    Container(triptop_db, "TripTop Database", "?", "...Description...")
+
+}
+
+
+System_Ext(googleMapsAPI, "Google Maps API", "Biedt verschillende reis opties van A naar B")
+System_Ext(mealMeAPI, "MealMe API", "Biedt voedselbezorging van verschillende restauranten")
+System_Ext(idProvider, "IdentificatieProvider (Google, Microsoft, AirBnb)", "Verwerkt gebruiker authenticatie & authorizatie")
+System_Ext(bookingAPI, "Booking.com API", "Biedt overnachtingen aan")
+System_Ext(autoHuurProvider, "AutoHuurProvider (Sixt SHARE API & RENT API)", "Biedt verschillende huurautos aan")
+System_Ext(activiteitProvider, "ActiviteitProvider (GetYourGuide, TripAdvisor)", "Biedt verschillende activiteiten aan")
+
+Rel(reiziger, triptop_frontend, "Maakt vakantieplannen")
+Rel(reisagent, triptop_frontend, "Raadpleging/Risico bespreking")
+
+Rel(triptop_frontend, triptop_backend, "Verstuurt API requests")
+Rel_R(triptop_backend, triptop_db, "Leest en schrijft data")
+
+Rel(triptop_backend, googleMapsAPI, "Vraagt reisopties op \n van A naar B", "?")
+Rel(triptop_backend, mealMeAPI, "Vraagt voedselbezorgingsopties op", "?")
+Rel(triptop_backend, idProvider, "Stuurt authenticatie requests", "JSON/HTTPS")
+Rel(triptop_backend, bookingAPI, "Vraagt overnachtingen op", "?")
+Rel(triptop_backend, autoHuurProvider, "Vraagt huurautos op", "?")
+Rel(triptop_backend, activiteitProvider, "Vraagt activiteiten op", "?")
+
+SHOW_LEGEND(true)
+LAYOUT_WITH_LEGEND()
+
+@enduml
