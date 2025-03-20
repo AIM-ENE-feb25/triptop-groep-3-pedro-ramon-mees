@@ -1,0 +1,39 @@
+@startuml container_diagram_ramon
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Container Diagram - TripTop Vakantieplan App
+
+Person(reiziger, "Reiziger", "Wilt een reis boeken")
+
+Container_Boundary(boundary, "TripTop Vakantieplan App") {
+    Container(frontend, "Frontend", "React",       "Zorgt voor gebruiksvriendelijke interface om de app te gebruiken")
+    Container(backend,  "Backend",  "Spring Boot", "Zorgt ervoor dat externe systemen en database gekoppeld worden")
+    Container(db,       "Database", "Postgres",    "Zorgt voor persistente informatieopslag")
+}
+ 
+System_Ext(identityprovider, "IdentityProvider", "Zorgt voor authenticatie/authorisatie")
+System_Ext(booking,          "Booking.com",      "Om over overnachtingen in te plannen")
+System_Ext(ns,               "NS",               "Vervoer tussen overnachtingen regelen")
+System_Ext(klm,              "KLM",              "Eigen vervoer regelen")
+System_Ext(sixt,             "Sixt",             "Huurauto's regelen")
+System_Ext(gyg,              "GetYourGuide",     "Excursies/Activiteiten in plannen")
+System_Ext(takeaway,         "Takeaway",         "Eten en drinken bestellen")
+
+Rel(reiziger, frontend, "Maakt vakantie planning")
+
+Rel(frontend, backend, "Communiceert met")
+Rel_R(backend, db, "Voert CRUD operaties uit")
+
+Rel(backend, identityprovider, "Gebruiker logt in via",                    "?")
+Rel(backend, booking,          "Plant ovenachtingen in via",               "?")
+Rel(backend, ns,               "Plant vervoer in via",                     "?")
+Rel(backend, klm,              "Regelt voor eigen vervoor via",            "?")
+Rel(backend, sixt,             "Kan huurauto's regelen via",               "?")
+Rel(backend, gyg,              "Kan excursies/activiteiten inplannen via", "?")
+Rel(backend, takeaway,         "Kan eten en drinken regelen via",          "?")
+
+SHOW_LEGEND(true)
+LAYOUT_WITH_LEGEND()
+
+@enduml
