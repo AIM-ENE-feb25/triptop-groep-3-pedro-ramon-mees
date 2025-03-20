@@ -22,7 +22,7 @@ System_Ext(takeaway,         "Takeaway",         "Eten en drinken bestellen")
 
 Rel(reiziger, frontend, "Maakt vakantie planning")
 
-Rel(frontend, backend, "Communiceert met")
+Rel_R(frontend, backend, "Communiceert met")
 Rel_R(backend, db, "Voert CRUD operaties uit")
 
 Rel(backend, identityprovider, "Gebruiker logt in via",                    "?")
