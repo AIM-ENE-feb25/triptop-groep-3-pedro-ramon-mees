@@ -24,7 +24,7 @@ Rel(reiziger, frontend, "Maakt vakantie planning")
 Rel_R(frontend, backend, "Communiceert met")
 Rel_R(backend,  db,      "Voert CRUD operaties uit")
 
-Rel(backend, booking,          "Plant ovenachtingen in via",               "?")
+Rel(backend, booking,          "Plant ovenachtingen in via",               "json")
 Rel(backend, ns,               "Plant vervoer in via",                     "?")
 Rel(backend, klm,              "Regelt voor eigen vervoor via",            "?")
 Rel(backend, sixt,             "Kan huurauto's regelen via",               "?")
