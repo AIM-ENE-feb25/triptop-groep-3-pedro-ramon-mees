@@ -1,4 +1,4 @@
-@startuml container_diagram_ramon
+@startuml container_diagram_ramon_reis_boeken
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
@@ -12,20 +12,18 @@ Container_Boundary(boundary, "TripTop Vakantieplan App") {
     Container(db,       "Database", "Postgres",    "Zorgt voor persistente informatieopslag")
 }
  
-System_Ext(identityprovider, "IdentityProvider", "Zorgt voor authenticatie/authorisatie")
-System_Ext(booking,          "Booking.com",      "Om over overnachtingen in te plannen")
-System_Ext(ns,               "NS",               "Vervoer tussen overnachtingen regelen")
-System_Ext(klm,              "KLM",              "Eigen vervoer regelen")
-System_Ext(sixt,             "Sixt",             "Huurauto's regelen")
-System_Ext(gyg,              "GetYourGuide",     "Excursies/Activiteiten in plannen")
-System_Ext(takeaway,         "Takeaway",         "Eten en drinken bestellen")
+System_Ext(booking,  "Booking.com",  "Om over overnachtingen in te plannen")
+System_Ext(ns,       "NS",           "Vervoer tussen overnachtingen regelen")
+System_Ext(klm,      "KLM",          "Eigen vervoer regelen")
+System_Ext(sixt,     "Sixt",         "Huurauto's regelen")
+System_Ext(gyg,      "GetYourGuide", "Excursies/Activiteiten in plannen")
+System_Ext(takeaway, "Takeaway",     "Eten en drinken bestellen")
 
 Rel(reiziger, frontend, "Maakt vakantie planning")
 
 Rel_R(frontend, backend, "Communiceert met")
-Rel_R(backend, db, "Voert CRUD operaties uit")
+Rel_R(backend,  db,      "Voert CRUD operaties uit")
 
-Rel(backend, identityprovider, "Gebruiker logt in via",                    "?")
 Rel(backend, booking,          "Plant ovenachtingen in via",               "?")
 Rel(backend, ns,               "Plant vervoer in via",                     "?")
 Rel(backend, klm,              "Regelt voor eigen vervoor via",            "?")
