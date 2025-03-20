@@ -8,7 +8,7 @@ Person(gebruiker, "Gebruiker", "Wilt inloggen")
 
 Container_Boundary(boundary, "TripTop Vakantieplan App") {
     Container(frontend, "Frontend", "React",       "Zorgt voor gebruiksvriendelijke interface om de app te gebruiken")
-    Container(backend,  "Backend",  "Spring Boot", "Zorgt voor communicatie tussen frontend en IdentiyProvider")
+    Container(backend,  "Backend",  "Spring Boot", "Zorgt voor communicatie tussen frontend en IdentityProvider")
     Container(db,       "Database", "Postgres",    "Zorgt voor persistente informatieopslag")
 }
 
