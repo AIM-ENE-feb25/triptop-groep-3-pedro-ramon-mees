@@ -109,7 +109,7 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 | Customer::create   | Stripe API /? | x                              |                                | x                               |
 | InvoiceCreateParams::customer   | Stripe API /? | x                              |                                | x                               |
 | Invoice::create   | Stripe API /? | x                              |                                | x                               |
-_Stripe endpoint addresses aren't given in documentation._
+_Stripe endpoint addressen worden niet gegeven in de documentatie._
 
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
