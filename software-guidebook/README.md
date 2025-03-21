@@ -101,6 +101,16 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 | `Verblijf::eindDatum`     | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x | x |
 | `Verblijfplaats::locatie` |   | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination?` |  | x |
 | `Verblijfplaats::prijs`   |   | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x |
+| ProductCreateParams::name | Stripe API /? | x                              |                                | x                               |
+| ProductCreateParams::description        | Stripe API /? | x                              |                                | x                               |
+| Product::create   | Stripe API /? | x                              |                                | x                               |
+| CustomerCreateParams::name   | Stripe API /? | x                              | x                             |                                |
+| CustomerCreateParams::email   | Stripe API /? | x                              | x                               |                                |
+| Customer::create   | Stripe API /? | x                              |                                | x                               |
+| InvoiceCreateParams::customer   | Stripe API /? | x                              |                                | x                               |
+| Invoice::create   | Stripe API /? | x                              |                                | x                               |
+
+
 
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
