@@ -99,6 +99,41 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ### 8.1. ADR-001 TITLE
 
+### ADR 0001: API Gateway Pattern voor externe API-integratie
+
+#### Status
+_**Voorgesteld**_
+#### Context
+> Triptop integreert met meerdere externe APIs (vervoersaanbieders, betalingssystemen, identity providers). Wijzigingen in deze APIs kunnen grote impact hebben op onze applicatie als we deze direct integreren. 
+> We moeten een manier vinden om wijzigingen in externe APIs op te vangen zonder dat dit leidt tot grootschalige aanpassingen in onze front-end of core back-end systemen.
+#### Besluit
+> We implementeren een API Gateway pattern waarbij alle communicatie met externe diensten via speciale adapter-services verloopt. 
+> Deze services vormen een abstraherende laag tussen onze applicatie en externe APIs.
+
+### Gevolgen
+
+##### Positief:
+
+- Wijzigingen in externe APIs worden opgevangen in de gateway/adapter laag
+- Front-end communiceert alleen met onze eigen gestandardiseerde interne API
+- Eenvoudiger monitoring van externe API-aanroepen op één plaats
+- Maakt A/B testing tussen verschillende externe providers mogelijk
+
+
+##### Negatief:
+
+- Extra architectuurlaag verhoogt complexiteit
+- Potentiële performance overhead
+- Vereist ontwikkeling en onderhoud van adapter-services
+
+
+
+#### Implementatiedetails
+
+- Voor elke categorie externe services (vervoer, betalingen, authenticatie) ontwikkelen we een dedicated adapter-service
+- Elke adapter implementeert een standaard interface die onze core backend gebruikt
+- Adapters vertalen de specifieke formaten/protocollen van externe APIs naar ons interne datamodel
+
 > [!TIP]
 > These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
 
