@@ -17,10 +17,10 @@ System_Boundary(c1, "Triptop omgeving", $tags=".") {
     System(Triptop, "Triptop", "Online platform voor vakantieplanning.", $tags="software system",$type="system software")
 }
 
-System_Ext(IdentityProvider, "Identity Provider", "Biedt authenticatie via Google, Microsoft, AirBnb, etc.", $tags="software system",$type="system software")
-System_Ext(BoekingService, "Boeking Service", "Externe systemen zoals Booking.com en Airbnb.", $tags="software system",$type="system software")
-System_Ext(TransportService, "Transport Service", "Externe vervoersdiensten zoals NS, Deutsche Bahn, KLM.", $tags="software system",$type="system software")
-System_Ext(BetaalService, "Betaal Service", "Betaalsysteem voor afrekeningen.", $tags="software system",$type="klootzak system software")
+System_Ext(IdentityProvider, "Identity Provider", "Biedt authenticatie via Google, Microsoft, AirBnb, etc.", $tags="software system",$type="External Software System")
+System_Ext(BoekingService, "Boeking Service", "Externe systemen zoals Booking.com en Airbnb.", $tags="software system",$type="External Software System")
+System_Ext(TransportService, "Transport Service", "Externe vervoersdiensten zoals NS, Deutsche Bahn, KLM.", $tags="software system",$type="External Software System")
+System_Ext(BetaalService, "Betaal Service", "Betaalsysteem voor afrekeningen.", $tags="software system",$type="External Software System")
 AddExternalSystemTag(BetaalService, )
 Rel(Triptop, IdentityProvider, "Authenticeert gebruikers via")
 Rel(Triptop, BoekingService, "Boekt accommodaties via")

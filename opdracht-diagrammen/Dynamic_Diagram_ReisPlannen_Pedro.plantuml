@@ -1,0 +1,32 @@
+@startuml
+set separator none
+title Gebruiker plant een reis
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+System_Boundary("Triptop_boundary", "Triptop", $tags="") {
+  Container(Triptop.FrontendWebapplicatie, "Frontend Webapplicatie", $techn="React, JavaScript", $descr="De UI waarmee gebruikers hun reizen plannen en boeken.", $tags="", $link="")
+  Container(Triptop.BackendAPI, "Backend API", $techn="Java Spring Boot", $descr="Beheert logica voor reizen, boekingen en betalingen.", $tags="", $link="")
+}
+
+Person(Reiziger, "Reiziger", $descr="Gebruiker die zijn reis plant, boekt en beheert.", $tags="", $link="")
+System_Ext(VervoerAPI, "Vervoer API", $descr="Een samengestelde representatie van meerdere vervoerders zoals NS, KLM en Deutsche Bahn.", $type="External Software System", $link="")
+System_Ext(Betaalprovider, "Betaalprovider", $descr="Externe dienst voor betalingsverwerking.", $type="External Software System", $link="")
+
+Rel(Reiziger, Triptop.FrontendWebapplicatie, "1. Voert reisdetails in", $techn="HTTPS", $tags="", $link="")
+Rel(Triptop.FrontendWebapplicatie, Triptop.BackendAPI, "2. Vraagt beschikbare reisopties", $techn="HTTPS/JSON", $tags="", $link="")
+Rel(Triptop.BackendAPI, VervoerAPI, "3. Haalt reisopties op", $techn="HTTPS/REST/JSON", $tags="", $link="")
+Rel(VervoerAPI, Triptop.BackendAPI, "4. Stuurt beschikbare opties", $techn="HTTPS/REST/JSON", $tags="", $link="")
+Rel(Triptop.BackendAPI, Triptop.FrontendWebapplicatie, "5. Toont opties aan gebruiker", $techn="HTTPS/JSON", $tags="", $link="")
+Rel(Reiziger, Triptop.FrontendWebapplicatie, "6. Selecteert transport en bevestigt", $techn="HTTPS", $tags="", $link="")
+Rel(Triptop.FrontendWebapplicatie, Triptop.BackendAPI, "7. Slaat keuze op en start betaling", $techn="HTTPS/JSON", $tags="", $link="")
+Rel(Triptop.BackendAPI, Betaalprovider, "8. Initialiseert betaling", $techn="?", $tags="", $link="")
+
+
+
+SHOW_LEGEND(true)
+@enduml

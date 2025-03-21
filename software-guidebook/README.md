@@ -8,7 +8,7 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 1. De architectuur van de infrastructuur en hoe de software kan worden geinstalleerd. 
 
 ## 2. Context
-
+![Context_Diagram_groep_3_Pedro.svg](..%2Fopdracht-diagrammen%2FContext_Diagram_groep_3_Pedro.svg)
 > [!IMPORTANT]
 > Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 
@@ -79,6 +79,14 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ###     7.1. Containers
 ![container-diagram-Pedro.svg](..%2Fopdracht-diagrammen%2Fcontainer-diagram-Pedro.svg)
+
+####    7.1.1. Dynamic Diagram: Inloggen
+
+![Dynamic_Diagram_Inloggen_Pedro.svg](..%2Fopdracht-diagrammen%2FDynamic_Diagram_Inloggen_Pedro.svg)
+
+####    7.1.1. Dynamic Diagram: Reis Plannen
+
+![Dynamic_Diagram_ReisPlannen_Pedro.svg](..%2Fopdracht-diagrammen%2FDynamic_Diagram_ReisPlannen_Pedro.svg)
 > [!IMPORTANT]
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 

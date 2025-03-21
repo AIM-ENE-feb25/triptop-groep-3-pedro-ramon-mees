@@ -1,0 +1,32 @@
+@startuml
+set separator none
+title Triptop - Containers
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+Person(Reiziger, "Reiziger", $descr="Gebruiker die zijn reis plant, boekt en beheert.", $tags="", $link="")
+Person(TweedelijnsReisagent, "Tweede-lijns Reisagent", $descr="Ondersteunt reizigers bij het plannen en boeken van hun reis.", $tags="", $link="")
+System_Ext(IdentityProvider, "Identity Provider", $descr="Authenticeert gebruikers. Een samengestelde representatie van meerdere OAuth2-providers (Google, Microsoft, AirBnb, etc.) waarmee gebruikers kunnen inloggen.", $type="External Software System", $link="")
+System_Ext(VervoerAPI, "Vervoer API", $descr="Een samengestelde representatie van meerdere vervoerders zoals NS, KLM en Deutsche Bahn.", $type="External Software System", $link="")
+System_Ext(Betaalprovider, "Betaalprovider", $descr="Externe dienst voor betalingsverwerking.", $type="External Software System", $link="")
+
+System_Boundary("Triptop_boundary", "Triptop", $tags="") {
+  Container(Triptop.FrontendWebapplicatie, "Frontend Webapplicatie", $techn="React, JavaScript", $descr="De UI waarmee gebruikers hun reizen plannen en boeken.", $tags="", $link="")
+  Container(Triptop.BackendAPI, "Backend API", $techn="Java Spring Boot", $descr="Beheert logica voor reizen, boekingen en betalingen.", $tags="", $link="")
+  Container(Triptop.Database, "Database", $techn="MySQL", $descr="Slaat gebruikersgegevens, boekingen en reisopties op.", $tags="", $link="")
+}
+
+Rel(Reiziger, Triptop.FrontendWebapplicatie, "Gebruikt voor plannen en boeken", $techn="HTTPS", $tags="", $link="")
+Rel(TweedelijnsReisagent, Triptop.FrontendWebapplicatie, "Gebruikt voor ondersteuning", $techn="HTTPS", $tags="", $link="")
+Rel(Triptop.FrontendWebapplicatie, Triptop.BackendAPI, "Maakt API-aanvragen naar", $techn="HTTPS/JSON", $tags="", $link="")
+Rel_R(Triptop.BackendAPI, Triptop.Database, "Leest en schrijft gegevens", $techn="JDBC", $tags="", $link="")
+Rel(Triptop.BackendAPI, IdentityProvider, "Verwerkt login verzoeken", $techn="HTTPS/JWT", $tags="", $link="")
+Rel(Triptop.BackendAPI, VervoerAPI, "Haalt reisopties op van", $techn="HTTPS/REST/JSON", $tags="", $link="")
+Rel(Triptop.BackendAPI, Betaalprovider, "", $techn="", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml
