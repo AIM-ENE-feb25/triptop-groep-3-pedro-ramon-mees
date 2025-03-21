@@ -78,6 +78,23 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 ## 7. Software Architecture
 
 ###     7.1. Containers
+>Elke aanbieder heeft zijn eigen API-specificaties, wat leidt tot complexiteit en verlies van overaciht.
+> 
+> In het model hebben we Identity Provider en Vervoer API als samengestelde entiteiten gedefinieerd. Dit is gedaan om de complexiteit van het systeem te vereenvoudigen en de overzichtelijkheid te behouden. In werkelijkheid bestaan deze services uit meerdere afzonderlijke API’s van verschillende providers.
+> 1. Identity Provider (OAuth2 Login Services)
+>
+>
+>   De Identity Provider in het model vertegenwoordigt meerdere login-diensten waarmee gebruikers zich kunnen authenticeren bij Triptop. In werkelijkheid zou Triptop zich verbinden met verschillende externe OAuth2-providers, zoals:
+>    - Google OAuth → Gebruikers kunnen inloggen met hun Google-account.
+>    - Microsoft Identity Platform → Ondersteunt inloggen met Microsoft- en Azure AD-accounts
+> 
+> 2. Vervoer API (Aggregatie van Reisaanbieders) 
+> 
+> De Vervoer API in het model vertegenwoordigt een aggregatie van meerdere reis- en transportaanbieders. In werkelijkheid haalt Triptop reisopties op uit verschillende externe bronnen:
+>    - NS API → Real-time treinroutes en prijzen van Nederlandse Spoorwegen.
+>    - KLM API → Vluchtinformatie, prijzen en boekingen via KLM.
+
+
 ![container-diagram-Pedro.svg](..%2Fopdracht-diagrammen%2Fcontainer-diagram-Pedro.svg)
 
 ####    7.1.1. Dynamic Diagram: Inloggen
