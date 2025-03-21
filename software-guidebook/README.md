@@ -78,7 +78,7 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 ## 7. Software Architecture
 
 ###     7.1. Containers
-
+![container-diagram-Pedro.svg](..%2Fopdracht-diagrammen%2Fcontainer-diagram-Pedro.svg)
 > [!IMPORTANT]
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
