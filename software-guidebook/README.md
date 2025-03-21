@@ -8,7 +8,7 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 1. De architectuur van de infrastructuur en hoe de software kan worden geinstalleerd. 
 
 ## 2. Context
-
+![Context_Diagram_groep_3_Pedro.svg](..%2Fopdracht-diagrammen%2FContext_Diagram_groep_3_Pedro.svg)
 > [!IMPORTANT]
 > Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 
@@ -78,7 +78,15 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 ## 7. Software Architecture
 
 ###     7.1. Containers
+![container-diagram-Pedro.svg](..%2Fopdracht-diagrammen%2Fcontainer-diagram-Pedro.svg)
 
+####    7.1.1. Dynamic Diagram: Inloggen
+
+![Dynamic_Diagram_Inloggen_Pedro.svg](..%2Fopdracht-diagrammen%2FDynamic_Diagram_Inloggen_Pedro.svg)
+
+####    7.1.1. Dynamic Diagram: Reis Plannen
+
+![Dynamic_Diagram_ReisPlannen_Pedro.svg](..%2Fopdracht-diagrammen%2FDynamic_Diagram_ReisPlannen_Pedro.svg)
 > [!IMPORTANT]
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
@@ -88,6 +96,28 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
 ###     7.3. Design & Code
+
+#### 7.3.1 API Mapping Table
+
+| Class::Attribuut           | Is input voor API+Endpoint         | Wordt gevuld door API+Eindpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
+|----------------------------|---------------------------------|--------------------------------|---------------------------------|---------------------------------|
+| FlightOffer::departureDate | Flight API /flight-offers (GET) | x                              | x                               | x                               |
+| FlightOffer::origin        | Flight API /flight-offers (GET) | x                              | x                               | x                               |
+| FlightOffer::destination   | Flight API /flight-offers (GET) | x                              | x                               | x                               |
+| FlightOffer::adults        | Flight API /flight-offers (GET) | x                              | x                               |                                 |
+| `Verblijf::startDatum`    | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x | x |
+| `Verblijf::eindDatum`     | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x | x |
+| `Verblijfplaats::locatie` |   | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination?` |  | x |
+| `Verblijfplaats::prijs`   |   | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x |
+| ProductCreateParams::name | Stripe API /? | x                              |                                | x                               |
+| ProductCreateParams::description        | Stripe API /? | x                              |                                | x                               |
+| Product::create   | Stripe API /? | x                              |                                | x                               |
+| CustomerCreateParams::name   | Stripe API /? | x                              | x                             |                                |
+| CustomerCreateParams::email   | Stripe API /? | x                              | x                               |                                |
+| Customer::create   | Stripe API /? | x                              |                                | x                               |
+| InvoiceCreateParams::customer   | Stripe API /? | x                              |                                | x                               |
+| Invoice::create   | Stripe API /? | x                              |                                | x                               |
+_Stripe endpoint addressen worden niet gegeven in de documentatie._
 
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
@@ -159,106 +189,80 @@ Negatief
 
 > [!TIP]
 > This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
+=======
+### 8.1. ADR-001 Stripe API Test Modus
+
+#### Autheur: 
+Mees van Aarsen
 
 #### Status
-
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
-
-#### Consequences
-
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
-
-### 8.3. ADR-003 TITLE
-
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
-
+_**Voorgesteld**_
 #### Context
+Ik ga een prototype feature opzetten voor het verwerken van betalingen. Voor het opzetten van een prototype waren meerdere API opties beschikbaar (RapidAPI, Stripe API). 
 
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
+- De RapidAPI geeft enkel mockdata terug.
+- De Stripe API heeft een test modus, waarin men direct gebruik kan maken van de echte API. Zonder de kans dat men gefactureerd wordt voor gebruik.
 
-#### Considered Options
+#### Besluit
+Ik ga het prototype ontwikkelen doormiddel van de Stripe API. Daarmee kan men zonder de mogelijkheid gefactureerd te worden hen integratie ontwikkelen en testen.
 
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
+### Gevolgen
 
-#### Decision
+#### Positief:
 
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
+- Alle functionaliteit wordt volgens de door Stripe gegeven modellen ontwikkeld
+- Implementatie zal direct van prototype naar product over kunnen gaan.
+
+#### Negatief:
+
+- Vergroot mogelijk de data-strucuur van de DB met Stripe modellen.
+- Contact naar Stripe gaat via de Stripe.class, geen direct zicht op de endpoints.
+- Vereist ontwikkeling en onderhoud van adapter-services
+
+#### Implementatiedetails
+
+- Voor elke categorie externe services (vervoer, betalingen, authenticatie) ontwikkelen we een dedicated adapter-service
+- Elke adapter implementeert een standaard interface die onze core backend gebruikt
+- Adapters vertalen de specifieke formaten/protocollen van de Stripe API naar ons interne datamodel
+
+
+### 8.2. ADR-002 API Gateway Pattern voor externe API-integratie
+
+#### Autheur
+Pedro van Douveren
 
 #### Status
-
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
-
-#### Consequences
-
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
-
-### 8.4. ADR-004 TITLE
-
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
-
+_**Voorgesteld**_
 #### Context
+> Triptop integreert met meerdere externe APIs (vervoersaanbieders, betalingssystemen, identity providers). Wijzigingen in deze APIs kunnen grote impact hebben op onze applicatie als we deze direct integreren. 
+> We moeten een manier vinden om wijzigingen in externe APIs op te vangen zonder dat dit leidt tot grootschalige aanpassingen in onze front-end of core back-end systemen.
+#### Besluit
+> We implementeren een API Gateway pattern waarbij alle communicatie met externe diensten via speciale adapter-services verloopt. 
+> Deze services vormen een abstraherende laag tussen onze applicatie en externe APIs.
 
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
+### Gevolgen
 
-#### Considered Options
+#### Positief:
 
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
+- Wijzigingen in externe APIs worden opgevangen in de gateway/adapter laag
+- Front-end communiceert alleen met onze eigen gestandardiseerde interne API
+- Eenvoudiger monitoring van externe API-aanroepen op één plaats
+- Maakt A/B testing tussen verschillende externe providers mogelijk
 
-#### Decision
 
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
+#### Negatief:
 
-#### Status
+- Extra architectuurlaag verhoogt complexiteit
+- Potentiële performance overhead
+- Vereist ontwikkeling en onderhoud van adapter-services
 
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
 
-#### Consequences
 
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
+#### Implementatiedetails
 
-### 8.5. ADR-005 TITLE
-
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
-
-#### Context
-
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
-
-#### Considered Options
-
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
-
-#### Decision
-
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
-
-#### Status
-
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
-
-#### Consequences
-
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
+- Voor elke categorie externe services (vervoer, betalingen, authenticatie) ontwikkelen we een dedicated adapter-service
+- Elke adapter implementeert een standaard interface die onze core backend gebruikt
+- Adapters vertalen de specifieke formaten/protocollen van externe APIs naar ons interne datamodel
 
 ## 9. Deployment, Operation and Support
 

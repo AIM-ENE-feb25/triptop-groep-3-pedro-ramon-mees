@@ -1,0 +1,29 @@
+@startuml
+set separator none
+title Gebruiker logt in op Triptop
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+System_Boundary("Triptop_boundary", "Triptop", $tags="") {
+  Container(Triptop.FrontendWebapplicatie, "Frontend Webapplicatie", $techn="React, JavaScript", $descr="De UI waarmee gebruikers hun reizen plannen en boeken.", $tags="", $link="")
+  Container(Triptop.BackendAPI, "Backend API", $techn="Java Spring Boot", $descr="Beheert logica voor reizen, boekingen en betalingen.", $tags="", $link="")
+  Container(Triptop.Database, "Database", $techn="MySQL", $descr="Slaat gebruikersgegevens, boekingen en reisopties op.", $tags="", $link="")
+}
+
+Person(Reiziger, "Reiziger", $descr="Gebruiker die zijn reis plant, boekt en beheert.", $tags="", $link="")
+System_Ext(IdentityProvider, "Identity Provider", $descr="Authenticeert gebruikers. Een samengestelde representatie van meerdere OAuth2-providers (Google, Microsoft, AirBnb, etc.) waarmee gebruikers kunnen inloggen.", $type="Software System", $link="")
+
+Rel(Reiziger, Triptop.FrontendWebapplicatie, "1. Bezoekt Triptop website en klikt op 'Inloggen'", $techn="HTTPS", $tags="", $link="")
+Rel(Triptop.FrontendWebapplicatie, Triptop.BackendAPI, "2. Vraagt beschikbare login providers", $techn="HTTPS/JSON", $tags="", $link="")
+Rel(Triptop.BackendAPI, IdentityProvider, "3. Stuurt authenticatieverzoek", $techn="HTTPS/JWT", $tags="", $link="")
+Rel(IdentityProvider, Triptop.BackendAPI, "4. Bevestigt login en stuurt gebruikersgegevens", $techn="HTTPS/JWT", $tags="", $link="")
+Rel(Triptop.BackendAPI, Triptop.Database, "5. Slaat sessie op", $techn="JDBC", $tags="", $link="")
+Rel(Triptop.BackendAPI, Triptop.FrontendWebapplicatie, "6. Stuurt sessietoken", $techn="HTTPS/JSON", $tags="", $link="")
+Rel(Triptop.FrontendWebapplicatie, Reiziger, "7. Toont ingelogde status", $techn="HTTPS", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml
