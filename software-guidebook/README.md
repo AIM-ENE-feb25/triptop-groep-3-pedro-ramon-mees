@@ -89,6 +89,15 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ###     7.3. Design & Code
 
+#### 7.3.1 API Mapping Table
+
+| Class::Attribuut           | Is input voor API+Endpoint         | Wordt gevuld door API+Eindpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
+|----------------------------|---------------------------------|--------------------------------|---------------------------------|---------------------------------|
+| FlightOffer::departureDate | Flight API /flight-offers (GET) | x                              | x                               | x                               |
+| FlightOffer::origin        | Flight API /flight-offers (GET) | x                              | x                               | x                               |
+| FlightOffer::destination   | Flight API /flight-offers (GET) | x                              | x                               | x                               |
+| FlightOffer::adults        | Flight API /flight-offers (GET) | x                              | x                               |                                 |
+
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
 
