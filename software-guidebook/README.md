@@ -97,7 +97,7 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
 
-### 8.1. ADR-001 Postgres database
+### 8.1. ADR-001 Postgres database - Ramon
 
 > [!TIP]
 > These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
@@ -105,35 +105,40 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 #### Context 
 
 Voor de TripTop applicatie willen we een hoog-beschikbare en schaalbare
-backend systeem implementeren waarbij gegevens over meerdere API's heen
-worden opgeslagen.
+backend implementeren waarbij gegevens uit meerdere API's worden opgeslagen
+in een database.
 
 #### Considered Options
 
-| a  | a  |
-| --- | --- |
-| MySQL |   |
-| Postgres |  |
-| MariaDB |   |
-| SQL server |
-
+| Factor             | MySQL             | Postgres        | MariaDB          | SQL Server       |
+|--------------------|------------------|------------------|------------------|------------------|
+| **Prestaties**       | Minder geschikt voor grote datasets | Sterk bij complexe queries en grote datasets | Over het algemeen sneller dan MySQL | Goede prestaties |
+| **Uitbreidbaarheid** | Beperkt          | Zeer hoog | Beperkt          | Gemiddeld |
+| **Licentie**         | Open-source (GPL) | Open-source (PostgreSQL License) | Open-source (GPL) | Proprietair (Microsoft) |
+| **Complexiteit**     | Eenvoudig | Complexer maar krachtiger | Eenvoudig (MySQL compatible) | Gemiddelde leercurve |
 
 #### Decision
 
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
+We hebben gekozen om gebruik te maken van Postgres omdat dit uitstekende prestaties bied
+en een hoge uitbreidbaarheid heeft, dit sluit goed aan bij de wensen van onze applicatie. Daarnaast
+is het gratis te gebruiken en zijn er geen licentie kosten aan verbonden wat
+voor ons erg belangrijk is.
 
 #### Status 
 
-Proposed
-
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
+Accepted
 
 #### Consequences 
 
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
+Positief
+
+ - Geen extra licentie kosten
+ - Hoge schaalbaarheid en makkelijk uit te breiden
+ - Hoge prestaties
+
+Negatief
+
+ - Relatief hogere leercurve voor (nieuwe) teamleden
 
 ### 8.2. ADR-002 TITLE
 
