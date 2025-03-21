@@ -123,6 +123,9 @@ _Stripe endpoint addresses aren't given in documentation._
 
 ### ADR 0001: Stripe API Test Modus
 
+#### Autheur: 
+Mees van Aarsen
+
 #### Status
 _**Voorgesteld**_
 #### Context
