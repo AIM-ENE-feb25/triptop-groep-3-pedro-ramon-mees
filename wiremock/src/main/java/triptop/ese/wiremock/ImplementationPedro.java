@@ -12,6 +12,8 @@ public class ImplementationPedro {
 
     private final String BASE_URL = "https://triptop-identity.wiremockapi.cloud";
 
+    private static final String FLIGHT_OFFERS_URL = "https://kk039.wiremockapi.cloud/shopping/flight-offers";
+
     protected final String username1 = "edevries";
     protected final String username2 = "fvleeuwen";
     protected final String username3 = "mvdlinden";
@@ -70,4 +72,27 @@ public class ImplementationPedro {
         }
     }
 
+
+    public String getFlightOffers(String origin, String destination, String departureDate, int adults) {
+        try {
+            HttpResponse<JsonNode> response = Unirest.get(FLIGHT_OFFERS_URL)
+                    .queryString("originLocationCode", origin)
+                    .queryString("destinationLocationCode", destination)
+                    .queryString("departureDate", departureDate)
+                    .queryString("adults", adults)
+                    .asJson();
+
+            if (response.getStatus() == 200) {
+                System.out.println("Flight Offers: " + response.getBody().toString());
+                return response.getBody().toString();
+            } else {
+                System.out.println("Failed to get flight offers: " + response.getBody());
+                return null;
+            }
+
+        } catch (UnirestException e) {
+            System.out.println("Error fetching flight offers: " + e.getMessage());
+            return null;
+        }
+    }
 }

@@ -19,5 +19,6 @@ public class WiremockApplication {
 
         ImplementationPedro implementationPedro = new ImplementationPedro();
         implementationPedro.run();
+        implementationPedro.getFlightOffers("ITF","RTR", "2024-02-01Z",7);
     }
 }
