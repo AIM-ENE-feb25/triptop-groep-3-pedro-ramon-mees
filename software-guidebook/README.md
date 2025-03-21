@@ -97,6 +97,10 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 | FlightOffer::origin        | Flight API /flight-offers (GET) | x                              | x                               | x                               |
 | FlightOffer::destination   | Flight API /flight-offers (GET) | x                              | x                               | x                               |
 | FlightOffer::adults        | Flight API /flight-offers (GET) | x                              | x                               |                                 |
+| `Verblijf::startDatum`    | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x | x |
+| `Verblijf::eindDatum`     | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x | x |
+| `Verblijfplaats::locatie` |   | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination?` |  | x |
+| `Verblijfplaats::prijs`   |   | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x |
 
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
