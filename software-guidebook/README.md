@@ -89,6 +89,19 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ###     7.3. Design & Code
 
+#### 7.3.1 API Mapping Table
+
+| Class::Attribuut           | Is input voor API+Endpoint         | Wordt gevuld door API+Eindpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
+|----------------------------|---------------------------------|--------------------------------|---------------------------------|---------------------------------|
+| FlightOffer::departureDate | Flight API /flight-offers (GET) | x                              | x                               | x                               |
+| FlightOffer::origin        | Flight API /flight-offers (GET) | x                              | x                               | x                               |
+| FlightOffer::destination   | Flight API /flight-offers (GET) | x                              | x                               | x                               |
+| FlightOffer::adults        | Flight API /flight-offers (GET) | x                              | x                               |                                 |
+| `Verblijf::startDatum`    | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x | x |
+| `Verblijf::eindDatum`     | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x | x |
+| `Verblijfplaats::locatie` |   | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination?` |  | x |
+| `Verblijfplaats::prijs`   |   | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x |
+
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
 
@@ -98,6 +111,41 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
 
 ### 8.1. ADR-001 TITLE
+
+### ADR 0001: API Gateway Pattern voor externe API-integratie
+
+#### Status
+_**Voorgesteld**_
+#### Context
+> Triptop integreert met meerdere externe APIs (vervoersaanbieders, betalingssystemen, identity providers). Wijzigingen in deze APIs kunnen grote impact hebben op onze applicatie als we deze direct integreren. 
+> We moeten een manier vinden om wijzigingen in externe APIs op te vangen zonder dat dit leidt tot grootschalige aanpassingen in onze front-end of core back-end systemen.
+#### Besluit
+> We implementeren een API Gateway pattern waarbij alle communicatie met externe diensten via speciale adapter-services verloopt. 
+> Deze services vormen een abstraherende laag tussen onze applicatie en externe APIs.
+
+### Gevolgen
+
+##### Positief:
+
+- Wijzigingen in externe APIs worden opgevangen in de gateway/adapter laag
+- Front-end communiceert alleen met onze eigen gestandardiseerde interne API
+- Eenvoudiger monitoring van externe API-aanroepen op één plaats
+- Maakt A/B testing tussen verschillende externe providers mogelijk
+
+
+##### Negatief:
+
+- Extra architectuurlaag verhoogt complexiteit
+- Potentiële performance overhead
+- Vereist ontwikkeling en onderhoud van adapter-services
+
+
+
+#### Implementatiedetails
+
+- Voor elke categorie externe services (vervoer, betalingen, authenticatie) ontwikkelen we een dedicated adapter-service
+- Elke adapter implementeert een standaard interface die onze core backend gebruikt
+- Adapters vertalen de specifieke formaten/protocollen van externe APIs naar ons interne datamodel
 
 > [!TIP]
 > These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
