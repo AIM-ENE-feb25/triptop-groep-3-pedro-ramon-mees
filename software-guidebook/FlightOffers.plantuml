@@ -10,9 +10,9 @@ top to bottom direction
 
 Person(Reiziger, "Reiziger", $descr="Gebruiker die zijn reis plant, boekt en beheert.", $tags="", $link="")
 Person(TweedelijnsReisagent, "Tweede-lijns Reisagent", $descr="Ondersteunt reizigers bij het plannen en boeken van hun reis.", $tags="", $link="")
-System(IdentityProvider, "Identity Provider", $descr="OAuth2-provider waarmee gebruikers kunnen inloggen via Google, Microsoft, AirBnb, etc.", $tags="", $link="")
-System(VervoerAPI, "Vervoer API", $descr="Externe API's zoals NS, KLM en Deutsche Bahn voor het boeken van vervoer.", $tags="", $link="")
-System(Betaalprovider, "Betaalprovider", $descr="Externe dienst voor betalingsverwerking.", $tags="", $link="")
+System_Ext(IdentityProvider, "Identity Provider", $descr="OAuth2-provider waarmee gebruikers kunnen inloggen via Google, Microsoft, AirBnb, etc.", $type="Software System", $tags="", $link="")
+System_Ext(VervoerAPI, "Vervoer API", $descr="Externe API's zoals NS, KLM en Deutsche Bahn voor het boeken van vervoer.", $type="Software System", $tags="", $link="")
+System_Ext(Betaalprovider, "Betaalprovider", $descr="Externe dienst voor betalingsverwerking.", $type="Software System",$tags="", $link="")
 
 System_Boundary("Triptop_boundary", "Triptop", $tags="") {
   Container(Triptop.FrontendWebapplicatie, "Frontend Webapplicatie", $techn="React, JavaScript", $descr="De UI waarmee gebruikers hun reizen plannen en boeken.", $tags="", $link="")
