@@ -110,8 +110,6 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 | InvoiceCreateParams::customer   | Stripe API /? | x                              |                                | x                               |
 | Invoice::create   | Stripe API /? | x                              |                                | x                               |
 
-
-
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
 
