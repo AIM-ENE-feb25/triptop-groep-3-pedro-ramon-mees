@@ -1,0 +1,24 @@
+package triptop.ese.wiremock;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+
+@SpringBootApplication
+public class WiremockApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(WiremockApplication.class, args);
+
+        // Create an instance of the implementation class and call its method
+        ImplementationMees implementationMees = new ImplementationMees();
+        implementationMees.run();
+
+        ImplementationRamon implementationRamon = new ImplementationRamon();
+        implementationRamon.run();
+
+        ImplementationPedro implementationPedro = new ImplementationPedro();
+        implementationPedro.run();
+        implementationPedro.getFlightOffers("ITF","RTR", "2024-02-01Z",7);
+    }
+}
