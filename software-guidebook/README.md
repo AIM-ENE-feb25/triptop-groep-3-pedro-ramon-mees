@@ -101,6 +101,15 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 | `Verblijf::eindDatum`     | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x | x |
 | `Verblijfplaats::locatie` |   | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination?` |  | x |
 | `Verblijfplaats::prijs`   |   | `https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels` |  | x |
+| ProductCreateParams::name | Stripe API /? | x                              |                                | x                               |
+| ProductCreateParams::description        | Stripe API /? | x                              |                                | x                               |
+| Product::create   | Stripe API /? | x                              |                                | x                               |
+| CustomerCreateParams::name   | Stripe API /? | x                              | x                             |                                |
+| CustomerCreateParams::email   | Stripe API /? | x                              | x                               |                                |
+| Customer::create   | Stripe API /? | x                              |                                | x                               |
+| InvoiceCreateParams::customer   | Stripe API /? | x                              |                                | x                               |
+| Invoice::create   | Stripe API /? | x                              |                                | x                               |
+_Stripe endpoint addresses aren't given in documentation._
 
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
@@ -110,7 +119,45 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
 
-### 8.1. ADR-001 TITLE
+### 8.1. ADR-001 Stripe Test Omgeving
+
+### ADR 0001: Stripe API Test Modus
+
+#### Autheur: 
+Mees van Aarsen
+
+#### Status
+_**Voorgesteld**_
+#### Context
+Ik ga een prototype feature opzetten voor het verwerken van betalingen. Voor het opzetten van een prototype waren meerdere API opties beschikbaar (RapidAPI, Stripe API). 
+
+- De RapidAPI geeft enkel mockdata terug.
+- De Stripe API heeft een test modus, waarin men direct gebruik kan maken van de echte API. Zonder de kans dat men gefactureerd wordt voor gebruik.
+
+#### Besluit
+Ik ga het prototype ontwikkelen doormiddel van de Stripe API. Daarmee kan men zonder de mogelijkheid gefactureerd te worden hen integratie ontwikkelen en testen.
+
+### Gevolgen
+
+##### Positief:
+
+- Alle functionaliteit wordt volgens de door Stripe gegeven modellen ontwikkeld
+- Implementatie zal direct van prototype naar product over kunnen gaan.
+
+##### Negatief:
+
+- Vergroot mogelijk de data-strucuur van de DB met Stripe modellen.
+- Contact naar Stripe gaat via de Stripe.class, geen direct zicht op de endpoints.
+- Vereist ontwikkeling en onderhoud van adapter-services
+
+#### Implementatiedetails
+
+- Voor elke categorie externe services (vervoer, betalingen, authenticatie) ontwikkelen we een dedicated adapter-service
+- Elke adapter implementeert een standaard interface die onze core backend gebruikt
+- Adapters vertalen de specifieke formaten/protocollen van de Stripe API naar ons interne datamodel
+
+
+### 8.2. TEMPLATE - ADR-001 TITLE
 
 ### ADR 0001: API Gateway Pattern voor externe API-integratie
 
