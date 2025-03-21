@@ -1,0 +1,27 @@
+@startuml container_diagram_inloggen_ramon
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Container Diagram - TripTop Vakantieplan App
+
+Person(gebruiker, "Gebruiker", "Wilt inloggen")
+
+Container_Boundary(boundary, "TripTop Vakantieplan App") {
+    Container(frontend, "Frontend", "React",       "Zorgt voor gebruiksvriendelijke interface om de app te gebruiken")
+    Container(backend,  "Backend",  "Spring Boot", "Zorgt voor communicatie tussen frontend en IdentityProvider")
+    Container(db,       "Database", "Postgres",    "Zorgt voor persistente informatieopslag")
+}
+
+System_Ext(identityprovider, "IdentityProvider", "Zorgt voor authenticatie")
+ 
+Rel(gebruiker, frontend, "Gebruikt om in te loggen")
+
+Rel_R(frontend, backend, "Communiceert met")
+Rel_R(backend,  db,      "Voert CRUD operaties uit voor token")
+
+Rel(backend, identityprovider, "Verifieert gegevens en haalt eventueel token op", "json")
+
+SHOW_LEGEND(true)
+LAYOUT_WITH_LEGEND()
+
+@enduml
