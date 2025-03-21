@@ -97,20 +97,26 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
 
-### 8.1. ADR-001 TITLE
+### 8.1. ADR-001 Postgres database
 
 > [!TIP]
 > These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
 
 #### Context 
 
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
+Voor de TripTop applicatie willen we een hoog-beschikbare en schaalbare
+backend systeem implementeren waarbij gegevens over meerdere API's heen
+worden opgeslagen.
 
 #### Considered Options
 
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
+| a  | a  |
+| --- | --- |
+| MySQL |   |
+| Postgres |  |
+| MariaDB |   |
+| SQL server |
+
 
 #### Decision
 
@@ -118,6 +124,8 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
 
 #### Status 
+
+Proposed
 
 > [!TIP]
 > A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
