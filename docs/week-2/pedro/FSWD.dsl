@@ -122,6 +122,8 @@ workspace "ExpenseTracker" "Context, Container, and Component diagrams for the E
         expenseTracker.backEnd.webConfig -> expenseTracker.backEnd.authController "Provides web configuration settings to"
         expenseTracker.backEnd.webConfig -> expenseTracker.backEnd.expenseController "Provides web configuration settings to"
         expenseTracker.backEnd.dbConfig -> database "Provides database connection settings to"
+        expenseTracker.frontEnd -> expenseTracker.backEnd.authController "Sends requests to"
+        expenseTracker.frontEnd -> expenseTracker.backEnd.expenseController "Sends requests to"
 
         // Database configuration to repositories
         expenseTracker.backEnd.dbConfig -> expenseTracker.backEnd.userRepository "Provides database connection configuration to"
