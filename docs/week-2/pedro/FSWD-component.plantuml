@@ -8,7 +8,7 @@ top to bottom direction
 !include <C4/C4_Context>
 !include <C4/C4_Component>
 
-System_Ext(Database, "Database", $descr="Stores user information, authentication tokens, and expense data.", $tags="", $link="")
+System(Database, "Database", $descr="Stores user information, authentication tokens, and expense data.", $tags="", $link="")
 
 Container_Boundary("ExpenseTracker.BackendAPI_boundary", "Backend API", $tags="") {
   Component(ExpenseTracker.BackendAPI.AuthenticationService, "Authentication Service", $techn="Spring @Service", $descr="Manages user authentication logic.", $tags="", $link="")
@@ -27,6 +27,7 @@ Container_Boundary("ExpenseTracker.BackendAPI_boundary", "Backend API", $tags=""
 }
 
 Rel(ExpenseTracker.BackendAPI.AuthenticationController, ExpenseTracker.BackendAPI.AuthenticationService, "Delegates authentication logic to", $techn="", $tags="", $link="")
+Rel(ExpenseTracker.BackendAPI.AuthenticationController, ExpenseTracker.BackendAPI.UserService, "Requests user information from", $techn="", $tags="", $link="")
 Rel(ExpenseTracker.BackendAPI.AuthenticationController, ExpenseTracker.BackendAPI.UserTokenService, "Requests token generation from", $techn="", $tags="", $link="")
 Rel(ExpenseTracker.BackendAPI.ExpenseController, ExpenseTracker.BackendAPI.ExpenseService, "Delegates expense operations to", $techn="", $tags="", $link="")
 Rel(ExpenseTracker.BackendAPI.AuthenticationService, ExpenseTracker.BackendAPI.UserRepository, "Retrieves and stores user data through", $techn="", $tags="", $link="")
