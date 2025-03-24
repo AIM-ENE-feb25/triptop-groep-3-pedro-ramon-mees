@@ -1,0 +1,24 @@
+@startuml
+set separator none
+title Expense Tracker - Containers
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+Person(User, "User", $descr="A user who tracks and manages their expenses.", $tags="", $link="")
+System_Ext(Database, "Database", $descr="Stores user information, authentication tokens, and expense data.", $tags="", $link="")
+
+System_Boundary("ExpenseTracker_boundary", "Expense Tracker", $tags="") {
+  Container(ExpenseTracker.FrontendWebApplication, "Frontend Web Application", $techn="React, JavaScript, Vite, Bootstrap", $descr="The UI that allows users to view and manage their expenses.", $tags="", $link="")
+  Container(ExpenseTracker.BackendAPI, "Backend API", $techn="Java Spring Boot, Spring Data JPA", $descr="Provides expense management functionality via a JSON/HTTPS API.", $tags="", $link="")
+}
+
+Rel(User, ExpenseTracker.FrontendWebApplication, "Views and manages expenses via", $techn="HTTPS", $tags="", $link="")
+Rel(ExpenseTracker.FrontendWebApplication, ExpenseTracker.BackendAPI, "Makes API calls to", $techn="JSON/HTTPS", $tags="", $link="")
+Rel(ExpenseTracker.BackendAPI, Database, "Reads from and writes to", $techn="JDBC", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml

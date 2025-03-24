@@ -1,0 +1,18 @@
+@startuml
+set separator none
+title Expense Tracker - System Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+
+Person(User, "User", $descr="A user who tracks and manages their expenses.", $tags="", $link="")
+System_Ext(Database, "Database", $descr="Stores user information, authentication tokens, and expense data.", $tags="", $link="")
+System(ExpenseTracker, "Expense Tracker", $descr="An application that allows users to track and manage their expenses.", $tags="", $link="")
+
+Rel(User, ExpenseTracker, "Uses to track and manage expenses", $techn="", $tags="", $link="")
+Rel(ExpenseTracker, Database, "Stores and retrieves data in", $techn="JDBC", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml
