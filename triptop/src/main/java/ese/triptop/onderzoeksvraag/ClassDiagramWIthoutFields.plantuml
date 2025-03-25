@@ -1,0 +1,79 @@
+@startuml
+title Triptop API Architecture - Class Diagram
+
+package "ese.triptop.onderzoeksvraag" {
+    package "api" {
+        interface ApiAdapter
+        interface ApiGateway
+        class DefaultApiGateway implements ApiGateway
+        class ApiException extends Exception
+        interface ConfigurationManager
+        class PropertyConfigurationManager implements ConfigurationManager
+    }
+
+    package "adapters" {
+        interface BookingAdapter extends ApiAdapter
+        interface TripAdvisorAdapter extends ApiAdapter
+        interface FlightAdapter extends ApiAdapter
+
+        class BookingComAdapter implements BookingAdapter
+        class TripAdvisorApiAdapter implements TripAdvisorAdapter
+        class FlightApiAdapter implements FlightAdapter
+    }
+
+    package "service" {
+        interface TravelService
+        class TravelServiceImpl implements TravelService
+        class ServiceException extends Exception
+    }
+
+    package "controller" {
+        class TravelController
+    }
+
+    package "dto" {
+        class HotelSearchRequest
+        class HotelSearchResponse
+        class RestaurantSearchRequest
+        class RestaurantSearchResponse
+        class FlightSearchRequest
+        class FlightSearchResponse
+    }
+
+    package "domain" {
+        class HotelBookingOption
+        class RestaurantRecommendation
+        class FlightOffer
+        class Location
+        class HotelSearchCriteria
+        class FlightSearchCriteria
+    }
+}
+
+' Relationships
+ApiGateway --> ApiAdapter : uses
+DefaultApiGateway --> ConfigurationManager : uses
+TravelService --> ApiGateway : uses
+TravelController --> TravelService : uses
+
+BookingComAdapter --> ConfigurationManager : uses
+TripAdvisorApiAdapter --> ConfigurationManager : uses
+FlightApiAdapter --> ConfigurationManager : uses
+
+TravelServiceImpl ..> HotelSearchRequest : creates
+TravelServiceImpl ..> RestaurantSearchRequest : creates
+TravelServiceImpl ..> FlightSearchRequest : creates
+
+TravelServiceImpl ..> BookingAdapter : uses via ApiGateway
+TravelServiceImpl ..> TripAdvisorAdapter : uses via ApiGateway
+TravelServiceImpl ..> FlightAdapter : uses via ApiGateway
+
+BookingComAdapter ..> HotelSearchResponse : returns
+TripAdvisorApiAdapter ..> RestaurantSearchResponse : returns
+FlightApiAdapter ..> FlightSearchResponse : returns
+
+TravelServiceImpl ..> HotelBookingOption : returns
+TravelServiceImpl ..> RestaurantRecommendation : returns
+TravelServiceImpl ..> FlightOffer : returns
+
+@enduml
