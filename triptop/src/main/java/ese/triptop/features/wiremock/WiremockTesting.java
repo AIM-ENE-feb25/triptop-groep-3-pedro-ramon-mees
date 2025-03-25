@@ -17,6 +17,8 @@ public class WiremockTesting {
         ImplementationPedro implementationPedro = new ImplementationPedro();
         implementationPedro.run();
         implementationPedro.getFlightOffers("ITF","RTR", "2024-02-01Z",7);
+        implementationPedro.getBooking();
+        implementationPedro.getTripAdvisor();
 
 
     }

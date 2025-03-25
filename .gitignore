@@ -85,3 +85,7 @@ build/
 
 # Kroki cashed svg's
 kroki
+booking-api/response.json
+triptop/src/main/resources/application.properties
+triptop/src/main/resources/application.properties
+*.properties

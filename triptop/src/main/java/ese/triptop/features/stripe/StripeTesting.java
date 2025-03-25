@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StripeTesting {
 
-    @Value("${stripe.api_key}")
+//    @Value("${stripe.api_key}")
     private String apiKey;
 
     // Of-course would prefer an enum for currency here

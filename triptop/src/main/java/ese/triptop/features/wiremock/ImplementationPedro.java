@@ -93,4 +93,21 @@ public class ImplementationPedro {
             return null;
         }
     }
+    public String getBooking(){
+        HttpResponse<String> response = Unirest.get("https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotelsByCoordinates?latitude=19.24232736426361&longitude=72.85841985686734&arrival_date=2025-03-31&departure_date=2025-04-15&adults=1&room_qty=1&units=metric&page_number=1&temperature_unit=c&languagecode=en-us&currency_code=EUR&location=NL")
+                .header("x-rapidapi-key", "01fcc8ef7dmsh9371396917f2b4fp187e1ejsn778fecdf4de9")
+                .header("x-rapidapi-host", "booking-com15.p.rapidapi.com")
+                .asString();
+        System.out.println("booking: "+ response.getBody());
+        return response.getBody().toString();
+    }
+    public String getTripAdvisor(){
+        HttpResponse<String> response = Unirest.get("https://tripadvisor16.p.rapidapi.com/api/v1/restaurant/searchRestaurants?locationId=304554")
+                .header("x-rapidapi-key", "01fcc8ef7dmsh9371396917f2b4fp187e1ejsn778fecdf4de9")
+                .header("x-rapidapi-host", "tripadvisor16.p.rapidapi.com")
+                .asString();
+        System.out.println("TripAdvisor: "+ response.getBody());
+        return response.getBody().toString();
+    }
+
 }
