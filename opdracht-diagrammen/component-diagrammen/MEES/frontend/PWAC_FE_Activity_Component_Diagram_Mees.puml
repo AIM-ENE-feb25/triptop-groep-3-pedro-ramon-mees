@@ -1,0 +1,44 @@
+@startuml Activity Management Component Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Activity Management Feature Component Diagram"
+
+Container_Boundary(frontend, "Frontend Application") {
+    Component(activity, "Activity", "React Component", "Displays a single activity")
+    Component(addActivity, "AddActivity", "React Component", "Creates a new activity")
+    Component(editActivity, "EditActivity", "React Component", "Updates an existing activity")
+    Component(deleteActivity, "DeleteActivity", "React Component", "Deletes an activity")
+    
+    Component(routineStack, "RoutineStack", "React Component", "Shows routines with this activity")
+    Component(attachedRoutine, "AttachedRoutine", "React Component", "Shows a single routine with this activity")
+    
+    Component(addActivityForm, "AddActivityForm", "React Component", "Form for adding activities")
+    Component(editActivityForm, "EditActivityForm", "React Component", "Form for editing activities")
+    Component(kebabMenu, "KebabMenu", "React Component", "Shows action menu")
+    
+    Component(fetchWithToken, "fetchWithTokenRefresh", "Service", "Handles API requests with token refresh")
+}
+
+Rel(activity, kebabMenu, "Uses")
+Rel(activity, routineStack, "Contains")
+Rel(activity, deleteActivity, "Opens")
+Rel(activity, editActivity, "Opens")
+
+Rel(routineStack, attachedRoutine, "Contains")
+
+Rel(addActivity, addActivityForm, "Contains")
+Rel(editActivity, editActivityForm, "Contains")
+
+Rel(activity, fetchWithToken, "Uses")
+Rel(addActivity, fetchWithToken, "Uses")
+Rel(editActivity, fetchWithToken, "Uses")
+Rel(deleteActivity, fetchWithToken, "Uses")
+Rel(attachedRoutine, fetchWithToken, "Uses")
+
+System_Ext(backendApi, "Backend API", "Provides activity endpoints")
+System_Ext(browserStorage, "Browser Local Storage", "Stores user context")
+
+Rel(fetchWithToken, backendApi, "Makes requests to")
+Rel(fetchWithToken, browserStorage, "Reads tokens")
+
+@enduml

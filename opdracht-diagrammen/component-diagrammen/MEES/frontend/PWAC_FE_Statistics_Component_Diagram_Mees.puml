@@ -1,0 +1,27 @@
+@startuml Statistics Component Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Statistics Feature Component Diagram"
+
+Container_Boundary(frontend, "Frontend Application") {
+    Component(statisticsPage, "StatisticsPage", "React Component", "Main statistics page")
+    Component(searchBar, "SearchBar", "React Component", "Search for routines")
+    Component(searchResults, "SearchResults", "React Component", "Shows search results")
+    Component(statsCards, "StatsCards", "React Component", "Shows statistics in card format")
+    
+    Component(fetchWithToken, "fetchWithTokenRefresh", "Service", "Handles API requests with token refresh")
+}
+
+Rel(statisticsPage, searchBar, "Contains")
+Rel(statisticsPage, searchResults, "Contains")
+Rel(statisticsPage, statsCards, "Contains")
+
+Rel(statisticsPage, fetchWithToken, "Uses")
+
+System_Ext(backendApi, "Backend API", "Provides statistics endpoints")
+System_Ext(browserStorage, "Browser Local Storage", "Stores user context")
+
+Rel(fetchWithToken, backendApi, "Makes requests to")
+Rel(fetchWithToken, browserStorage, "Reads tokens")
+
+@enduml

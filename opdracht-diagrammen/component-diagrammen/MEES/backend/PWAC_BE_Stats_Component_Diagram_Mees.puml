@@ -1,0 +1,28 @@
+@startuml "Statistics Component Diagram - Flowcus System"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Statistics Component Diagram for Flowcus System"
+
+Container_Boundary(backend, "Backend - Statistics") {
+    Component(statController, "Statistic Controller", "Java Spring", "Exposes statistics API endpoints")
+    Component(statService, "Statistic Service", "Java Spring", "Orchestrates statistics operations")
+    Component(statCalcService, "Statistic Calculation Service", "Java Spring", "Performs statistical calculations")
+    Component(statRecordService, "Statistic Recording Service", "Java Spring", "Records routine statistics")
+    Component_Ext(statRepo, "Statistic Repository", "JPA", "Stores and retrieves statistic data")
+}
+
+Container(authSystem, "Authentication System", "Java Spring", "Manages user authentication")
+Container(routineSystem, "Routine System", "Java Spring", "Provides routine data")
+Container(database, "Database", "PostgreSQL", "Stores application data")
+
+Rel(statController, statService, "Uses")
+Rel(statService, statCalcService, "Uses for calculations")
+Rel(statService, authSystem, "Verifies authentication")
+Rel(statCalcService, statRepo, "Retrieves statistics from")
+Rel(statCalcService, routineSystem, "Gets routine data from")
+Rel(statRecordService, statRepo, "Saves statistics to")
+Rel(statRecordService, routineSystem, "Processes routine iteration data from")
+Rel(statRepo, database, "Reads/Writes")
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml "Component Diagram - Flowcus System"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Component Diagram for Flowcus System"
+
+Container_Boundary(backend, "Backend") {
+    Component(authController, "Authentication Controller", "Java Spring", "Handles authentication requests")
+    Component(authService, "Authentication Service", "Java Spring", "Manages authentication logic")
+    Component(userController, "User Controller", "Java Spring", "Handles user requests")
+    Component(userService, "User Service", "Java Spring", "Manages user-related operations")
+    Component_Ext(refreshTokenRepo, "RefreshToken Repository", "JPA", "Stores and retrieves refresh tokens")
+    Component_Ext(userRepo, "User Repository", "JPA", "Stores and retrieves user information")
+}
+
+Container(database, "Database", "PostgreSQL", "Stores user data and refresh tokens")
+
+Rel(authController, authService, "Uses")
+Rel(authService, refreshTokenRepo, "Uses")
+Rel(authService, userService, "Uses")
+Rel(userController, userService, "Uses")
+Rel(userService, userRepo, "Uses")
+Rel(refreshTokenRepo, database, "Reads/Writes")
+Rel(userRepo, database, "Reads/Writes")
+
+@enduml

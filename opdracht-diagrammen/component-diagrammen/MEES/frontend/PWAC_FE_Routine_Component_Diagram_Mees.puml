@@ -1,0 +1,53 @@
+@startuml Routine Management Component Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Routine Management Feature Component Diagram"
+
+Container_Boundary(frontend, "Frontend Application") {
+    Component(routine, "Routine", "React Component", "Displays a single routine")
+    Component(addRoutine, "AddRoutine", "React Component", "Creates a new routine")
+    Component(updateRoutine, "UpdateRoutine", "React Component", "Updates an existing routine")
+    Component(deleteRoutine, "DeleteRoutine", "React Component", "Deletes a routine")
+    Component(finishRoutine, "FinishRoutine", "React Component", "Marks a routine as completed")
+    Component(classifiedRoutine, "ClassifiedRoutine", "React Component", "Shows routine classification")
+    
+    Component(activityStack, "ActivityStack", "React Component", "Shows activities in routine")
+    Component(attachedActivity, "AttachedActivity", "React Component", "Shows a single activity in a routine")
+    
+    Component(addRoutineForm, "AddRoutineForm", "React Component", "Form for adding routines")
+    Component(addRoutineSidebar, "AddRoutineSidebar", "React Component", "Sidebar for routine options")
+    Component(updateRoutineForm, "UpdateRoutineForm", "React Component", "Form for updating routines")
+    Component(kebabMenu, "KebabMenu", "React Component", "Shows action menu")
+    
+    Component(fetchWithToken, "fetchWithTokenRefresh", "Service", "Handles API requests with token refresh")
+}
+
+Rel(routine, kebabMenu, "Uses")
+Rel(routine, activityStack, "Contains")
+Rel(routine, deleteRoutine, "Opens")
+Rel(routine, updateRoutine, "Opens")
+Rel(routine, finishRoutine, "Opens")
+Rel(routine, classifiedRoutine, "Contains")
+
+Rel(activityStack, attachedActivity, "Contains")
+
+Rel(addRoutine, addRoutineForm, "Contains")
+Rel(addRoutine, addRoutineSidebar, "Contains")
+Rel(updateRoutine, updateRoutineForm, "Contains")
+Rel(updateRoutine, addRoutineSidebar, "Reuses")
+
+Rel(routine, fetchWithToken, "Uses")
+Rel(addRoutine, fetchWithToken, "Uses")
+Rel(updateRoutine, fetchWithToken, "Uses")
+Rel(deleteRoutine, fetchWithToken, "Uses")
+Rel(finishRoutine, fetchWithToken, "Uses")
+Rel(classifiedRoutine, fetchWithToken, "Uses")
+Rel(attachedActivity, fetchWithToken, "Uses")
+
+System_Ext(backendApi, "Backend API", "Provides routine endpoints")
+System_Ext(browserStorage, "Browser Local Storage", "Stores user context")
+
+Rel(fetchWithToken, backendApi, "Makes requests to")
+Rel(fetchWithToken, browserStorage, "Reads tokens")
+
+@enduml

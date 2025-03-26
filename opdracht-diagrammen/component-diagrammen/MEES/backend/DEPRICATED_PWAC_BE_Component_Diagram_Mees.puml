@@ -1,0 +1,53 @@
+@startuml Triptop
+title PWAC - Component Diagram
+
+Top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+SHOW_PERSON_OUTLINE()
+Person(Gebruiker, "Gebruiker", "Who cares?", $tags="person", $type="person")
+
+Container_Boundary(pwacBackend, "who cares"){
+    Component(statCont, "StatistiekenController", "Who cares?", $tags="software system")
+    Component(gebruikerCont, "GebruikerController", "Who cares?", $tags="software system")
+    Component(routineCont, "RoutineController", "Who cares?", $tags="software system")
+    Component(coachController, "CoachController", "Who cares?", $tags="software system")
+    Component(authController, "AuthenticationController", "Who cares?", $tags="software system")
+    Component(activityController, "ActivityController", "Who cares?", $tags="software system")
+    
+    Component(statServ, "StatistiekenService", "Who cares?", $tags="software system")
+    Component(statCalcServ, "StatisticCalculationService", "Who cares?", $tags="software system")
+    Component(statCleanServ, "StatisticCleanupService", "Who cares?", $tags="software system")
+    Component(statRecordingServ, "StatisticRecordingService", "Who cares?", $tags="software system")
+    Component(userServ, "UserService", "Who cares?", $tags="software system")
+    Component(routineServ, "RoutineService", "Who cares?", $tags="software system")
+    Component(coachService, "CoachService", "Who cares?", $tags="software system")
+    Component(authService, "AuthenticationService", "Who cares?", $tags="software system")
+    Component(activityService, "ActivityService", "Who cares?", $tags="software system")
+    Component(loginService, "LoginService", "Who cares?", $tags="software system")
+    Component(logoutService, "LogoutService", "Who cares?", $tags="software system")
+    Component(refreshService, "RefreshService", "Who cares?", $tags="software system")
+    Component(signupService, "SignupService", "Who cares?", $tags="software system")
+    Component(refreshService, "RefreshService", "Who cares?", $tags="software system")
+    Component(jwtService, "JWTService", "Who cares?", $tags="software system")
+
+    Component()
+
+
+    Component(jwtAuthFilter, "JWTAuthenticationFilter", "Who cares?", $tags="software system")
+    Component(securityConf, "SecurityConfig", "Who cares?", $tags="software system")
+    Component(jpaConf, "JpaConfig", "Who cares?", $tags="software system")
+    Component(appConf, "ApplicationConfiguration", "Who cares?", $tags="software system")
+
+    Component(excpHandler, "GlobalExceptionHandler", "Who cares?", $tags="software system")
+
+
+}
+
+SHOW_LEGEND(true)
+LAYOUT_WITH_LEGEND()
+@enduml

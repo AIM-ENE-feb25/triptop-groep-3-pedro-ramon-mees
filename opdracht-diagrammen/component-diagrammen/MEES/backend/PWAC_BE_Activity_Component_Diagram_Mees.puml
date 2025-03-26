@@ -1,0 +1,32 @@
+@startuml "Activity Component Diagram - Flowcus System"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Activity Component Diagram for Flowcus System"
+
+Container_Boundary(backend, "Backend - Activity Management") {
+    Component(activityController, "Activity Controller", "Java Spring", "Handles activity CRUD operations")
+    Component(activityService, "Activity Service", "Java Spring", "Manages activity business logic")
+    Component(activityTypeService, "ActivityType Service", "Java Spring", "Manages different types of activities")
+    Component(progressTracker, "Progress Tracker", "Java Spring", "Tracks user progress on activities")
+    Component(statisticsService, "Statistics Service", "Java Spring", "Generates activity statistics")
+    Component_Ext(activityRepo, "Activity Repository", "JPA", "Stores and retrieves activity data")
+    Component_Ext(activityProgressRepo, "ActivityProgress Repository", "JPA", "Tracks activity completion")
+}
+
+Container(database, "Database", "PostgreSQL", "Stores activity data")
+Container(routineSystem, "Routine System", "Java Spring", "Manages user routines")
+Container(authSystem, "Authentication System", "Java Spring", "Manages user authentication")
+
+Rel(activityController, activityService, "Uses")
+Rel(activityService, activityTypeService, "Uses")
+Rel(activityService, progressTracker, "Uses")
+Rel(activityService, statisticsService, "Uses")
+Rel(activityService, activityRepo, "Uses")
+Rel(progressTracker, activityProgressRepo, "Uses")
+Rel(activityRepo, database, "Reads/Writes")
+Rel(activityProgressRepo, database, "Reads/Writes")
+Rel(routineSystem, activityService, "References activities via")
+Rel(activityController, authSystem, "Authenticates requests via")
+
+@enduml

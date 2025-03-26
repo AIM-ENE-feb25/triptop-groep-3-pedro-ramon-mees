@@ -1,0 +1,34 @@
+@startuml Calendar Component Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Calendar Feature Component Diagram"
+
+Container_Boundary(frontend, "Frontend Application") {
+    Component(calendar, "Calendar", "React Component", "Main calendar view")
+    Component(calendarDay, "CalendarDay", "React Component", "Day view of calendar")
+    Component(calendarWeek, "CalendarWeek", "React Component", "Week view of calendar")
+    Component(calendarHeader, "CalendarHeader", "React Component", "Shows calendar navigation")
+    Component(calendarDayFilter, "CalendarDayFilter", "React Component", "Filters routines in day view")
+    Component(calendarColumn, "CalendarColumn", "React Component", "Column for a day in week view")
+    Component(calendarItem, "CalendarItem", "React Component", "Represents a routine in calendar")
+    
+    Component(fetchWithToken, "fetchWithTokenRefresh", "Service", "Handles API requests with token refresh")
+}
+
+Rel(calendar, calendarDay, "Contains")
+Rel(calendar, calendarWeek, "Contains")
+Rel(calendarDay, calendarHeader, "Contains")
+Rel(calendarWeek, calendarHeader, "Contains")
+Rel(calendarWeek, calendarColumn, "Contains")
+Rel(calendarColumn, calendarItem, "Contains")
+Rel(calendarDay, calendarDayFilter, "Contains")
+
+Rel(calendar, fetchWithToken, "Uses")
+
+System_Ext(backendApi, "Backend API", "Provides calendar data endpoints")
+System_Ext(browserStorage, "Browser Local Storage", "Stores user context")
+
+Rel(fetchWithToken, backendApi, "Makes requests to")
+Rel(fetchWithToken, browserStorage, "Reads tokens")
+
+@enduml

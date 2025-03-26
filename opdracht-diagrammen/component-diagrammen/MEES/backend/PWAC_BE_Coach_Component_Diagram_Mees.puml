@@ -1,0 +1,29 @@
+@startuml "Coach Component Diagram - Flowcus System"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Coach Component Diagram for Flowcus System"
+
+Container_Boundary(backend, "Backend - Coach") {
+    Component(coachController, "Coach Controller", "Java Spring", "Handles coach-related requests")
+    Component(coachService, "Coach Service", "Java Spring", "Manages coaching logic")
+    Component(suggestionEngine, "Suggestion Engine", "Java Spring", "Generates personalized suggestions")
+    Component(feedbackProcessor, "Feedback Processor", "Java Spring", "Processes user feedback")
+    Component_Ext(coachRepo, "Coach Repository", "JPA", "Stores coaching data")
+}
+
+Container(statSystem, "Statistics System", "Java Spring", "Provides user statistics")
+Container(routineSystem, "Routine System", "Java Spring", "Provides routine data")
+Container(authSystem, "Authentication System", "Java Spring", "Manages user authentication")
+Container(database, "Database", "PostgreSQL", "Stores application data")
+
+Rel(coachController, coachService, "Uses")
+Rel(coachService, suggestionEngine, "Uses")
+Rel(coachService, feedbackProcessor, "Uses")
+Rel(coachService, coachRepo, "Uses")
+Rel(suggestionEngine, statSystem, "Analyzes data from")
+Rel(suggestionEngine, routineSystem, "Gets routine data from")
+Rel(coachController, authSystem, "Authenticates users via")
+Rel(coachRepo, database, "Reads/Writes")
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml "Routine Component Diagram - Flowcus System"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Routine Component Diagram for Flowcus System"
+
+Container_Boundary(backend, "Backend - Routine Management") {
+    Component(routineController, "Routine Controller", "Java Spring", "Handles routine CRUD operations")
+    Component(routineService, "Routine Service", "Java Spring", "Manages routine business logic")
+    Component(routineValidator, "Routine Validator", "Java Spring", "Validates routine data")
+    Component(schedulerService, "Scheduler Service", "Java Spring", "Manages routine scheduling")
+    Component_Ext(routineRepo, "Routine Repository", "JPA", "Stores and retrieves routine data")
+    Component_Ext(routineStepRepo, "RoutineStep Repository", "JPA", "Manages steps within routines")
+}
+
+Container(database, "Database", "PostgreSQL", "Stores routine data")
+Container(authSystem, "Authentication System", "Java Spring", "Manages user authentication")
+
+Rel(routineController, routineService, "Uses")
+Rel(routineService, routineValidator, "Uses")
+Rel(routineService, schedulerService, "Uses")
+Rel(routineService, routineRepo, "Uses")
+Rel(routineService, routineStepRepo, "Uses")
+Rel(routineRepo, database, "Reads/Writes")
+Rel(routineStepRepo, database, "Reads/Writes")
+Rel(routineController, authSystem, "Authenticates requests via")
+
+@enduml

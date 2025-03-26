@@ -1,0 +1,28 @@
+@startuml Header Component Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Header Feature Component Diagram"
+
+Container_Boundary(frontend, "Frontend Application") {
+    Component(header, "Header", "React Component", "Application header")
+    Component(clientSelector, "ClientSelector", "React Component", "Client selection for coaches")
+    Component(logoutButton, "LogoutButton", "React Component", "Handles user logout")
+    
+    Component(fetchWithToken, "fetchWithTokenRefresh", "Service", "Handles API requests with token refresh")
+    Component(authHelpers, "authHelpers", "Service", "Contains isCoach() function")
+}
+
+Rel(header, clientSelector, "Contains")
+Rel(header, logoutButton, "Contains")
+Rel(header, authHelpers, "Uses")
+Rel(clientSelector, fetchWithToken, "Uses")
+Rel(logoutButton, fetchWithToken, "Uses")
+
+System_Ext(backendApi, "Backend API", "Provides client data endpoints")
+System_Ext(browserStorage, "Browser Local Storage", "Stores user context")
+
+Rel(fetchWithToken, backendApi, "Makes requests to")
+Rel(fetchWithToken, browserStorage, "Reads tokens")
+Rel(header, browserStorage, "Reads user data")
+
+@enduml

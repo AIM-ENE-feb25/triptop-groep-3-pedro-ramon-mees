@@ -1,0 +1,30 @@
+@startuml "Signup Component Diagram - Flowcus System"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Signup Component Diagram for Flowcus System"
+
+Container_Boundary(backend, "Backend - User Registration") {
+    Component(authController, "Authentication Controller", "Java Spring", "Handles authentication requests")
+    Component(registrationService, "Registration Service", "Java Spring", "Manages user registration")
+    Component(validationService, "Validation Service", "Java Spring", "Validates registration data")
+    Component(emailService, "Email Service", "Java Spring", "Sends confirmation emails")
+    Component_Ext(userRepo, "User Repository", "JPA", "Stores user data")
+    Component_Ext(refreshTokenRepo, "RefreshToken Repository", "JPA", "Stores refresh tokens")
+}
+
+Container(authSystem, "Authentication System", "Java Spring", "Manages user authentication")
+Container(database, "Database", "PostgreSQL", "Stores application data")
+Container_Ext(emailProvider, "Email Provider", "External", "Sends emails to users")
+
+Rel(authController, registrationService, "Uses")
+Rel(registrationService, validationService, "Validates inputs via")
+Rel(registrationService, emailService, "Sends confirmation using")
+Rel(registrationService, userRepo, "Creates users in")
+Rel(registrationService, refreshTokenRepo, "Creates tokens in")
+Rel(emailService, emailProvider, "Sends emails via")
+Rel(userRepo, database, "Reads/Writes")
+Rel(refreshTokenRepo, database, "Reads/Writes")
+Rel(authController, authSystem, "Initializes authentication via")
+
+@enduml

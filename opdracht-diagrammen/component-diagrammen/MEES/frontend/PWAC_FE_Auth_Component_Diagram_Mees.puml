@@ -1,0 +1,31 @@
+@startuml Authentication Component Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Authentication Feature Component Diagram"
+
+Container_Boundary(frontend, "Frontend Application") {
+    Component(loginPage, "LoginPage", "React Component", "Handles user authentication")
+    Component(signupForm, "SignupForm", "React Component", "Handles user registration")
+    Component(logoutBtn, "LogoutButton", "React Component", "Triggers logout process")
+    Component(publicRoute, "PublicRoute", "React Component", "Route accessible without authentication")
+    Component(protectedRoute, "ProtectedRoute", "React Component", "Route requiring authentication")
+    Component(coachRoute, "CoachRoute", "React Component", "Route accessible only to coaches")
+    Component(fetchWithToken, "fetchWithTokenRefresh", "Service", "Handles API requests with token refresh")
+    Component(authHelpers, "authHelpers", "Service", "Contains isCoach() function")
+}
+
+Rel(loginPage, fetchWithToken, "Uses")
+Rel(signupForm, fetchWithToken, "Uses")
+Rel(logoutBtn, fetchWithToken, "Uses")
+Rel(publicRoute, authHelpers, "Checks")
+Rel(protectedRoute, authHelpers, "Checks")
+Rel(coachRoute, authHelpers, "Checks")
+
+System_Ext(backendApi, "Backend API", "Provides authentication endpoints")
+System_Ext(browserStorage, "Browser Local Storage", "Stores auth tokens")
+
+Rel(fetchWithToken, backendApi, "Makes requests to")
+Rel(fetchWithToken, browserStorage, "Reads/writes tokens")
+Rel(authHelpers, browserStorage, "Reads user role")
+
+@enduml
