@@ -17,10 +17,9 @@ public class PaypalPaymentAdapter implements IPaymentAdapter {
     private final HttpClient httpClient;
 
 //    @Value("${paypal.api.clientId}")
-    private String CLIENT_ID = "AZbz5SEQYIruKXMBnsCihee1z7Xj-otJvFp76y-ZwZTM-WsGh6eXx88BJbwUnZVxRq_XGIpqHbviz4iI";
+    private String CLIENT_ID;
 //    @Value("${paypal.api.secret}")
-    private String SECRET = "ED6q1XxLtqDeRZ35hRCoFnJpij2VenXytAyB2IwqqTX26WmtSlCwTTXKHRj4pJ7r8bt_go-tcs28rTeG";
-
+    private String SECRET;
     private final String encodedCredentials;
 
     public PaypalPaymentAdapter() {

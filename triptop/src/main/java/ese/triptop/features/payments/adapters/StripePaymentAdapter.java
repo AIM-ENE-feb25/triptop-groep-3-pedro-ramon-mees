@@ -14,7 +14,7 @@ import java.util.Map;
 public class StripePaymentAdapter implements IPaymentAdapter {
 
 //    @Value("${stripe.apiKey}")
-    private String apiKey = "sk_test_51R4nJmHcw4eqewWl79mb4as1LTs9ZiePQTTM1diJ8i3gXcW3QNqsrMs5qgcfQRZOsYnT0ZGJkMJlLDn7jFjOkhi30035rqxP3X";
+    private String apiKey;
 
     @Override
     public InvoiceResponse processInvoicePayment(InvoiceRequest request) {
