@@ -4,24 +4,22 @@
 
 title Container Diagram - TripTop Vakantieplan App
 
-Person(reiziger,  "Reiziger",  "Wilt een reis boeken")
-Person(reisagent, "Reisagent", "2de lijns ondersteuning")
+Container(frontend, "Frontend", "React", "Zorgt voor gebruiksvriendelijke interface om de app te gebruiken")
 
 Container_Boundary(boundary,   "TripTop Vakantieplan App - Backend") {
-    Component(apicontroller,   "ApiController",   "Spring MVC REST Controller")
-    Component(apiservice,      "ApiService",      "Bevat eventuele businesslogica")
-    Component(apirepository,   "ApiRepository",   "Verantwoordelijk voor het ophalen van informatie uit booking.com, het cachen daarvan en het automatisch schakelen tussen de gecachde data en realtime data op basis van de beschikbaarheid")
-    Component(cacherepository, "CacheRepository", "Haalt data op uit de cache")
-    ComponentDb(db, "Cached Store", "Bevat gecachde data afkomstig van booking.com")
+    Component(apicontroller,   "ApiController",   "Spring REST Controller")
+    Component(apiservice,      "ApiService",      "Spring Service",    "Bevat eventuele businesslogica")
+    Component(apirepository,   "ApiRepository",   "Spring Repostiory", "Verantwoordelijk voor het ophalen van informatie uit booking.com, het cachen daarvan en het automatisch schakelen tussen de gecachde data en realtime data op basis van de beschikbaarheid")
+    Component(cacherepository, "CacheRepository", "Spring Repository", "Haalt data op uit de cache")
+    ComponentDb(db, "Cached Store", "postgres", "Bevat gecachde data afkomstig van booking.com")
 }
 
-Rel(reiziger,  apicontroller, "Uses", "HTTPS")
-Rel(reisagent, apicontroller, "Uses", "HTTPS")
+Rel(frontend, apicontroller, "Uses", "HTTPS")
 
 Rel(apicontroller, apiservice,    "Uses")
 Rel(apiservice,    apirepository, "Uses")
 
-System_Ext(booking, "Booking.com",  "Om over overnachtingen in te plannen")
+System_Ext(booking, "Booking.com", "Om over overnachtingen in te plannen")
 
 Rel(apirepository, booking,         "Uses", "JSON")
 Rel(apirepository, cacherepository, "Uses")
