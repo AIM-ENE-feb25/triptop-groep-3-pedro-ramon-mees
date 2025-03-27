@@ -9,23 +9,25 @@ Container(frontend, "Frontend", "React", "Zorgt voor gebruiksvriendelijke interf
 Container_Boundary(boundary,   "TripTop Vakantieplan App - Backend") {
     Component(apicontroller,   "ApiController",   "Spring REST Controller")
     Component(apiservice,      "ApiService",      "Spring Service",    "Bevat eventuele businesslogica")
-    Component(apirepository,   "ApiRepository",   "Spring Repostiory", "Verantwoordelijk voor het ophalen van informatie uit booking.com, het cachen daarvan en het automatisch schakelen tussen de gecachde data en realtime data op basis van de beschikbaarheid")
+    Component(apicontext,      "ApiContext",      "Zorgt voor automatische schakeling van realtime data naar gecachde data als booking.com niet beschikbaar is")
+    Component(apirepository,   "ApiRepository",   "Spring Repostiory", "Verantwoordelijk voor het ophalen van informatie uit booking.com en het cachen daarvan")
     Component(cacherepository, "CacheRepository", "Spring Repository", "Haalt data op uit de cache")
     ComponentDb(db, "Cached Store", "postgres", "Bevat gecachde data afkomstig van booking.com")
 }
 
 Rel(frontend, apicontroller, "Uses", "HTTPS")
 
-Rel(apicontroller, apiservice,    "Uses")
-Rel(apiservice,    apirepository, "Uses")
+Rel(apicontroller, apiservice,      "Uses")
+Rel(apiservice,    apicontext,      "Uses")
+Rel(apicontext,    apirepository,   "Uses")
+Rel(apicontext,    cacherepository, "Uses")
 
 System_Ext(booking, "Booking.com", "Om over overnachtingen in te plannen")
 
-Rel(apirepository, booking,         "Uses", "JSON")
-Rel(apirepository, cacherepository, "Uses")
+Rel(apirepository, booking, "Uses", "JSON")
 
-Rel(apirepository,   db, "Reads / Writes", "JSON/SQL")
-Rel(cacherepository, db, "Reads",          "JSON/SQL")
+Rel(apirepository,   db, "Writes", "JSON/SQL")
+Rel(cacherepository, db, "Reads",  "JSON/SQL")
 
 SHOW_LEGEND(true)
 LAYOUT_WITH_LEGEND()
