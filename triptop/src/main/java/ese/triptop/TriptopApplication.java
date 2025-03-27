@@ -30,11 +30,11 @@ public class TriptopApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TriptopApplication.class, args)
-				.getBean(TriptopApplication.class);
+				.getBean(TriptopApplication.class)
 //				.runStripeTest()
 //				.runWiremockTests()
 //				.runApiArchitectureDemo();
-//				.runPaymentDemo();
+				.runPaymentDemo();
 	}
 
 	private TriptopApplication runStripeTest() {

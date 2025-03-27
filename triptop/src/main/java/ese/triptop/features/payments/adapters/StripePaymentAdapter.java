@@ -47,20 +47,18 @@ public class StripePaymentAdapter implements IPaymentAdapter {
 
     @Override
     public boolean isAvailable() {
-
-        return false;
         // Check if Stripe is available
-//        try {
-//            // Attempt to create a test customer or perform a simple API call
-//            Stripe.apiKey = apiKey;
-//            InvoiceCreateParams params = InvoiceCreateParams.builder()
-//                    .setCustomer("cus_S1QQnrgnvSUeRt")
-//                    .build();
-//            Invoice.create(params);
-//            return true;
-//        } catch (StripeException e) {
-//            return false;
-//        }
+        try {
+            // Attempt to create a test customer or perform a simple API call
+            Stripe.apiKey = apiKey;
+            InvoiceCreateParams params = InvoiceCreateParams.builder()
+                    .setCustomer("cus_S1QQnrgnvSUeRt")
+                    .build();
+            Invoice.create(params);
+            return true;
+        } catch (StripeException e) {
+            return false;
+        }
     }
 
 }
