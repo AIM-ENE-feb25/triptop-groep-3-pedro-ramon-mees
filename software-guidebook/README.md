@@ -199,9 +199,10 @@ blijft.
 
 #### Overwogen opties
 
-Voor de implementatie van deze oplossing hebben we de volgende opties overwogen:
+Voor de implementatie van deze oplossing hebben we de volgende design
+patterns overwogen:
 
-| Optie | Flexibiliteit | Onderhoudbaarheid | Testbaarheid |
+| Design pattern | Flexibiliteit | Onderhoudbaarheid | Testbaarheid |
 |-------|---------------|-------------------|--------------|
 | **If-Else Logica** | Laag | Laag - Kan erg onoverzichtelijk worden | Laag – moeilijk afzonderlijk te testen |
 | **Strategy Pattern** | Hoog – eenvoudig nieuwe strategieën toe te voegen | Hoog – scheidt verantwoordelijkheden in aparte klassen | Hoog – strategieën kunnen onafhankelijk worden getest |
