@@ -2,6 +2,8 @@ package ese.triptop;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
+import ese.triptop.features.payments.PaymentRunner;
+import ese.triptop.features.payments.services.PaymentServiceImpl;
 import ese.triptop.features.stripe.StripeTesting;
 import ese.triptop.features.wiremock.WiremockTesting;
 import ese.triptop.onderzoeksvraag.ApiArchitectureRunner;
@@ -15,21 +17,24 @@ public class TriptopApplication {
 	private final StripeTesting stripeTesting;
 	private final WiremockTesting wiremockTesting;
 	private final ApiArchitectureRunner apiArchitectureRunner;
+	private final PaymentRunner paymentRunner;
 
 	@Autowired
 	public TriptopApplication(StripeTesting stripeTesting, WiremockTesting wiremockTesting,
-							  ApiArchitectureRunner apiArchitectureRunner) {
+							  ApiArchitectureRunner apiArchitectureRunner, PaymentRunner paymentRunner) {
 		this.stripeTesting = stripeTesting;
 		this.wiremockTesting = wiremockTesting;
 		this.apiArchitectureRunner = apiArchitectureRunner;
+		this.paymentRunner = paymentRunner;
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(TriptopApplication.class, args)
-				.getBean(TriptopApplication.class)
+				.getBean(TriptopApplication.class);
 //				.runStripeTest()
 //				.runWiremockTests()
-				.runApiArchitectureDemo();
+//				.runApiArchitectureDemo();
+//				.runPaymentDemo();
 	}
 
 	private TriptopApplication runStripeTest() {
@@ -51,6 +56,12 @@ public class TriptopApplication {
 	private TriptopApplication runApiArchitectureDemo() {
 		System.out.println("Running API Architecture Demonstration...");
 		apiArchitectureRunner.run();
+		return this;
+	}
+
+	private TriptopApplication runPaymentDemo() {
+		System.out.println("Running Payment Demo...");
+		paymentRunner.run();
 		return this;
 	}
 }
