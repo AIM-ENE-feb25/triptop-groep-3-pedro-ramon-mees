@@ -154,7 +154,7 @@ in een database.
 
 #### Overwogen opties
 
-| Factor             | MySQL             | Postgres        | MariaDB          | SQL Server       |
+| Factor             | MySQL            | Postgres         | MariaDB          | SQL Server       |
 |--------------------|------------------|------------------|------------------|------------------|
 | **Prestaties**       | Minder geschikt voor grote datasets | Sterk bij complexe queries en grote datasets | Over het algemeen sneller dan MySQL | Goede prestaties |
 | **Uitbreidbaarheid** | Beperkt          | Zeer hoog | Beperkt          | Gemiddeld |
@@ -202,7 +202,7 @@ blijft.
 Voor de implementatie van deze oplossing hebben we de volgende opties overwogen:
 
 | Optie | Flexibiliteit | Onderhoudbaarheid | Testbaarheid |
-|--------|------------|----------------|-------------|-------------|
+|-------|---------------|-------------------|--------------|
 | **If-Else Logica** | Laag | Laag - Kan erg onoverzichtelijk worden | Laag – moeilijk afzonderlijk te testen |
 | **Strategy Pattern** | Hoog – eenvoudig nieuwe strategieën toe te voegen | Hoog – scheidt verantwoordelijkheden in aparte klassen | Hoog – strategieën kunnen onafhankelijk worden getest |
 | **Factory Pattern** | Gemiddeld - Kan tot tight-coupling leiden | Gemiddeld - Kan complex worden als er veel classes worden toegevoegd | Gemiddeld - Code kan makkelijker te testen zijn |
