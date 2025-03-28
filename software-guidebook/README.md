@@ -109,9 +109,9 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ### 7.2. Components
 
-#### 7.2.1. Betaling Component Diagram
+#### 7.2.1 Component Diagram: Betaling
 
-![Betaling_Component_Diagram_Mees.svg](../opdracht-diagrammen/component-diagrammen/MEES/Component_Diagram_Mees.svg)
+![Betaling_Component_Diagram.svg](../opdracht-diagrammen/component-diagrammen/MEES/BetalingComponentDiagram.svg)
 
 ### 7.3. Design & Code
 
