@@ -226,7 +226,7 @@ We hebben gekozen voor het Strategy Pattern omdat dit biedt:
 
 #### Status
 
-Voorgesteld
+Geaccepteerd
 
 #### Consequenties
 
