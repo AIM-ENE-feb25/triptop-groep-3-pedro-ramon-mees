@@ -80,7 +80,8 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ## 7. Software Architecture
 
-###     7.1. Containers
+### 7.1. Containers
+
 >Elke aanbieder heeft zijn eigen API-specificaties, wat leidt tot complexiteit en verlies van overaciht.
 > 
 > In het model hebben we Identity Provider en Vervoer API als samengestelde entiteiten gedefinieerd. Dit is gedaan om de complexiteit van het systeem te vereenvoudigen en de overzichtelijkheid te behouden. In werkelijkheid bestaan deze services uit meerdere afzonderlijke API’s van verschillende providers.
@@ -98,14 +99,13 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 >    - KLM API → Vluchtinformatie, prijzen en boekingen via KLM.
 
 
-
 ![container-diagram-Pedro.svg](..%2Fopdracht-diagrammen%2Fcontainer-diagram-Pedro.svg)
 
-####    7.1.1. Dynamic Diagram: Inloggen
+#### 7.1.1. Dynamic Diagram: Inloggen
 
 ![Dynamic_Diagram_Inloggen_Pedro.svg](..%2Fopdracht-diagrammen%2FDynamic_Diagram_Inloggen_Pedro.svg)
 
-####    7.1.1. Dynamic Diagram: Reis Plannen
+#### 7.1.1. Dynamic Diagram: Reis Plannen
 
 ![Dynamic_Diagram_ReisPlannen_Pedro.svg](..%2Fopdracht-diagrammen%2FDynamic_Diagram_ReisPlannen_Pedro.svg)
 > [!IMPORTANT]
@@ -113,13 +113,9 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ###     7.2. Components
 
-#### 7.2.1 Component diagram Pedro
-![alt text](Component_Diagram_Pedro_Old.svg)
+![Betaling_Component_Diagram_Mees.svg](../opdracht-diagrammen/component-diagrammen/MEES/Component_Diagram_Mees.svg)
 
-> [!IMPORTANT]
-> Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
-
-###     7.3. Design & Code
+### 7.3. Design & Code
 
 #### 7.3.1 API Mapping Table
 
@@ -151,9 +147,13 @@ _Stripe endpoint addressen worden niet gegeven in de documentatie._
 > [!IMPORTANT]
 > Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
 
-### 8.1. ADR-001 Postgres database - Ramon
+### 8.1. ADR-001 Postgres database
 
-#### Context 
+#### Auteur
+
+Ramon Bijl
+
+#### Context
 
 Voor de TripTop applicatie willen we een hoog-beschikbare en schaalbare
 backend implementeren waarbij gegevens uit meerdere API's worden opgeslagen
@@ -179,7 +179,7 @@ voor ons erg belangrijk is.
 
 Geaccepteerd
 
-#### Consequenties
+#### Gevolgen
 
 Positief:
 
@@ -191,7 +191,11 @@ Negatief:
 
  - Relatief hogere leercurve voor (nieuwe) teamleden
 
-### 8.2. ADR-002 Strategy pattern - Ramon
+### 8.2. ADR-002 Strategy pattern
+
+#### Auteur
+
+Ramon Bijl
 
 #### Context
 
@@ -224,9 +228,9 @@ We hebben gekozen voor het Strategy Pattern omdat dit biedt:
 
 #### Status
 
-Voorgesteld
+Geaccepteerd
 
-#### Consequenties
+#### Gevolgen
 
 Positief:
 
@@ -239,14 +243,13 @@ Negatief:
  - Vereist dat ontwikkelaars bekend zijn met het Strategy Pattern, dit kan extra tijd kosten.
 
 
-=======
-### 8.1. ADR-001 Stripe API Test Modus
+### 8.3. ADR-003 Stripe API Test Modus
 
-#### Autheur: 
+#### Auteur: 
 Mees van Aarsen
 
 #### Status
-_**Voorgesteld**_
+_**Geaccepteerd**_
 #### Context
 Ik ga een prototype feature opzetten voor het verwerken van betalingen. Voor het opzetten van een prototype waren meerdere API opties beschikbaar (RapidAPI, Stripe API). 
 
@@ -276,9 +279,9 @@ Ik ga het prototype ontwikkelen doormiddel van de Stripe API. Daarmee kan men zo
 - Adapters vertalen de specifieke formaten/protocollen van de Stripe API naar ons interne datamodel
 
 
-### 8.2. ADR-002 API Gateway Pattern voor externe API-integratie
+### 8.4. ADR-004 API Gateway Pattern voor externe API-integratie
 
-#### Autheur
+#### Auteur
 Pedro van Douveren
 
 #### Status
@@ -313,60 +316,6 @@ _**Voorgesteld**_
 - Voor elke categorie externe services (vervoer, betalingen, authenticatie) ontwikkelen we een dedicated adapter-service
 - Elke adapter implementeert een standaard interface die onze core backend gebruikt
 - Adapters vertalen de specifieke formaten/protocollen van externe APIs naar ons interne datamodel
-
-### 8.3. ADR-003 Toepassen van het Facade-patroon
-
-#### Auteur
-Pedro van Douveren
-
-#### Status
-_**Geaccepteerd**_
-
-#### Context
-> De huidige code in het pakket `ese.triptop.features.wiremock` communiceert direct met meerdere externe APIs (Identity, Flight Offers, Booking, TripAdvisor) via de `Unirest`-bibliotheek. Dit leidt tot de volgende problemen:  
-> - **Verspreide logica**: De details van API-communicatie (URL-opbouw, verzoeken maken, reacties verwerken, foutafhandeling) zijn verspreid over meerdere klassen.
-> - **Herhaling**
-> - **Hoge koppeling**: Clientcode is direct afhankelijk van de specifieke externe API’s en de `Unirest`-bibliotheek.
-> - **Complexiteit**: Om de interactie met de APIs te begrijpen, moet men door meerdere klassen en methodes kijken.
-> - **Moeilijk onderhoud**: Wijzigingen in een externe API vereisen aanpassingen op meerdere plekken. Hardcoded URLs en API-sleutels maken dit nog lastiger.
-
-Het doel is om de interactie met deze externe diensten te vereenvoudigen en de afhankelijkheden te verminderen.
-
-#### Beslissing
-We passen het **Facade-patroon** toe om de complexiteit van communicatie met de externe reis-API’s te verbergen.  
-
-Daarom introduceren we een **`TravelApiServiceFacade`-interface** die eenvoudige methodes aanbiedt, zoals:
-- `findFlights`
-- `findHotels`
-- `findRestaurants`
-
-De implementatie **`TravelApiServiceFacadeImpl`** zal deze interface gebruiken om de volgende details te verbergen:
-- HTTP-verzoeken uitvoeren via `Unirest`.
-- Specifieke API-eindpunten en parameters afhandelen.
-- Basisfouten verwerken en API-reacties omzetten.
-
-![alt text](Facade_Pattern.svg)
-
-Clientcode communiceert alleen met de **Facade-interface**, zonder afhankelijk te zijn van de onderliggende API’s.
-
-#### Gevolgen
-
-##### Positief:
-- **Eenvoudigere interface**: Eén toegangspunt voor interactie met externe reis-API's.
-- **Lagere koppeling**: De clientcode is niet direct afhankelijk van API-details of `Unirest`.
-- **Betere leesbaarheid & onderhoudbaarheid**: Alle API-logica zit op één plek. Wijzigingen in externe API’s hebben minder impact.
-- **Encapsulatie**: Verbergt de complexiteit van authenticatie en API-aanroepen.
-
-##### Negatief:
-- **Mogelijke 'God Object'-valkuil**: Als de Facade te veel taken krijgt, kan het een te grote verantwoordelijkheid krijgen. *(Oplossing: Focus beperken tot reis-API's.)*
-- **Extra abstractielaag**: Dit voegt een kleine overhead toe, maar is hier gerechtvaardigd door de complexiteit die wordt verborgen.
-
-#### Toegepaste ontwerpprincipes
-- **Encapsulatie**: De interne werking van API-communicatie wordt verborgen achter een interface.
-- **Information Hiding**: Clients hoeven alleen te weten *wat* de Facade doet, niet *hoe*.
-- **Single Responsibility Principle (SRP)**: De Facade biedt een vereenvoudigde interface, terwijl de onderliggende logica in de implementatie zit. *(Let op: de Facade moet niet te veel verantwoordelijkheden krijgen!)*
-- **Law of Demeter**: Clientcode communiceert alleen met de Facade en niet direct met externe API's of de `Unirest`-bibliotheek.
-
 
 ## 9. Deployment, Operation and Support
 

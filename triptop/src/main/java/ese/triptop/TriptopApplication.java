@@ -2,7 +2,9 @@ package ese.triptop;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
-
+import ese.triptop.features.Patterns.Factory.FactoryRunner;
+import ese.triptop.features.payments.PaymentRunner;
+import ese.triptop.features.payments.services.PaymentServiceImpl;
 import ese.triptop.features.Patterns.facade.FacadePatternRunner;
 import ese.triptop.features.stripe.StripeTesting;
 import ese.triptop.features.wiremock.WiremockTesting;
@@ -46,5 +48,18 @@ public class TriptopApplication {
 		wiremockTesting.run();
 		return this;
 	}
-	
+
+
+
+	private TriptopApplication runFactoryDemo() {
+		System.out.println("Running Factory Demonstration...");
+		factoryRunner.run();
+		return this;
+	}
+
+  private TriptopApplication runPaymentDemo() {
+		System.out.println("Running Payment Demo...");
+		paymentRunner.run();
+		return this;
+	}
 }
