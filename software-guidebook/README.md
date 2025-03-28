@@ -13,7 +13,6 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 Het contextdiagram bevat de volgende hoofdcomponenten:
 
 1. **Centraal systeem: "Triptop"**  
-   - Dit lijkt het kernsysteem te zijn dat andere entiteiten verbindt.
 
 2. **Externe entiteiten:**  
    - **Reiziger**: De eindgebruiker die interactie heeft met het systeem.  
