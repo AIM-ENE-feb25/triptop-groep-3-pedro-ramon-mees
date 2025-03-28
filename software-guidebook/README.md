@@ -72,6 +72,9 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ## 6. Principles
 
+- **Encapsulatie**: De interne werking van API-communicatie wordt verborgen achter een interface.
+- **Information Hiding**: Clients hoeven alleen te weten *wat* de Facade doet, niet *hoe*.
+- **Single Responsibility Principle (SRP)**: De Facade biedt een vereenvoudigde interface, terwijl de onderliggende logica in de implementatie zit. *(Let op: de Facade moet niet te veel verantwoordelijkheden krijgen!)*
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
@@ -95,6 +98,7 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 >    - KLM API → Vluchtinformatie, prijzen en boekingen via KLM.
 
 
+
 ![container-diagram-Pedro.svg](..%2Fopdracht-diagrammen%2Fcontainer-diagram-Pedro.svg)
 
 ####    7.1.1. Dynamic Diagram: Inloggen
@@ -108,6 +112,9 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
 ###     7.2. Components
+
+#### 7.2.1 Component diagram Pedro
+![alt text](Component_Diagram_Pedro_Old.svg)
 
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
@@ -306,6 +313,60 @@ _**Voorgesteld**_
 - Voor elke categorie externe services (vervoer, betalingen, authenticatie) ontwikkelen we een dedicated adapter-service
 - Elke adapter implementeert een standaard interface die onze core backend gebruikt
 - Adapters vertalen de specifieke formaten/protocollen van externe APIs naar ons interne datamodel
+
+### 8.3. ADR-003 Toepassen van het Facade-patroon
+
+#### Auteur
+Pedro van Douveren
+
+#### Status
+_**Geaccepteerd**_
+
+#### Context
+> De huidige code in het pakket `ese.triptop.features.wiremock` communiceert direct met meerdere externe APIs (Identity, Flight Offers, Booking, TripAdvisor) via de `Unirest`-bibliotheek. Dit leidt tot de volgende problemen:  
+> - **Verspreide logica**: De details van API-communicatie (URL-opbouw, verzoeken maken, reacties verwerken, foutafhandeling) zijn verspreid over meerdere klassen.
+> - **Herhaling**
+> - **Hoge koppeling**: Clientcode is direct afhankelijk van de specifieke externe API’s en de `Unirest`-bibliotheek.
+> - **Complexiteit**: Om de interactie met de APIs te begrijpen, moet men door meerdere klassen en methodes kijken.
+> - **Moeilijk onderhoud**: Wijzigingen in een externe API vereisen aanpassingen op meerdere plekken. Hardcoded URLs en API-sleutels maken dit nog lastiger.
+
+Het doel is om de interactie met deze externe diensten te vereenvoudigen en de afhankelijkheden te verminderen.
+
+#### Beslissing
+We passen het **Facade-patroon** toe om de complexiteit van communicatie met de externe reis-API’s te verbergen.  
+
+Daarom introduceren we een **`TravelApiServiceFacade`-interface** die eenvoudige methodes aanbiedt, zoals:
+- `findFlights`
+- `findHotels`
+- `findRestaurants`
+
+De implementatie **`TravelApiServiceFacadeImpl`** zal deze interface gebruiken om de volgende details te verbergen:
+- HTTP-verzoeken uitvoeren via `Unirest`.
+- Specifieke API-eindpunten en parameters afhandelen.
+- Basisfouten verwerken en API-reacties omzetten.
+
+![alt text](Facade_Pattern.svg)
+
+Clientcode communiceert alleen met de **Facade-interface**, zonder afhankelijk te zijn van de onderliggende API’s.
+
+#### Gevolgen
+
+##### Positief:
+- **Eenvoudigere interface**: Eén toegangspunt voor interactie met externe reis-API's.
+- **Lagere koppeling**: De clientcode is niet direct afhankelijk van API-details of `Unirest`.
+- **Betere leesbaarheid & onderhoudbaarheid**: Alle API-logica zit op één plek. Wijzigingen in externe API’s hebben minder impact.
+- **Encapsulatie**: Verbergt de complexiteit van authenticatie en API-aanroepen.
+
+##### Negatief:
+- **Mogelijke 'God Object'-valkuil**: Als de Facade te veel taken krijgt, kan het een te grote verantwoordelijkheid krijgen. *(Oplossing: Focus beperken tot reis-API's.)*
+- **Extra abstractielaag**: Dit voegt een kleine overhead toe, maar is hier gerechtvaardigd door de complexiteit die wordt verborgen.
+
+#### Toegepaste ontwerpprincipes
+- **Encapsulatie**: De interne werking van API-communicatie wordt verborgen achter een interface.
+- **Information Hiding**: Clients hoeven alleen te weten *wat* de Facade doet, niet *hoe*.
+- **Single Responsibility Principle (SRP)**: De Facade biedt een vereenvoudigde interface, terwijl de onderliggende logica in de implementatie zit. *(Let op: de Facade moet niet te veel verantwoordelijkheden krijgen!)*
+- **Law of Demeter**: Clientcode communiceert alleen met de Facade en niet direct met externe API's of de `Unirest`-bibliotheek.
+
 
 ## 9. Deployment, Operation and Support
 

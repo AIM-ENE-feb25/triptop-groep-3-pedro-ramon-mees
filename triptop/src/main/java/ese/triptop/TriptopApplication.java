@@ -6,7 +6,6 @@ import com.stripe.model.Customer;
 import ese.triptop.features.Patterns.facade.FacadePatternRunner;
 import ese.triptop.features.stripe.StripeTesting;
 import ese.triptop.features.wiremock.WiremockTesting;
-import ese.triptop.onderzoeksvraag.ApiArchitectureRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,22 +15,18 @@ public class TriptopApplication {
 
 	private final StripeTesting stripeTesting;
 	private final WiremockTesting wiremockTesting;
-	private final ApiArchitectureRunner apiArchitectureRunner;
 
 	@Autowired
-	public TriptopApplication(StripeTesting stripeTesting, WiremockTesting wiremockTesting,
-							  ApiArchitectureRunner apiArchitectureRunner) {
+	public TriptopApplication(StripeTesting stripeTesting, WiremockTesting wiremockTesting) {
 		this.stripeTesting = stripeTesting;
 		this.wiremockTesting = wiremockTesting;
-		this.apiArchitectureRunner = apiArchitectureRunner;
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(TriptopApplication.class, args)
- 				.getBean(TriptopApplication.class)
+ 				.getBean(TriptopApplication.class);
 // //				.runStripeTest()
-// //				.runWiremockTests()
- 				.runApiArchitectureDemo();
+// //				.runWiremockTests();
 		FacadePatternRunner runner = new FacadePatternRunner();
         runner.runDemo();
 	}
@@ -49,12 +44,6 @@ public class TriptopApplication {
 
 	private TriptopApplication runWiremockTests() {
 		wiremockTesting.run();
-		return this;
-	}
-
-	private TriptopApplication runApiArchitectureDemo() {
-		System.out.println("Running API Architecture Demonstration...");
-		apiArchitectureRunner.run();
 		return this;
 	}
 	
