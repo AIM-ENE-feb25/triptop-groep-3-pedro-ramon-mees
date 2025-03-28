@@ -1,0 +1,71 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+interface IPaymentAdapter << interface >> {
+  + processInvoicePayment(InvoiceRequest): InvoiceResponse
+   available: boolean
+}
+interface IPaymentService << interface >> {
+  + processInvoice(InvoiceRequest): InvoiceResponse
+}
+entity InvoiceRequest << record >> {
+  + InvoiceRequest(String, Long, String): 
+  + toString(): String
+  + amount(): Long
+  + currency(): String
+  + userId(): String
+}
+entity InvoiceResponse << record >> {
+  + InvoiceResponse(String, String, String, String): 
+  + toString(): String
+  + invoiceId(): String
+  + currency(): String
+  + amount(): String
+  + source(): String
+}
+class PaymentAdapterFactory {
+  + PaymentAdapterFactory(StripePaymentAdapter, PaypalPaymentAdapter): 
+  - resetCircuit(): void
+  - recordFailure(): void
+   circuitClosed: boolean
+   paymentAdapter: IPaymentAdapter
+}
+class PaymentController {
+  + PaymentController(IPaymentService): 
+  + createInvoice(InvoiceRequest): InvoiceResponse
+}
+class PaymentRunner {
+  + PaymentRunner(IPaymentService): 
+  + run(): void
+}
+class PaymentServiceImpl {
+  + PaymentServiceImpl(PaymentAdapterFactory): 
+  + processInvoice(InvoiceRequest): InvoiceResponse
+}
+class PaypalPaymentAdapter {
+  + PaypalPaymentAdapter(): 
+  + processInvoicePayment(InvoiceRequest): InvoiceResponse
+   available: boolean
+   accessToken: String?
+}
+class StripePaymentAdapter {
+  + StripePaymentAdapter(): 
+  + processInvoicePayment(InvoiceRequest): InvoiceResponse
+   available: boolean
+}
+
+PaymentAdapterFactory "1" *-[#595959,plain]-> "paypalPaymentAdapter\n1" PaypalPaymentAdapter  
+PaymentAdapterFactory "1" *-[#595959,plain]-> "stripePaymentAdapter\n1" StripePaymentAdapter  
+PaymentController     "1" *-[#595959,plain]-> "paymentService\n1" IPaymentService       
+PaymentRunner         "1" *-[#595959,plain]-> "paymentService\n1" IPaymentService       
+PaymentRunner          -[#595959,dashed]->  InvoiceRequest        : "«create»"
+PaymentServiceImpl    "1" *-[#595959,plain]-> "paymentAdapter\n1" IPaymentAdapter       
+PaymentServiceImpl     -[#008200,dashed]-^  IPaymentService       
+PaypalPaymentAdapter   -[#008200,dashed]-^  IPaymentAdapter       
+PaypalPaymentAdapter   -[#595959,dashed]->  InvoiceResponse       : "«create»"
+StripePaymentAdapter   -[#008200,dashed]-^  IPaymentAdapter       
+StripePaymentAdapter   -[#595959,dashed]->  InvoiceResponse       : "«create»"
+@enduml

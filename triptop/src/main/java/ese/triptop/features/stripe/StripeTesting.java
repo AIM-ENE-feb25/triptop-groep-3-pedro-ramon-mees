@@ -10,7 +10,6 @@ import com.stripe.param.CustomerCreateParams;
 import com.stripe.param.InvoiceCreateParams;
 import com.stripe.param.PriceCreateParams;
 import com.stripe.param.ProductCreateParams;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
