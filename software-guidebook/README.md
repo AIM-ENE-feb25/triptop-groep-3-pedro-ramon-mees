@@ -15,8 +15,6 @@ Het contextdiagram bevat de volgende hoofdcomponenten:
 1. **Centraal systeem: "Triptop"**  
 
 2. **Externe entiteiten:**  
-   - **Reiziger**: De eindgebruiker die interactie heeft met het systeem.  
-   - **ReisAgent**: Mogelijk een intermediair of een zakelijke gebruiker.  
    - **IdentityProvider**: Zorgt voor authenticatie en autorisatie.  
    - **BoekingService**: Verwerkt boekingen binnen het systeem.  
    - **TransportService**: Regelt het transport voor de reiziger.  
