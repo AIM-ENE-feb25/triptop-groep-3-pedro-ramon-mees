@@ -121,6 +121,10 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ![alt text](Component_Diagram_Pedro_Old.svg)
 
+#### 7.2.3 Component Diagram: API
+
+![component_diagram_onderzoeksvraag1_ramon.svg](../opdracht-diagrammen/component_diagram_onderzoeksvraag1_ramon.svg)
+
 ### 7.3. Design & Code
 
 #### 7.3.1 API Mapping Table

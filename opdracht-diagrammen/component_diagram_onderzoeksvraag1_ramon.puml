@@ -2,7 +2,7 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Container Diagram - TripTop Vakantieplan App
+title Component Diagram - TripTop Vakantieplan App
 
 Container(frontend, "Frontend", "React", "Zorgt voor gebruiksvriendelijke interface om de app te gebruiken")
 
