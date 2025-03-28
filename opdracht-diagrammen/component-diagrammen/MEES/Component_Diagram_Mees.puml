@@ -13,22 +13,22 @@ Container_Boundary(Triptop.BackendAPI, "Backend API - Betaling") {
     Component(betalingAdapterFactory, "BetalingAdapterFactory", "Java Spring", "Maakt betalings API's aan doormiddel van een fallback")
     Component(betalingAdapter, "BetalingAdapter", "Java Spring", "Generieke betalings API interface")
     Component(stripeBetalingAdapter, "StripeBetalingAdapter", "Java Spring", "Implementatie van de generieke betalings adapter voor Stripe")
-    Component(mollieBetalingAdapter, "MollieBetalingAdapter", "Java Spring", "Implementatie van de generieke betalings adapter voor Mollie")
+    Component(paypalBetalingAdapter, "PaypalBetalingAdapter", "Java Spring", "Implementatie van de generieke betalings adapter voor Paypal")
 
 }
 
 Component_Ext(stripeAPI, "StripeAPI", "?", "Voert betalings operaties uit")
-Component_Ext(mollieAPI, "MollieAPI", "?", "Voert betalings operaties uit")
+Component_Ext(paypalAPI, "PaypalAPI", "?", "Voert betalings operaties uit")
 
 Rel(Triptop.FrontendWebapplicatie, betalingController, "1. Voert betaling uit", "JSON/HTTPS")
 Rel(betalingController, betalingService, "2. Roept aan")
 Rel_R(betalingService, betalingAdapterFactory, "3. Haal adapter op")
 Rel(betalingAdapterFactory, betalingAdapter, "4. Maak adapter aan")
 Rel(betalingAdapter, stripeBetalingAdapter, "5. Gebruikt")
-Rel(betalingAdapter, mollieBetalingAdapter, "5. Gebruikt")
+Rel(betalingAdapter, paypalBetalingAdapter, "5. Gebruikt")
 
 Rel(stripeBetalingAdapter, stripeAPI, "6. Voert betaling uit", "JSON/HTTPS")
-Rel(mollieBetalingAdapter, mollieAPI, "6. Voert betaling uit", "JSON/HTTPS")
+Rel(paypalBetalingAdapter, paypalAPI, "6. Voert betaling uit", "JSON/HTTPS")
 
 
 @enduml

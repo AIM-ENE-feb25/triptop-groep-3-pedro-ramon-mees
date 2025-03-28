@@ -111,9 +111,11 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
-###     7.2. Components
+### 7.2. Components
 
-![Betaling_Component_Diagram_Mees.svg](../opdracht-diagrammen/component-diagrammen/MEES/Component_Diagram_Mees.svg)
+#### 7.2.1 Component Diagram: Betaling
+
+![Betaling_Component_Diagram.svg](../opdracht-diagrammen/component-diagrammen/MEES/BetalingComponentDiagram.svg)
 
 ### 7.3. Design & Code
 
