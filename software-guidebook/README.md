@@ -77,7 +77,8 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ## 7. Software Architecture
 
-###     7.1. Containers
+### 7.1. Containers
+
 >Elke aanbieder heeft zijn eigen API-specificaties, wat leidt tot complexiteit en verlies van overaciht.
 > 
 > In het model hebben we Identity Provider en Vervoer API als samengestelde entiteiten gedefinieerd. Dit is gedaan om de complexiteit van het systeem te vereenvoudigen en de overzichtelijkheid te behouden. In werkelijkheid bestaan deze services uit meerdere afzonderlijke API’s van verschillende providers.
@@ -94,26 +95,25 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 >    - NS API → Real-time treinroutes en prijzen van Nederlandse Spoorwegen.
 >    - KLM API → Vluchtinformatie, prijzen en boekingen via KLM.
 
-
 ![container-diagram-Pedro.svg](..%2Fopdracht-diagrammen%2Fcontainer-diagram-Pedro.svg)
 
-####    7.1.1. Dynamic Diagram: Inloggen
+#### 7.1.1. Dynamic Diagram: Inloggen
 
 ![Dynamic_Diagram_Inloggen_Pedro.svg](..%2Fopdracht-diagrammen%2FDynamic_Diagram_Inloggen_Pedro.svg)
 
-####    7.1.1. Dynamic Diagram: Reis Plannen
+#### 7.1.1. Dynamic Diagram: Reis Plannen
 
 ![Dynamic_Diagram_ReisPlannen_Pedro.svg](..%2Fopdracht-diagrammen%2FDynamic_Diagram_ReisPlannen_Pedro.svg)
 > [!IMPORTANT]
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
-###     7.2. Components
+### 7.2. Components
 
 #### 7.2.1. Betaling Component Diagram
 
 ![Betaling_Component_Diagram_Mees.svg](../opdracht-diagrammen/component-diagrammen/MEES/Component_Diagram_Mees.svg)
 
-###     7.3. Design & Code
+### 7.3. Design & Code
 
 #### 7.3.1 API Mapping Table
 
@@ -147,7 +147,7 @@ _Stripe endpoint addressen worden niet gegeven in de documentatie._
 
 ### 8.1. ADR-001 Postgres database - Ramon
 
-#### Context 
+#### Context
 
 Voor de TripTop applicatie willen we een hoog-beschikbare en schaalbare
 backend implementeren waarbij gegevens uit meerdere API's worden opgeslagen
