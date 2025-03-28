@@ -2,6 +2,8 @@ package ese.triptop;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
+
+import ese.triptop.features.Patterns.facade.FacadePatternRunner;
 import ese.triptop.features.stripe.StripeTesting;
 import ese.triptop.features.wiremock.WiremockTesting;
 import ese.triptop.onderzoeksvraag.ApiArchitectureRunner;
@@ -26,10 +28,12 @@ public class TriptopApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TriptopApplication.class, args)
-				.getBean(TriptopApplication.class)
-//				.runStripeTest()
-//				.runWiremockTests()
-				.runApiArchitectureDemo();
+ 				.getBean(TriptopApplication.class)
+// //				.runStripeTest()
+// //				.runWiremockTests()
+ 				.runApiArchitectureDemo();
+		FacadePatternRunner runner = new FacadePatternRunner();
+        runner.runDemo();
 	}
 
 	private TriptopApplication runStripeTest() {
@@ -53,4 +57,5 @@ public class TriptopApplication {
 		apiArchitectureRunner.run();
 		return this;
 	}
+	
 }
