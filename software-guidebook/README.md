@@ -145,7 +145,11 @@ _Stripe endpoint addressen worden niet gegeven in de documentatie._
 > [!IMPORTANT]
 > Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
 
-### 8.1. ADR-001 Postgres database - Ramon
+### 8.1. ADR-001 Postgres database
+
+#### Auteur
+
+Ramon Bijl
 
 #### Context
 
@@ -185,7 +189,11 @@ Negatief:
 
  - Relatief hogere leercurve voor (nieuwe) teamleden
 
-### 8.2. ADR-002 Strategy pattern - Ramon
+### 8.2. ADR-002 Strategy pattern
+
+#### Auteur
+
+Ramon Bijl
 
 #### Context
 
