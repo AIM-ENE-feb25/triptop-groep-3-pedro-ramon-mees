@@ -1,4 +1,4 @@
-package oefening.factory.models;
+package ese.triptop.features.Patterns.Factory.domain;
 
 import org.springframework.stereotype.Component;
 
