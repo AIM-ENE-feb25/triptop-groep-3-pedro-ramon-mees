@@ -17,20 +17,21 @@ public class TriptopApplication {
 
 	private final StripeTesting stripeTesting;
 	private final WiremockTesting wiremockTesting;
+	private final FacadePatternRunner runner;
 
 	@Autowired
-	public TriptopApplication(StripeTesting stripeTesting, WiremockTesting wiremockTesting) {
+	public TriptopApplication(StripeTesting stripeTesting, WiremockTesting wiremockTesting, FacadePatternRunner runner) {
+		this.runner = runner;
 		this.stripeTesting = stripeTesting;
 		this.wiremockTesting = wiremockTesting;
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(TriptopApplication.class, args)
- 				.getBean(TriptopApplication.class);
+ 				.getBean(TriptopApplication.class)
 // //				.runStripeTest()
 // //				.runWiremockTests();
-		FacadePatternRunner runner = new FacadePatternRunner();
-        runner.runDemo();
+				.runFacadeDemo();
 	}
 
 	private TriptopApplication runStripeTest() {
@@ -49,6 +50,11 @@ public class TriptopApplication {
 		return this;
 	}
 
+	private TriptopApplication runFacadeDemo() {
+		System.out.println("Running Facade Demonstration...");
+		runner.runDemo();
+		return this;
+	}
 
 
 	// private TriptopApplication runFactoryDemo() {

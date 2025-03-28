@@ -389,6 +389,8 @@ Clientcode communiceert alleen met de **Facade-interface**, zonder afhankelijk t
 - **Single Responsibility Principle (SRP)**: De Facade biedt een vereenvoudigde interface, terwijl de onderliggende logica in de implementatie zit. *(Let op: de Facade moet niet te veel verantwoordelijkheden krijgen!)*
 - **Law of Demeter**: Clientcode communiceert alleen met de Facade en niet direct met externe API's of de `Unirest`-bibliotheek.
 
+![alt text](Class_Diagram_Pedro.svg)
+
 ### 8.6. ADR-006 Passend pattern kiezen voor bij "Fallback" onderzoeksvraag
 
 #### Auteur
