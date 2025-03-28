@@ -379,7 +379,7 @@ Clientcode communiceert alleen met de **Facade-interface**, zonder afhankelijk t
 
 ### 8.6. ADR-006 Passend pattern kiezen voor bij "Fallback" onderzoeksvraag
 
-#### Autheur
+#### Auteur
 Mees van Aarsen
 
 #### Status
@@ -443,7 +443,7 @@ We implementeren een Circuit Breaker Pattern in combinatie met het Fallback Patt
 
 ### 8.7. ADR-007 Implementatie van Adapter Pattern voor betalingsintegraties
 
-#### Autheur
+#### Auteur
 Mees van Aarsen
 
 #### Status
