@@ -153,16 +153,16 @@ Voor de TripTop applicatie willen we een hoog-beschikbare en schaalbare
 backend implementeren waarbij gegevens uit meerdere API's worden opgeslagen
 in een database.
 
-#### Considered Options
+#### Overwogen opties
 
-| Factor             | MySQL             | Postgres        | MariaDB          | SQL Server       |
+| Factor             | MySQL            | Postgres         | MariaDB          | SQL Server       |
 |--------------------|------------------|------------------|------------------|------------------|
 | **Prestaties**       | Minder geschikt voor grote datasets | Sterk bij complexe queries en grote datasets | Over het algemeen sneller dan MySQL | Goede prestaties |
 | **Uitbreidbaarheid** | Beperkt          | Zeer hoog | Beperkt          | Gemiddeld |
 | **Licentie**         | Open-source (GPL) | Open-source (PostgreSQL License) | Open-source (GPL) | Proprietair (Microsoft) |
 | **Complexiteit**     | Eenvoudig | Complexer maar krachtiger | Eenvoudig (MySQL compatible) | Gemiddelde leercurve |
 
-#### Decision
+#### Keuze
 
 We hebben gekozen om gebruik te maken van Postgres omdat dit uitstekende prestaties bied
 en een hoge uitbreidbaarheid heeft, dit sluit goed aan bij de wensen van onze applicatie. Daarnaast
@@ -171,21 +171,69 @@ voor ons erg belangrijk is.
 
 #### Status 
 
-Accepted
+Geaccepteerd
 
-#### Consequences 
+#### Consequenties
 
-Positief
+Positief:
 
  - Geen extra licentie kosten
  - Hoge schaalbaarheid en makkelijk uit te breiden
  - Hoge prestaties
 
-Negatief
+Negatief:
 
  - Relatief hogere leercurve voor (nieuwe) teamleden
 
-### 8.2. ADR-002 Stripe API Test Modus
+### 8.2. ADR-002 Strategy pattern - Ramon
+
+#### Context
+
+We moeten gegevens ophalen die afkomstig kunnen zijn van een externe API of een
+gecachte database, afhankelijk van beschikbaarheid. De externe API biedt de
+meest actuele gegevens, maar kan op ieder moment onbereikbaar zijn. De
+database functioneert als een alternatief voor wanneer de externe API
+onbereikbaar is. We hebben een software ontwerp nodig dat tussen deze 2
+opties kan schakelen, waarbij het ophalen van gegevens uit de externe API de
+hogste prioriteit heeft terwijl de code schoon, onderhoudbaar en leesbaar
+blijft.
+
+#### Overwogen opties
+
+Voor de implementatie van deze oplossing hebben we de volgende design
+patterns overwogen:
+
+| Design pattern | Flexibiliteit | Onderhoudbaarheid | Testbaarheid |
+|-------|---------------|-------------------|--------------|
+| **If-Else Logica** | Laag | Laag - Kan erg onoverzichtelijk worden | Laag – moeilijk afzonderlijk te testen |
+| **Strategy Pattern** | Hoog – eenvoudig nieuwe strategieën toe te voegen | Hoog – scheidt verantwoordelijkheden in aparte klassen | Hoog – strategieën kunnen onafhankelijk worden getest |
+| **Factory Pattern** | Gemiddeld - Kan tot tight-coupling leiden | Gemiddeld - Kan complex worden als er veel classes worden toegevoegd | Gemiddeld - Code kan makkelijker te testen zijn |
+
+#### Keuze
+
+We hebben gekozen voor het Strategy Pattern omdat dit biedt:
+- Een duidelijke scheiding van verantwoordelijkheden.
+- De mogelijkheid om gemakkelijk opties uit te breiden en te wijzigen.
+- Verbeterde testbaarheid.
+
+#### Status
+
+Voorgesteld
+
+#### Consequenties
+
+Positief:
+
+ - Verbeterde onderhoudbaarheid en uitbreidbaarheid.
+ - Maken van unit-tests gaat makkelijker
+ - Duidelijke scheiding van verantwoordelijkheden.
+
+Negatief:
+
+ - Vereist dat ontwikkelaars bekend zijn met het Strategy Pattern, dit kan extra tijd kosten.
+
+
+### 8.3. ADR-003 Stripe API Test Modus
 
 #### Autheur: 
 Mees van Aarsen
@@ -221,7 +269,7 @@ Ik ga het prototype ontwikkelen doormiddel van de Stripe API. Daarmee kan men zo
 - Adapters vertalen de specifieke formaten/protocollen van de Stripe API naar ons interne datamodel
 
 
-### 8.3. ADR-003 API Gateway Pattern voor externe API-integratie
+### 8.4. ADR-004 API Gateway Pattern voor externe API-integratie
 
 #### Autheur
 Pedro van Douveren
@@ -259,7 +307,7 @@ _**Voorgesteld**_
 - Elke adapter implementeert een standaard interface die onze core backend gebruikt
 - Adapters vertalen de specifieke formaten/protocollen van externe APIs naar ons interne datamodel
 
-### 8.4. ADR-004 Passend pattern kiezen voor bij "Fallback" onderzoeksvraag
+### 8.5. ADR-005 Passend pattern kiezen voor bij "Fallback" onderzoeksvraag
 
 #### Autheur
 Mees van Aarsen
@@ -323,7 +371,7 @@ We implementeren een Circuit Breaker Pattern in combinatie met het Fallback Patt
 * Elke adapter implementeert een standaard interface die onze core backend gebruikt
 * Adapters vertalen de specifieke formaten/protocollen van externe APIs naar ons interne datamodel
 
-### 8.5. ADR-005 Implementatie van Adapter Pattern voor betalingsintegraties
+### 8.6. ADR-006 Implementatie van Adapter Pattern voor betalingsintegraties
 
 #### Autheur
 Mees van Aarsen
@@ -332,7 +380,7 @@ Mees van Aarsen
 Geaccepteerd
 
 #### Context
-Na het besluit om het Circuit Breaker Pattern te implementeren voor betalingsfallback ([ADR-004](#84-adr-004-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag)), moesten we een geschikte architectuur kiezen om verschillende betalingsproviders te integreren. We hadden behoefte aan een uniforme manier om met verschillende APIs te communiceren, waarbij elk van deze APIs zijn eigen formaten, authenticatiemethodes en endpoints heeft.
+Na het besluit om het Circuit Breaker Pattern te implementeren voor betalingsfallback ([ADR-004](#85-adr-005-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag)), moesten we een geschikte architectuur kiezen om verschillende betalingsproviders te integreren. We hadden behoefte aan een uniforme manier om met verschillende APIs te communiceren, waarbij elk van deze APIs zijn eigen formaten, authenticatiemethodes en endpoints heeft.
 
 Tijdens de implementatie van het Circuit Breaker mechanisme werd duidelijk dat we een gestandaardiseerde interface nodig hadden om:
 
