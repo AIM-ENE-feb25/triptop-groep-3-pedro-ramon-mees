@@ -152,16 +152,16 @@ Voor de TripTop applicatie willen we een hoog-beschikbare en schaalbare
 backend implementeren waarbij gegevens uit meerdere API's worden opgeslagen
 in een database.
 
-#### Considered Options
+#### Overwogen opties
 
-| Factor             | MySQL             | Postgres        | MariaDB          | SQL Server       |
+| Factor             | MySQL            | Postgres         | MariaDB          | SQL Server       |
 |--------------------|------------------|------------------|------------------|------------------|
 | **Prestaties**       | Minder geschikt voor grote datasets | Sterk bij complexe queries en grote datasets | Over het algemeen sneller dan MySQL | Goede prestaties |
 | **Uitbreidbaarheid** | Beperkt          | Zeer hoog | Beperkt          | Gemiddeld |
 | **Licentie**         | Open-source (GPL) | Open-source (PostgreSQL License) | Open-source (GPL) | Proprietair (Microsoft) |
 | **Complexiteit**     | Eenvoudig | Complexer maar krachtiger | Eenvoudig (MySQL compatible) | Gemiddelde leercurve |
 
-#### Decision
+#### Keuze
 
 We hebben gekozen om gebruik te maken van Postgres omdat dit uitstekende prestaties bied
 en een hoge uitbreidbaarheid heeft, dit sluit goed aan bij de wensen van onze applicatie. Daarnaast
@@ -170,39 +170,68 @@ voor ons erg belangrijk is.
 
 #### Status 
 
-Accepted
+Geaccepteerd
 
-#### Consequences 
+#### Consequenties
 
-Positief
+Positief:
 
  - Geen extra licentie kosten
  - Hoge schaalbaarheid en makkelijk uit te breiden
  - Hoge prestaties
 
-Negatief
+Negatief:
 
  - Relatief hogere leercurve voor (nieuwe) teamleden
 
-### 8.2. ADR-002 TITLE
-
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
+### 8.2. ADR-002 Strategy pattern - Ramon
 
 #### Context
 
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
+We moeten gegevens ophalen die afkomstig kunnen zijn van een externe API of een
+gecachte database, afhankelijk van beschikbaarheid. De externe API biedt de
+meest actuele gegevens, maar kan op ieder moment onbereikbaar zijn. De
+database functioneert als een alternatief voor wanneer de externe API
+onbereikbaar is. We hebben een software ontwerp nodig dat tussen deze 2
+opties kan schakelen, waarbij het ophalen van gegevens uit de externe API de
+hogste prioriteit heeft terwijl de code schoon, onderhoudbaar en leesbaar
+blijft.
 
-#### Considered Options
+#### Overwogen opties
 
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
+Voor de implementatie van deze oplossing hebben we de volgende design
+patterns overwogen:
 
-#### Decision
+| Design pattern | Flexibiliteit | Onderhoudbaarheid | Testbaarheid |
+|-------|---------------|-------------------|--------------|
+| **If-Else Logica** | Laag | Laag - Kan erg onoverzichtelijk worden | Laag – moeilijk afzonderlijk te testen |
+| **Strategy Pattern** | Hoog – eenvoudig nieuwe strategieën toe te voegen | Hoog – scheidt verantwoordelijkheden in aparte klassen | Hoog – strategieën kunnen onafhankelijk worden getest |
+| **Factory Pattern** | Gemiddeld - Kan tot tight-coupling leiden | Gemiddeld - Kan complex worden als er veel classes worden toegevoegd | Gemiddeld - Code kan makkelijker te testen zijn |
 
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
+#### Keuze
+
+We hebben gekozen voor het Strategy Pattern omdat dit biedt:
+- Een duidelijke scheiding van verantwoordelijkheden.
+- De mogelijkheid om gemakkelijk opties uit te breiden en te wijzigen.
+- Verbeterde testbaarheid.
+
+#### Status
+
+Voorgesteld
+
+#### Consequenties
+
+Positief:
+
+ - Verbeterde onderhoudbaarheid en uitbreidbaarheid.
+ - Maken van unit-tests gaat makkelijker
+ - Duidelijke scheiding van verantwoordelijkheden.
+
+Negatief:
+
+ - Vereist dat ontwikkelaars bekend zijn met het Strategy Pattern, dit kan extra tijd kosten.
+
+
 =======
 ### 8.1. ADR-001 Stripe API Test Modus
 
