@@ -177,7 +177,7 @@ voor ons erg belangrijk is.
 
 Geaccepteerd
 
-#### Consequenties
+#### Gevolgen
 
 Positief:
 
@@ -228,7 +228,7 @@ We hebben gekozen voor het Strategy Pattern omdat dit biedt:
 
 Geaccepteerd
 
-#### Consequenties
+#### Gevolgen
 
 Positief:
 
