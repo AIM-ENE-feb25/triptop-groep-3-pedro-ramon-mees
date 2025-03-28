@@ -15,7 +15,7 @@ public class ApiContext {
     }
 
     public String get() {
-        this.setStrategy(new ApiRepository());
+        this.setStrategy(new ApiRepository(new JdbcTemplate()));
         return apiStrategy.get();
     }
 
