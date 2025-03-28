@@ -243,7 +243,7 @@ Negatief:
 
 ### 8.3. ADR-003 Stripe API Test Modus
 
-#### Autheur: 
+#### Auteur: 
 Mees van Aarsen
 
 #### Status
@@ -279,7 +279,7 @@ Ik ga het prototype ontwikkelen doormiddel van de Stripe API. Daarmee kan men zo
 
 ### 8.4. ADR-004 API Gateway Pattern voor externe API-integratie
 
-#### Autheur
+#### Auteur
 Pedro van Douveren
 
 #### Status
@@ -317,7 +317,7 @@ _**Voorgesteld**_
 
 ### 8.5. ADR-005 Passend pattern kiezen voor bij "Fallback" onderzoeksvraag
 
-#### Autheur
+#### Auteur
 Mees van Aarsen
 
 #### Status
@@ -381,7 +381,7 @@ We implementeren een Circuit Breaker Pattern in combinatie met het Fallback Patt
 
 ### 8.6. ADR-006 Implementatie van Adapter Pattern voor betalingsintegraties
 
-#### Autheur
+#### Auteur
 Mees van Aarsen
 
 #### Status
