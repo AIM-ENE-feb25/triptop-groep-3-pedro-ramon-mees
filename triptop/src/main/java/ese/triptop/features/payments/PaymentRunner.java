@@ -13,7 +13,7 @@ public class PaymentRunner {
     private final IPaymentService paymentService;
 
     @Autowired
-    public PaymentRunner(PaymentServiceImpl paymentService) {
+    public PaymentRunner(IPaymentService paymentService) {
         this.paymentService = paymentService;
     }
 
