@@ -1,0 +1,43 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class ApiContext {
+  + ApiContext(ApiStrategy): 
+  - apiStrategy: ApiStrategy
+  - setStrategy(ApiStrategy): void
+  + get(): String
+}
+class ApiController {
+  + ApiController(ApiService): 
+  - apiService: ApiService
+  + foo(): ResponseEntity<String>
+}
+class ApiRepository {
+  + ApiRepository(JdbcTemplate): 
+  - jdbcTemplate: JdbcTemplate
+  + get(): String
+}
+class ApiService {
+  + ApiService(ApiContext): 
+  - apiContext: ApiContext
+  + get(): String
+}
+interface ApiStrategy << interface >> {
+  + get(): String
+}
+class CacheRepository {
+  + CacheRepository(JdbcTemplate): 
+  - jdbcTemplate: JdbcTemplate
+  + get(): String
+}
+
+ApiContext        -[#595959,dashed]->  ApiRepository    : "«create»"
+ApiContext       "1" *-[#595959,plain]-> "apiStrategy\n1" ApiStrategy      
+ApiController    "1" *-[#595959,plain]-> "apiService\n1" ApiService       
+ApiRepository     -[#008200,dashed]-^  ApiStrategy      
+ApiService       "1" *-[#595959,plain]-> "apiContext\n1" ApiContext       
+CacheRepository   -[#008200,dashed]-^  ApiStrategy      
+@enduml
