@@ -6,17 +6,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ApiRepository implements ApiStrategy {
+public class CacheRepository implements ApiStrategy {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ApiRepository(JdbcTemplate jdbcTemplate) {
+    public CacheRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public String get() {
-        return jdbcTemplate.queryForObject("SELECT bar FROM foo", String.class);
-    }
-
+    public String get() { return "TODO"; }
 }
