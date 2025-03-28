@@ -123,6 +123,10 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 #### 7.2.3 Component Diagram: API
 
+Voor de onderzoeksvraag: "Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn en toch verwacht wordt dat er waardevolle output gegeven
+wordt?" willlen we het strategy pattern toepassen, dit resulteert in het
+volgende component diagram:
+
 ![component_diagram_onderzoeksvraag1_ramon.svg](../opdracht-diagrammen/component_diagram_onderzoeksvraag1_ramon.svg)
 
 ### 7.3. Design & Code
