@@ -72,6 +72,9 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ## 6. Principles
 
+- **Encapsulatie**: De interne werking van API-communicatie wordt verborgen achter een interface.
+- **Information Hiding**: Clients hoeven alleen te weten *wat* de Facade doet, niet *hoe*.
+- **Single Responsibility Principle (SRP)**: De Facade biedt een vereenvoudigde interface, terwijl de onderliggende logica in de implementatie zit. *(Let op: de Facade moet niet te veel verantwoordelijkheden krijgen!)*
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
@@ -94,6 +97,7 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > De Vervoer API in het model vertegenwoordigt een aggregatie van meerdere reis- en transportaanbieders. In werkelijkheid haalt Triptop reisopties op uit verschillende externe bronnen:
 >    - NS API → Real-time treinroutes en prijzen van Nederlandse Spoorwegen.
 >    - KLM API → Vluchtinformatie, prijzen en boekingen via KLM.
+
 
 ![container-diagram-Pedro.svg](..%2Fopdracht-diagrammen%2Fcontainer-diagram-Pedro.svg)
 
@@ -314,124 +318,6 @@ _**Voorgesteld**_
 - Voor elke categorie externe services (vervoer, betalingen, authenticatie) ontwikkelen we een dedicated adapter-service
 - Elke adapter implementeert een standaard interface die onze core backend gebruikt
 - Adapters vertalen de specifieke formaten/protocollen van externe APIs naar ons interne datamodel
-
-### 8.5. ADR-005 Passend pattern kiezen voor bij "Fallback" onderzoeksvraag
-
-#### Auteur
-Mees van Aarsen
-
-#### Status
-_**Geaccepteerd**_
-
-#### Context
-Bij Triptop moet de betalingsverwerking betrouwbaar werken, zelfs wanneer externe betalingsproviders uitvallen of onbereikbaar zijn. Onze onderzoeksvraag naar "Fallback" technieken heeft uitgewezen dat we een robuust mechanisme nodig hebben dat:
-
-* Snel detecteren wanneer een primaire betalingsprovider (Stripe) niet beschikbaar is
-* Automatisch overschakelt naar een alternatieve provider (Paypal) zonder gebruikersinterventie
-* Periodiek controleert of de primaire provider weer beschikbaar is
-* Consistente dataformaten behoudt tussen verschillende providers
-
-Voor het opzetten van de bovenstaande criteria is het ICT Research Pattern ['Choose fitting technologies'](https://ictresearchmethods.nl/patterns/choose-fitting-technology/) toegepast. Doormiddel van de 5xW en 1xH vragen op te stellen als onderdeel van het "Veld" onderzoek.
-
-[-> Pattern Onderzoek](pattern_onderzoek_mees.md)
-
-#### Besluit
-
-Bij het implementeren van failover tussen betalings-API's komt het Circuit Breaker als beste optie naar voren.
-
-| Pattern → Criteria ↓ | Circuit Breaker | Retry met Exponential Backoff | Fallback Pattern | Service Discovery | Load Balancing met Health Checks | Bulkhead Pattern | API Gateway met Failover Logic |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 1. Detectie binnen 5 seconden | X | X | X | X | X |  | X |
-| 2. Automatische overschakeling | X | X | X | X | X |  | X |
-| 3. Maximaal 5 retries | X | X |  |  |  |  | X |
-| 4. Logging van failovers | X | X | X | X | X | X | X |
-| 5. Periodieke controle primaire dienst | X | X |  | X | X |  | X |
-| 6. Consistente dataformaten |  |  | X |  |  |  | X |
-| 7. Max 1 sec extra verwerkingstijd | X |  | X | X | X | X |  |
-
-We implementeren een Circuit Breaker Pattern in combinatie met het Fallback Pattern voor onze betalingsverwerkingsmodule. Dit betekent:
-
-1. We bouwen een PaymentAdapterFactory die het circuit breaker mechanisme implementeert
-2. We definiëren een generieke IPaymentAdapter interface voor alle betalingsproviders
-3. We creëren concrete adapter-implementaties voor Stripe (primair) en Paypal (fallback)
-4. Het circuit "opent" wanneer Stripe een bepaald aantal fouten geeft binnen een tijdsperiode
-5. Wanneer het circuit open is, worden verzoeken direct doorgestuurd naar Paypal
-6. Het circuit "sluit" weer zodra een verbinding mogelijk is met Stripe.
-
-#### Gevolgen
-
-##### Positief:
-
-* Wijzigingen in externe APIs worden opgevangen in de adapter laag
-* Front-end communiceert alleen met onze eigen gestandardiseerde interne API
-* Eenvoudiger monitoring van externe API-aanroepen op één plaats
-* Maakt A/B testing tussen verschillende externe providers mogelijk
-
-##### Negatief:
-
-* Extra architectuurlaag verhoogt complexiteit
-* Potentiële performance overhead
-* Vereist ontwikkeling en onderhoud van adapter-services
-
-#### Implementatiedetails
-
-* Voor elke categorie externe services (vervoer, betalingen, authenticatie) ontwikkelen we een dedicated adapter-service
-* Elke adapter implementeert een standaard interface die onze core backend gebruikt
-* Adapters vertalen de specifieke formaten/protocollen van externe APIs naar ons interne datamodel
-
-### 8.6. ADR-006 Implementatie van Adapter Pattern voor betalingsintegraties
-
-#### Auteur
-Mees van Aarsen
-
-#### Status
-Geaccepteerd
-
-#### Context
-Na het besluit om het Circuit Breaker Pattern te implementeren voor betalingsfallback ([ADR-004](#85-adr-005-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag)), moesten we een geschikte architectuur kiezen om verschillende betalingsproviders te integreren. We hadden behoefte aan een uniforme manier om met verschillende APIs te communiceren, waarbij elk van deze APIs zijn eigen formaten, authenticatiemethodes en endpoints heeft.
-
-Tijdens de implementatie van het Circuit Breaker mechanisme werd duidelijk dat we een gestandaardiseerde interface nodig hadden om:
-
-* De business logic volledig te scheiden van API-specifieke implementatiedetails
-* Een consistente manier te hebben om verschillende betalingsproviders uit te wisselen
-* Te zorgen dat nieuwe betalingsproviders eenvoudig kunnen worden toegevoegd
-
-#### Besluit
-We implementeren het Adapter Pattern voor alle betalingsintegraties. Dit betekent:
-
-* We definiëren een abstracte `IPaymentAdapter` interface die de gemeenschappelijke operaties voor alle betalingsproviders beschrijft
-* Voor elke betalingsprovider creëren we een specifieke adapter-klasse die deze interface implementeert
-* De business logic werkt uitsluitend met de abstracte interface, zonder kennis van de concrete implementaties
-* De Factory uit ADR-003 is verantwoordelijk voor het leveren van de juiste adapter-instantie
-
-#### Gevolgen
-
-##### Positief:
-
-* Volledige ontkoppeling tussen business logic en externe API implementaties
-* Eenvoudig toevoegen van nieuwe betalingsproviders zonder wijzigingen in de core applicatie
-* Gestandaardiseerde foutafhandeling en logging over alle providers
-* Mogelijkheid om mocks en test-adapters te gebruiken voor efficiënte testbaarheid
-* Consistente response formats ongeacht de gebruikte provider
-
-##### Negatief:
-
-* Mogelijke overhead door de extra abstractielaag
-* Risico op "lowest common denominator" API door gemeenschappelijke interface
-* Meer code en klassen om te onderhouden
-* Mogelijke complexiteit bij het mappen van provider-specifieke functies naar het gestandaardiseerde model
-
-#### Implementatiedetails
-
-* De `IPaymentAdapter` interface definieert methoden zoals:
-
-  * `processInvoicePayment(InvoiceRequest request): InvoiceResponse`
-  * `isAvailable(): boolean`
-
-* De concrete adapters zoals `StripePaymentAdapter` en `PaypalPaymentAdapter` implementeren deze interface
-* Elke adapter is verantwoordelijk voor:
-* Mappings tussen ons interne datamodel en het provider-specifieke formaat
-* Provider-specifieke authenticatie en API-aanroepen
 
 ## 9. Deployment, Operation and Support
 
