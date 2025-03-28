@@ -51,15 +51,15 @@ public class TriptopApplication {
 
 
 
-	private TriptopApplication runFactoryDemo() {
-		System.out.println("Running Factory Demonstration...");
-		factoryRunner.run();
-		return this;
-	}
+	// private TriptopApplication runFactoryDemo() {
+	// 	System.out.println("Running Factory Demonstration...");
+	// 	factoryRunner.run();
+	// 	return this;
+	// }
 
-  private TriptopApplication runPaymentDemo() {
-		System.out.println("Running Payment Demo...");
-		paymentRunner.run();
-		return this;
-	}
+//   private TriptopApplication runPaymentDemo() {
+// 		System.out.println("Running Payment Demo...");
+// 		paymentRunner.run();
+// 		return this;
+// 	}
 }
