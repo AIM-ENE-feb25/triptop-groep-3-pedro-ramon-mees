@@ -2,6 +2,7 @@ package ese.triptop;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
+import ese.triptop.features.Patterns.Factory.FactoryRunner;
 import ese.triptop.features.payments.PaymentRunner;
 import ese.triptop.features.payments.services.PaymentServiceImpl;
 import ese.triptop.features.Patterns.facade.FacadePatternRunner;
@@ -18,16 +19,18 @@ public class TriptopApplication {
 	private final StripeTesting stripeTesting;
 	private final WiremockTesting wiremockTesting;
 	private final ApiArchitectureRunner apiArchitectureRunner;
-	private final PaymentRunner paymentRunner;
-
+	private final FactoryRunner factoryRunner;
+  private final PaymentRunner paymentRunner;
+  
 	@Autowired
 	public TriptopApplication(StripeTesting stripeTesting, WiremockTesting wiremockTesting,
-							  ApiArchitectureRunner apiArchitectureRunner, PaymentRunner paymentRunner) {
+							  ApiArchitectureRunner apiArchitectureRunner, FactoryRunner factoryRunner) {
 		this.stripeTesting = stripeTesting;
 		this.wiremockTesting = wiremockTesting;
 		this.apiArchitectureRunner = apiArchitectureRunner;
+		this.factoryRunner = factoryRunner;
 		this.paymentRunner = paymentRunner;
-	}
+		}
 
 	public static void main(String[] args) {
 		SpringApplication.run(TriptopApplication.class, args)
@@ -59,7 +62,13 @@ public class TriptopApplication {
 		return this;
 	}
 
-	private TriptopApplication runPaymentDemo() {
+	private TriptopApplication runFactoryDemo() {
+		System.out.println("Running Factory Demonstration...");
+		factoryRunner.run();
+		return this;
+	}
+
+  private TriptopApplication runPaymentDemo() {
 		System.out.println("Running Payment Demo...");
 		paymentRunner.run();
 		return this;
