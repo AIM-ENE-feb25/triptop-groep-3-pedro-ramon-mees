@@ -1,0 +1,156 @@
+@startuml TripTop Payment Feature Class Diagram
+
+skinparam classAttributeIconSize 0
+hide circle
+
+title "TripTop Payment Feature - Class Diagram"
+
+' Main application
+class TriptopApplication {
+  - stripeTesting: StripeTesting
+  - wiremockTesting: WiremockTesting
+  - apiArchitectureRunner: ApiArchitectureRunner
+  - paymentRunner: PaymentRunner
+  + TriptopApplication(stripeTesting, wiremockTesting, apiArchitectureRunner, paymentRunner)
+  + {static} main(args: String[]): void
+  - runStripeTest(): TriptopApplication
+  - runWiremockTests(): TriptopApplication
+  - runApiArchitectureDemo(): TriptopApplication
+  - runPaymentDemo(): TriptopApplication
+}
+
+' Runner
+class PaymentRunner {
+  - paymentService: IPaymentService
+  + PaymentRunner(paymentService: PaymentServiceImpl)
+  + run(): void
+}
+
+' Controller
+class PaymentController {
+  - paymentService: IPaymentService
+  + PaymentController(paymentService: IPaymentService)
+  + createInvoice(invoiceRequest: InvoiceRequest): InvoiceResponse
+}
+
+' Service Interface
+interface IPaymentService {
+  + processInvoice(request: InvoiceRequest): InvoiceResponse
+}
+
+' Service Implementation
+class PaymentServiceImpl implements IPaymentService {
+  - paymentAdapter: IPaymentAdapter
+  + PaymentServiceImpl(paymentAdapterFactory: PaymentAdapterFactory)
+  + processInvoice(request: InvoiceRequest): InvoiceResponse
+}
+
+' Payment Adapter Interface
+interface IPaymentAdapter {
+  + processInvoicePayment(request: InvoiceRequest): InvoiceResponse
+  + isAvailable(): boolean
+}
+
+' Adapter Factory with Circuit Breaker
+class PaymentAdapterFactory {
+  - stripePaymentAdapter: StripePaymentAdapter
+  - paypalPaymentAdapter: PaypalPaymentAdapter
+  - failureCount: int
+  - lastFailureTime: long
+  - {static} MAX_FAILURES: int = 3
+  - {static} RESET_TIMEOUT_MS: long = 30000
+  + PaymentAdapterFactory(stripePaymentAdapter, paypalPaymentAdapter)
+  + getPaymentAdapter(): IPaymentAdapter
+  - isCircuitClosed(): boolean
+  - recordFailure(): void
+  - resetCircuit(): void
+}
+
+' Stripe Adapter
+class StripePaymentAdapter implements IPaymentAdapter {
+  - apiKey: String
+  + processInvoicePayment(request: InvoiceRequest): InvoiceResponse
+  + isAvailable(): boolean
+}
+
+' PayPal Adapter
+class PaypalPaymentAdapter implements IPaymentAdapter {
+  - httpClient: HttpClient
+  - CLIENT_ID: String
+  - SECRET: String
+  - encodedCredentials: String
+  + PaypalPaymentAdapter()
+  + processInvoicePayment(invoiceRequest: InvoiceRequest): InvoiceResponse
+  + isAvailable(): boolean
+  - getAccessToken(): String
+}
+
+' DTO Classes
+class InvoiceRequest <<record>> {
+  - userId: String
+  - amount: Long
+  - currency: String
+  + InvoiceRequest(userId: String, amount: Long, currency: String)
+  + userId(): String
+  + amount(): Long
+  + currency(): String
+}
+
+class InvoiceResponse <<record>> {
+  - invoiceId: String
+  - currency: String
+  - amount: String
+  - provider: String
+  + InvoiceResponse(invoiceId: String, currency: String, amount: String, provider: String)
+  + toString(): String
+}
+
+' External Libraries/APIs
+package "External Libraries" {
+  class "com.stripe.Stripe" as Stripe {
+    + {static} apiKey: String
+  }
+
+  class "com.stripe.model.Invoice" as StripeInvoice {
+    + {static} create(params: InvoiceCreateParams): Invoice
+    + getId(): String
+    + getCurrency(): String
+    + getMetadata(): Map<String, String>
+  }
+
+  class "java.net.http.HttpClient" as HttpClient {
+    + send(request: HttpRequest, handler: BodyHandler): HttpResponse
+  }
+}
+
+' Relationships
+TriptopApplication o--> PaymentRunner
+PaymentRunner o--> IPaymentService
+
+PaymentController o--> IPaymentService
+
+IPaymentService <|.. PaymentServiceImpl
+PaymentServiceImpl o--> IPaymentAdapter
+
+IPaymentAdapter <|.. StripePaymentAdapter
+IPaymentAdapter <|.. PaypalPaymentAdapter
+
+PaymentAdapterFactory o--> StripePaymentAdapter
+PaymentAdapterFactory o--> PaypalPaymentAdapter
+PaymentServiceImpl --> PaymentAdapterFactory : uses
+
+StripePaymentAdapter ..> Stripe : uses
+StripePaymentAdapter ..> StripeInvoice : creates
+PaypalPaymentAdapter o--> HttpClient
+
+PaymentController ..> InvoiceRequest : uses
+PaymentController ..> InvoiceResponse : returns
+PaymentRunner ..> InvoiceRequest : creates
+PaymentRunner ..> InvoiceResponse : receives
+
+IPaymentService ..> InvoiceRequest : processes
+IPaymentService ..> InvoiceResponse : returns
+IPaymentAdapter ..> InvoiceRequest : processes
+IPaymentAdapter ..> InvoiceResponse : returns
+
+@enduml
