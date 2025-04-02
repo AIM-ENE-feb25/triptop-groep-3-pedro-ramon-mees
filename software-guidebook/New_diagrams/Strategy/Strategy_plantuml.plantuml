@@ -1,0 +1,23 @@
+@startuml
+set separator none
+title Triptop Backend - Triptop Container - Components
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+
+Container_Boundary("TriptopBackend.TriptopContainer_boundary", "Triptop Container", $tags="") {
+  Component(TriptopBackend.TriptopContainer.FlightFacade, "FlightFacade", $techn="Java / Spring Component", $descr="Holds a reference to an IFlightSearchStrategy instance.", $tags="", $link="")
+  Component(TriptopBackend.TriptopContainer.IFlightSearchStrategy, "IFlightSearchStrategy", $techn="Java Interface", $descr="Standard interface for all flight selection strategies.", $tags="", $link="")
+  Component(TriptopBackend.TriptopContainer.CheapestFlightStrategy, "CheapestFlightStrategy", $techn="Java / Spring Component", $descr="Implements the IFlightSearchStrategy interface.", $tags="", $link="")
+  Component(TriptopBackend.TriptopContainer.FastestFlightStrategy, "FastestFlightStrategy", $techn="Java / Spring Component", $descr="Implements the IFlightSearchStrategy interface.", $tags="", $link="")
+}
+
+Rel(TriptopBackend.TriptopContainer.FlightFacade, TriptopBackend.TriptopContainer.IFlightSearchStrategy, "Gets strategies from", $techn="findBestFlight(allFlights)", $tags="", $link="")
+Rel(TriptopBackend.TriptopContainer.CheapestFlightStrategy, TriptopBackend.TriptopContainer.IFlightSearchStrategy, "Implements", $techn="", $tags="", $link="")
+Rel(TriptopBackend.TriptopContainer.FastestFlightStrategy, TriptopBackend.TriptopContainer.IFlightSearchStrategy, "Implements", $techn="", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml
