@@ -14,11 +14,6 @@ interface IFlightAdapter <<Adapter Interface>> {
   + boolean isAvailable()
 }
 
-interface IPaymentAdapter <<Adapter Interface>> {
-  + InvoiceResponse processInvoicePayment(InvoiceRequest request)
-  + boolean isAvailable()
-}
-
 interface IFlightSearchStrategy <<Strategy Interface>> {
   + Flight findBestFlight(List<Flight> availableFlights)
 }
@@ -37,18 +32,11 @@ class KLMApiAdapter <<Adapter>> {
   ' + ... methods matching IFlightAdapter ...
 }
 KLMApiAdapter ..|> IFlightAdapter : implements
-
-class StripePaymentAdapter <<Adapter>> {
-  + InvoiceResponse processInvoicePayment(InvoiceRequest request)
-  + boolean isAvailable()
+class BookingComAdapter <<Adapter>> {
+  ' + ... methods matching IFlightAdapter ...
 }
-StripePaymentAdapter ..|> IPaymentAdapter : implements
+BookingComAdapter ..|> IFlightAdapter : implements
 
-class PaypalPaymentAdapter <<Adapter>> {
-  + InvoiceResponse processInvoicePayment(InvoiceRequest request)
-  + boolean isAvailable()
-}
-PaypalPaymentAdapter ..|> IPaymentAdapter : implements
 
 ' --- Concrete Strategies ---
 class CheapestFlightStrategy <<Concrete Strategy>> {
@@ -70,11 +58,6 @@ class FlightAdapterFactory <<Factory>> {
 }
 FlightAdapterFactory o--> "*" IFlightAdapter : provides
 
-class PaymentAdapterFactory <<Factory>> {
-  ' + ... methods to provide IPaymentAdapter instances ...
-  ' + (May include Circuit Breaker logic)
-}
-PaymentAdapterFactory o--> "*" IPaymentAdapter : provides
 
 ' --- Facades ---
 class FlightFacade <<Facade>> {
@@ -87,12 +70,6 @@ class FlightFacade <<Facade>> {
 FlightFacade --> FlightAdapterFactory : uses >
 FlightFacade --> IFlightSearchStrategy : uses >
 
-class PaymentFacade <<Facade>> {
-  ' - PaymentAdapterFactory adapterFactory
-  ' + ... methods for payment operations ...
-}
-PaymentFacade --> PaymentAdapterFactory : uses >
-
 ' --- Client Example ---
 class FlightController <<Client>> {
   - FlightFacade flightFacade
@@ -104,6 +81,7 @@ FlightController --> FlightFacade : uses >
 FlightController --> IFlightSearchStrategy : uses > ' (to set strategy)
 
 ' --- Domain Objects ---
+
 class Flight <<Domain Object>> {
   + String provider
   + String airline
@@ -113,13 +91,8 @@ class Flight <<Domain Object>> {
   ' + getters/setters...
 }
 
-class InvoiceRequest <<DTO>> {
-  ' + ... payment details ...
-}
 
-class InvoiceResponse <<DTO>> {
-  ' + ... payment result ...
-}
+
 
 ' --- Relationships ---
 ' Facade uses Factory
