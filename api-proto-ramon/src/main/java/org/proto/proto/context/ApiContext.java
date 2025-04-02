@@ -18,7 +18,12 @@ public class ApiContext {
     }
 
     public String getHotels(String city) {
-        setStrategy(apiRepository.isAvailable() ? apiRepository : cacheRepository);
+        boolean available = apiRepository.isAvailable();
+        if(available) {
+            setStrategy(apiRepository);
+        } else {
+            setStrategy(cacheRepository);
+        }
         return apiStrategy.getHotels(city);
     }
 
