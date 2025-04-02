@@ -1,15 +1,13 @@
 ## 2. Context
-![Context_Diagram_groep_3_Pedro.svg](../..%2Fopdracht-diagrammen%2FContext_Diagram_groep_3_Pedro.svg)
+![nieuwe context_diagram](../New_diagrams/Context_diagram.png)
 
 Het contextdiagram bevat de volgende hoofdcomponenten:
 
 1. **Centraal systeem: "Triptop"**  
 
 2. **Externe entiteiten:**  
-   - **IdentityProvider**: Zorgt voor authenticatie en autorisatie.  
-   - **BoekingService**: Verwerkt boekingen binnen het systeem.  
-   - **TransportService**: Regelt het transport voor de reiziger.  
-   - **BetaalService**: Afhandeling van betalingen binnen het systeem.
+   - **External HotelAPI**: Verwerkt boekingen binnen het systeem.  
+   - **External FlightAPI**: Regelt het transport voor de reiziger.  
 
 3. **Relaties en datastromen:**  
    - Triptop communiceert met de verschillende services om de processen te beheren, zoals boekingen, betalingen en identificatie.  
