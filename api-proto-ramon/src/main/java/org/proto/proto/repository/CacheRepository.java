@@ -27,7 +27,7 @@ public class CacheRepository implements ApiStrategy {
         try {
             return objectMapper.writeValueAsString(rows);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return "[]";
         }
     }
