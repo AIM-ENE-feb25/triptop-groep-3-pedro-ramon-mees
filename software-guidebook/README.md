@@ -457,7 +457,6 @@ _**Deprecated**_
 
 ### Gevolgen
 
-# fowler and gateway pattern
 
 
 #### Positief:
