@@ -23,9 +23,14 @@ public class ApiRepository implements ApiStrategy {
         headers.put("x-rapidapi-host", Host);
         headers.put("x-rapidapi-key", Key);
 
-        return Unirest.post("https://"+Host+"/api/v1/hotels/searchDestination?query=" + city)
+        String response = Unirest.get("https://"+Host+"/api/v1/hotels/searchDestination?query=" + city)
                 .headers(headers)
                 .asJson()
+                .getBody()
                 .toString();
+
+        //Do caching here
+
+        return response;
     }
 }
