@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApiService {
+
     private final ApiContext apiContext;
 
     public ApiService(final ApiContext apiContext) {

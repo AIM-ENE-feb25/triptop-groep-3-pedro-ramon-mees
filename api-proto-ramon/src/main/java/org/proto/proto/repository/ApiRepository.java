@@ -23,8 +23,22 @@ public class ApiRepository implements ApiStrategy {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public boolean isAvailable() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("accept", "application/json");
+        headers.put("x-rapidapi-host", Host);
+        headers.put("x-rapidapi-key", Key);
+
+        return Unirest.get("https://" + Host + "/api/v1/test")
+                .headers(headers)
+                .asJson()
+                .getBody()
+                .getObject().
+                getBoolean("status");
+    }
+
     private void writeToCache(JSONArray jsonArray) {
-        for(int i=0; i<jsonArray.length(); i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
             try {
@@ -49,7 +63,8 @@ public class ApiRepository implements ApiStrategy {
 
                 jdbcTemplate.update("INSERT INTO hotel(cc1, city_name, city_ufi, country, dest_id, dest_type, hotels, image_url, label, latitude, lc, longitude, name, nr_hotels, region, roundtrip, search_type, type) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                         cc1, cityName, cityUfi, country, destId, destType, hotels, imageUrl, label, latitude, lc, longitude, name, nrHotels, region, roundtrip, searchType, type);
-            } catch(Exception _) {}
+            } catch (Exception _) {
+            }
         }
     }
 
@@ -59,7 +74,7 @@ public class ApiRepository implements ApiStrategy {
         headers.put("x-rapidapi-host", Host);
         headers.put("x-rapidapi-key", Key);
 
-        JsonNode json = Unirest.get("https://"+Host+"/api/v1/hotels/searchDestination?query=" + city)
+        JsonNode json = Unirest.get("https://" + Host + "/api/v1/hotels/searchDestination?query=" + city)
                 .headers(headers)
                 .asJson()
                 .getBody();
