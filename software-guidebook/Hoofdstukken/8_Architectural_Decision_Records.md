@@ -210,7 +210,7 @@ De implementatie **`TravelApiServiceFacadeImpl`** zal deze interface gebruiken o
 - Specifieke API-eindpunten en parameters afhandelen.
 - Basisfouten verwerken en API-reacties omzetten.
 
-![Facade_Patter.svg](Facade_Pattern.svg)
+![alt text](../New_diagrams/Facade/facade_Component.svg)
 
 Clientcode communiceert alleen met de **Facade-interface**, zonder afhankelijk te zijn van de onderliggende API’s.
 
