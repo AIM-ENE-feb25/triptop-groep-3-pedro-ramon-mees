@@ -1,0 +1,25 @@
+@startuml
+set separator none
+title Adapter Factory System - Containers
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+System_Boundary("AdapterFactorySystem_boundary", "Adapter Factory System", $tags="") {
+  Container(AdapterFactorySystem.AdapterClient, "Adapter Client", $techn="Java / Spring Component", $descr="Needs instances of specific adapters (Products)", $tags="", $link="")
+  Container(AdapterFactorySystem.AdapterFactory, "AdapterFactory", $techn="Java / Spring Component", $descr="Responsible for providing instances of Adapters (Products)", $tags="", $link="")
+  Container(AdapterFactorySystem.IAdapter, "IAdapter", $techn="Java Interface", $descr="Standard interface for adapters", $tags="", $link="")
+  Container(AdapterFactorySystem.ConcreteAdapter1, "ConcreteAdapter1", $techn="Java / Spring Component", $descr="e.g., SkyscannerAdapter or StripePaymentAdapter", $tags="", $link="")
+  Container(AdapterFactorySystem.ConcreteAdapter2, "ConcreteAdapter2", $techn="Java / Spring Component", $descr="e.g., KLMApiAdapter or PaypalPaymentAdapter", $tags="", $link="")
+}
+
+Rel(AdapterFactorySystem.ConcreteAdapter2, AdapterFactorySystem.IAdapter, "Implements", $techn="", $tags="", $link="")
+Rel(AdapterFactorySystem.AdapterClient, AdapterFactorySystem.AdapterFactory, "Uses", $techn="getAvailableAdapters()", $tags="", $link="")
+Rel(AdapterFactorySystem.AdapterFactory, AdapterFactorySystem.IAdapter, "Creates/Provides", $techn="(Instances)", $tags="", $link="")
+Rel(AdapterFactorySystem.ConcreteAdapter1, AdapterFactorySystem.IAdapter, "Implements", $techn="", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml
