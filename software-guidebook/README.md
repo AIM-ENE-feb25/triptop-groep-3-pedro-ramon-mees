@@ -90,6 +90,16 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
+### Toegepaste Patterns
+
+**Facade:** domeinspecifieke interface (bijv. FlightFacade, HotelFacade) die de complexiteit verbergt van interactie met meerdere onderliggende adapters en selectie-logica toepast. Clients werken voornamelijk met Facades.
+
+**Adapter:** Zet de interface van een specifieke externe dienst (bijv. Skyscanner API, Booking.com API, Stripe API) om naar een standaardinterface binnen Triptop (bijv. IFlightAdapter, IHotelAdapter). Elke externe dienst krijgt een eigen Adapter. (Zie ADR-007 voor Payment Adapters).
+
+**Strategy:** Definieert een groep algoritmes voor het verwerken of selecteren van resultaten (bijv. het vinden van de goedkoopste vlucht, de snelste vlucht of het best beoordeelde hotel). De Facade bevat en gebruikt een specifieke Strategy-instantie om te werken met de verzamelde gegevens uit de Adapters.
+
+**Factory method:** Verantwoordelijk voor het aanmaken van Adapter-instanties. Dit ontkoppelt de Facade van concrete adapterimplementaties en kan adapterconfiguraties of beschikbaarheid beheren (bijv. met een Circuit Breaker per adapter). (Zie het PaymentAdapterFactory-voorbeeld).
+
 ## 7. Software Architecture
 
 ### 7.1. Containers
@@ -432,8 +442,12 @@ Ik ga het prototype ontwikkelen doormiddel van de Stripe API. Daarmee kan men zo
 #### Auteur
 Pedro van Douveren
 
+> vervangen door een ander, refactor
+
+> **Interoperability:** "Hoe zorg je dat een wijziging in een of meerdere APIs niet leidt tot een grote wijziging in de applicatie?
+
 #### Status
-_**Voorgesteld**_
+_**Deprecated**_
 #### Context
 > Triptop integreert met meerdere externe APIs (vervoersaanbieders, betalingssystemen, identity providers). Wijzigingen in deze APIs kunnen grote impact hebben op onze applicatie als we deze direct integreren. 
 > We moeten een manier vinden om wijzigingen in externe APIs op te vangen zonder dat dit leidt tot grootschalige aanpassingen in onze front-end of core back-end systemen.
@@ -442,6 +456,9 @@ _**Voorgesteld**_
 > Deze services vormen een abstraherende laag tussen onze applicatie en externe APIs.
 
 ### Gevolgen
+
+# fowler and gateway pattern
+
 
 #### Positief:
 
@@ -470,6 +487,8 @@ _**Voorgesteld**_
 
 #### Auteur
 Pedro van Douveren
+
+>**Interoperability:** Hoe kunnen we verschillende externe vervoersservices (zoals Google Maps of een veerdienst API) integreren zonder afhankelijk te worden van hun specifieke implementaties?
 
 #### Status
 _**Geaccepteerd**_
@@ -518,6 +537,7 @@ Clientcode communiceert alleen met de **Facade-interface**, zonder afhankelijk t
 - **Information Hiding**: Clients hoeven alleen te weten *wat* de Facade doet, niet *hoe*.
 - **Single Responsibility Principle (SRP)**: De Facade biedt een vereenvoudigde interface, terwijl de onderliggende logica in de implementatie zit. *(Let op: de Facade moet niet te veel verantwoordelijkheden krijgen!)*
 - **Law of Demeter**: Clientcode communiceert alleen met de Facade en niet direct met externe API's of de `Unirest`-bibliotheek.
+
 
 ![alt text](Class_Diagram_Pedro.svg)
 
