@@ -853,7 +853,7 @@ Om de Triptop applicatie lokaal te installeren, volg je de onderstaande stappen:
 
 2. **Repository clonen:**
    ```bash
-   git clone https://github.com/gebruikersnaam/triptop.git
+   git clone https://github.com/AIM-ENE-feb25/triptop-groep-3-pedro-ramon-mees.git
    cd triptop
    ```
 
