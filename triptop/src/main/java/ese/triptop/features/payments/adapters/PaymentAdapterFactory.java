@@ -11,7 +11,7 @@ public class PaymentAdapterFactory {
 
     private int failureCount = 0;
     private long lastFailureTime = 0;
-    private static final int MAX_FAILURES = 3;
+    private static final int MAX_FAILURES = 5;
     private static final long RESET_TIMEOUT_MS = 30000; // 30 seconds
 
     @Autowired

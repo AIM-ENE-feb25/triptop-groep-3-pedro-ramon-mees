@@ -1,30 +1,8 @@
 @startuml TripTop Payment Feature Class Diagram
 
-skinparam classAttributeIconSize 0
-hide circle
-
 title "TripTop Payment Feature - Class Diagram"
 
-' Main application
-class TriptopApplication {
-  - stripeTesting: StripeTesting
-  - wiremockTesting: WiremockTesting
-  - apiArchitectureRunner: ApiArchitectureRunner
-  - paymentRunner: PaymentRunner
-  + TriptopApplication(stripeTesting, wiremockTesting, apiArchitectureRunner, paymentRunner)
-  + {static} main(args: String[]): void
-  - runStripeTest(): TriptopApplication
-  - runWiremockTests(): TriptopApplication
-  - runApiArchitectureDemo(): TriptopApplication
-  - runPaymentDemo(): TriptopApplication
-}
-
-' Runner
-class PaymentRunner {
-  - paymentService: IPaymentService
-  + PaymentRunner(paymentService: PaymentServiceImpl)
-  + run(): void
-}
+skinparam linetype ortho
 
 ' Controller
 class PaymentController {
@@ -105,48 +83,18 @@ class InvoiceResponse <<record>> {
   + toString(): String
 }
 
-' External Libraries/APIs
-package "External Libraries" {
-  class "com.stripe.Stripe" as Stripe {
-    + {static} apiKey: String
-  }
-
-  class "com.stripe.model.Invoice" as StripeInvoice {
-    + {static} create(params: InvoiceCreateParams): Invoice
-    + getId(): String
-    + getCurrency(): String
-    + getMetadata(): Map<String, String>
-  }
-
-  class "java.net.http.HttpClient" as HttpClient {
-    + send(request: HttpRequest, handler: BodyHandler): HttpResponse
-  }
-}
 
 ' Relationships
-TriptopApplication o--> PaymentRunner
-PaymentRunner o--> IPaymentService
-
 PaymentController o--> IPaymentService
 
-IPaymentService <|.. PaymentServiceImpl
 PaymentServiceImpl o--> IPaymentAdapter
-
-IPaymentAdapter <|.. StripePaymentAdapter
-IPaymentAdapter <|.. PaypalPaymentAdapter
 
 PaymentAdapterFactory o--> StripePaymentAdapter
 PaymentAdapterFactory o--> PaypalPaymentAdapter
 PaymentServiceImpl --> PaymentAdapterFactory : uses
 
-StripePaymentAdapter ..> Stripe : uses
-StripePaymentAdapter ..> StripeInvoice : creates
-PaypalPaymentAdapter o--> HttpClient
-
 PaymentController ..> InvoiceRequest : uses
 PaymentController ..> InvoiceResponse : returns
-PaymentRunner ..> InvoiceRequest : creates
-PaymentRunner ..> InvoiceResponse : receives
 
 IPaymentService ..> InvoiceRequest : processes
 IPaymentService ..> InvoiceResponse : returns
