@@ -1,0 +1,29 @@
+@startuml
+set separator none
+title Triptop Backend - flight container - Components
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+
+Person(Client, "Client", $descr="e.g., FlightController or other service", $tags="", $link="")
+
+Container_Boundary("TriptopBackend.flightcontainer_boundary", "flight container", $tags="") {
+  Component(TriptopBackend.flightcontainer.FlightFacade, "FlightFacade", $techn="Java / Spring Service", $descr="Hides the complexity of interacting with multiple flight adapters and applying search strategies.", $tags="", $link="")
+  Component(TriptopBackend.flightcontainer.FlightAdapterFactory, "FlightAdapterFactory", $techn="Java / Spring Component", $descr="Creates/Provides flight adapter instances.", $tags="", $link="")
+  Component(TriptopBackend.flightcontainer.IFlightSearchStrategy, "IFlightSearchStrategy", $techn="Java Interface", $descr="Interface for flight selection algorithms.", $tags="", $link="")
+  Component(TriptopBackend.flightcontainer.ConcreteFlightStrategy, "ConcreteFlightStrategy", $techn="Java / Spring Component", $descr="e.g., CheapestFlightStrategy", $tags="", $link="")
+  Component(TriptopBackend.flightcontainer.FlightAdapters, "Flight Adapters", $techn="Adapter", $descr="Instances provided by FlightAdapterFactory.", $tags="", $link="")
+}
+
+Rel(TriptopBackend.flightcontainer.FlightFacade, TriptopBackend.flightcontainer.FlightAdapterFactory, "Uses", $techn="getAvailableAdapters()", $tags="", $link="")
+Rel(TriptopBackend.flightcontainer.FlightFacade, TriptopBackend.flightcontainer.IFlightSearchStrategy, "Uses", $techn="findBestFlight(allFlights)", $tags="", $link="")
+Rel(TriptopBackend.flightcontainer.FlightFacade, TriptopBackend.flightcontainer.FlightAdapters, "Aggregates results from", $techn="(via Factory)", $tags="", $link="")
+Rel(TriptopBackend.flightcontainer.FlightAdapterFactory, TriptopBackend.flightcontainer.FlightAdapters, "Creates/Provides", $techn="", $tags="", $link="")
+Rel(TriptopBackend.flightcontainer.ConcreteFlightStrategy, TriptopBackend.flightcontainer.IFlightSearchStrategy, "Implements", $techn="", $tags="", $link="")
+Rel(Client, TriptopBackend.flightcontainer.FlightFacade, "Uses", $techn="findBestFlight(params)", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml
