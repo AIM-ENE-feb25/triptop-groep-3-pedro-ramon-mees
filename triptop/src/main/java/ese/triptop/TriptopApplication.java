@@ -8,6 +8,7 @@ import ese.triptop.features.payments.services.PaymentServiceImpl;
 import ese.triptop.features.Patterns.facade.FacadePatternRunner;
 import ese.triptop.features.stripe.StripeTesting;
 import ese.triptop.features.wiremock.WiremockTesting;
+import ese.triptop.prototype.PrototypeRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,12 +19,14 @@ public class TriptopApplication {
 	private final StripeTesting stripeTesting;
 	private final WiremockTesting wiremockTesting;
 	private final FacadePatternRunner runner;
+	private final PrototypeRunner prototypeRunner;
 
 	@Autowired
-	public TriptopApplication(StripeTesting stripeTesting, WiremockTesting wiremockTesting, FacadePatternRunner runner) {
+	public TriptopApplication(StripeTesting stripeTesting, WiremockTesting wiremockTesting, FacadePatternRunner runner, PrototypeRunner prototypeRunner) {
 		this.runner = runner;
 		this.stripeTesting = stripeTesting;
 		this.wiremockTesting = wiremockTesting;
+		this.prototypeRunner = prototypeRunner;
 	}
 
 	public static void main(String[] args) {
@@ -31,7 +34,7 @@ public class TriptopApplication {
  				.getBean(TriptopApplication.class)
 // //				.runStripeTest()
 // //				.runWiremockTests();
-				.runFacadeDemo();
+				.runME();
 	}
 
 	private TriptopApplication runStripeTest() {
@@ -53,6 +56,12 @@ public class TriptopApplication {
 	private TriptopApplication runFacadeDemo() {
 		System.out.println("Running Facade Demonstration...");
 		runner.runDemo();
+		return this;
+	}
+
+	private TriptopApplication runME() {
+
+		prototypeRunner.run();
 		return this;
 	}
 

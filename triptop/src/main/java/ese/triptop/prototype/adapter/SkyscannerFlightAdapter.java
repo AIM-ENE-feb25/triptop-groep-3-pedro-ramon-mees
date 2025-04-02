@@ -1,5 +1,6 @@
-package ese.triptop.prototype.adapter.contracts;
+package ese.triptop.prototype.adapter;
 
+import ese.triptop.prototype.adapter.contracts.IFlightAdapter;
 import ese.triptop.prototype.domain.Flight;
 
 import java.util.List;
