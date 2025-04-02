@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS cities (
+CREATE TABLE IF NOT EXISTS hotel (
     id          SERIAL       PRIMARY KEY,
     city_name   VARCHAR(255) NOT NULL,
     city_ufi    INT NULL,
