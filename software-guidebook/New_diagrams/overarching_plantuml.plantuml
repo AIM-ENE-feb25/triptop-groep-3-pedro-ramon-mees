@@ -1,0 +1,42 @@
+@startuml
+set separator none
+title Triptop Platform - Backend Service - Components
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+System_Ext(ExternalFlightAPIs, "External Flight APIs", $descr="e.g., Skyscanner, booking.com,  KLM API", $tags="", $link="")
+
+Container(TriptopPlatform.WebApplicationAPI, "Web Application / API", $techn="Java / Spring Boot", $descr="Provides the user interface and exposes REST APIs.", $tags="", $link="")
+
+Container_Boundary("TriptopPlatform.BackendService_boundary", "Backend Service", $tags="") {
+  Component(TriptopPlatform.BackendService.FlightAdapterFactory, "FlightAdapterFactory", $techn="Java / Spring Component", $descr="Provides IFlightAdapter instances.", $tags="", $link="")
+  Component(TriptopPlatform.BackendService.IFlightAdapter, "IFlightAdapter", $techn="Java Interface", $descr="Standard interface for flight providers.", $tags="", $link="")
+  Component(TriptopPlatform.BackendService.SkyscannerAdapter, "SkyscannerAdapter", $techn="Java / Spring Component", $descr="Adapts Skyscanner API.", $tags="", $link="")
+  Component(TriptopPlatform.BackendService.IFlightSearchStrategy, "IFlightSearchStrategy", $techn="Java Interface", $descr="Interface for flight selection algorithms.", $tags="", $link="")
+  Component(TriptopPlatform.BackendService.CheapestFlightStrategy, "CheapestFlightStrategy", $techn="Java / Spring Component", $descr="Selects cheapest flight.", $tags="", $link="")
+  Component(TriptopPlatform.BackendService.FastestFlightStrategy, "FastestFlightStrategy", $techn="Java / Spring Component", $descr="Selects fastest flight.", $tags="", $link="")
+  Component(TriptopPlatform.BackendService.FlightFacade, "FlightFacade", $techn="Java / Spring Service", $descr="Simplifies flight searching and booking interactions.", $tags="", $link="")
+  Component(TriptopPlatform.BackendService.BookingComAdapter, "BookingComAdapter", $techn="Java / Spring Component", $descr="Adapts Booking.com API.", $tags="", $link="")
+}
+
+Rel(TriptopPlatform.BackendService.FlightFacade, TriptopPlatform.BackendService.SkyscannerAdapter, "Calls", $techn="via IFlightAdapter", $tags="", $link="")
+Rel(TriptopPlatform.BackendService.FlightFacade, TriptopPlatform.BackendService.BookingComAdapter, "Calls", $techn="via IFlightAdapter", $tags="", $link="")
+Rel(TriptopPlatform.BackendService.FlightFacade, TriptopPlatform.BackendService.FlightAdapterFactory, "Uses", $techn="", $tags="", $link="")
+Rel(TriptopPlatform.BackendService.FlightFacade, TriptopPlatform.BackendService.IFlightSearchStrategy, "Uses", $techn="", $tags="", $link="")
+Rel(TriptopPlatform.BackendService.FlightAdapterFactory, TriptopPlatform.BackendService.IFlightAdapter, "Provides", $techn="", $tags="", $link="")
+Rel(TriptopPlatform.BackendService.SkyscannerAdapter, TriptopPlatform.BackendService.IFlightAdapter, "Implements", $techn="", $tags="", $link="")
+Rel(TriptopPlatform.BackendService.BookingComAdapter, TriptopPlatform.BackendService.IFlightAdapter, "Implements", $techn="", $tags="", $link="")
+Rel(TriptopPlatform.BackendService.CheapestFlightStrategy, TriptopPlatform.BackendService.IFlightSearchStrategy, "Implements", $techn="", $tags="", $link="")
+Rel(TriptopPlatform.BackendService.FastestFlightStrategy, TriptopPlatform.BackendService.IFlightSearchStrategy, "Implements", $techn="", $tags="", $link="")
+Rel(TriptopPlatform.WebApplicationAPI, TriptopPlatform.BackendService.FlightFacade, "Uses", $techn="", $tags="", $link="")
+Rel(TriptopPlatform.BackendService.SkyscannerAdapter, ExternalFlightAPIs, "Calls", $techn="HTTPS/JSON", $tags="", $link="")
+Rel(TriptopPlatform.BackendService.BookingComAdapter, ExternalFlightAPIs, "Calls", $techn="HTTPS/JSON", $tags="", $link="")
+
+
+SHOW_LEGEND(true)
+@enduml
