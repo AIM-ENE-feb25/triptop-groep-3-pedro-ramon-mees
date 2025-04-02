@@ -25,14 +25,14 @@ end
 context -> strategy: getHotels("Arnhem")
 alt RapidApi was available
     strategy -> api: getHotels("Arnhem")
-    api -> RapidApi: hotels = Unirest.get("/api/v1/hotels/searchDestination?query=Arnhem")
+    api -> RapidApi: hotels = GET "/api/v1/hotels/searchDestination?query=Arnhem"
     api -> api: WriteToCache(hotels)
     loop For //n// hotels
-        api -> cache: jdbcTemplate.update("INSERT INTO hotel(...) VALUES(...)")
+        api -> CachedStore: "INSERT INTO hotel(...) VALUES(...)"
     end
 else RapidApi was not available
     strategy -> cache: getHotels("Arnhem")
-    cache -> CachedStore: hotels = jdbcTemplate.queryForList("SELECT * FROM hotel")
+    cache -> CachedStore: hotels = "SELECT * FROM hotel"
 end
 
 @enduml
