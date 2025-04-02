@@ -1,0 +1,28 @@
+@startuml
+actor Client
+participant Facade 
+participant Factory
+participant Adapter1 
+participant ExternalAPI1
+participant Adapter2 
+participant ExternalAPI2
+participant Strategy 
+
+Client ->> Facade: findBestFlight(params)
+Facade ->> Factory: getAvailableAdapters()
+Factory -->> Facade: List [Adapter1, Adapter2]
+
+loop For Each Adapter
+    Facade ->> Adapter1: getFlights(params)
+    Adapter1 ->> ExternalAPI1: API Call
+    ExternalAPI1 -->> Adapter1: Results1
+    Adapter1 -->> Facade: List<Flight> flights1
+    
+end
+
+note over Facade: Aggregates flights1 and flights2 into allFlights
+
+Facade ->> Strategy: findBestFlight(allFlights)
+Strategy -->> Facade: bestFlight
+Facade -->> Client: bestFlight
+@enduml
