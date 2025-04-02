@@ -11,7 +11,7 @@ public class CacheRepository implements ApiStrategy {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public CacheRepository(JdbcTemplate jdbcTemplate) {
+    public CacheRepository(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

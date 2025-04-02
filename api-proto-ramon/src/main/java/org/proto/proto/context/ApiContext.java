@@ -10,10 +10,16 @@ import org.springframework.stereotype.Component;
 public class ApiContext {
     private ApiStrategy apiStrategy;
 
-    public ApiContext() {}
+    private final CacheRepository cacheRepository;
+    private final ApiRepository apiRepository;
+
+    public ApiContext(final CacheRepository cacheRepository, final ApiRepository apiRepository) {
+        this.cacheRepository = cacheRepository;
+        this.apiRepository = apiRepository;
+    }
 
     public String getHotels(String city) {
-        this.setStrategy(new ApiRepository());
+        this.setStrategy(apiRepository);
         return apiStrategy.getHotels(city);
     }
 

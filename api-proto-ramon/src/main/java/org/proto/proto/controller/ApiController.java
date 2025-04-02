@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ApiController {
-    private ApiService apiService;
+    private final ApiService apiService;
 
     @Autowired
-    public ApiController(ApiService apiService) {
+    public ApiController(final ApiService apiService) {
         this.apiService = apiService;
     }
 
     @GetMapping("hotels")
-    public ResponseEntity<String> hotels(String city){
+    public ResponseEntity<String> hotels(String city) {
         return new ResponseEntity<>(apiService.getHotels(city), HttpStatus.OK);
     }
 }
