@@ -13,8 +13,8 @@ public class ApiService {
         this.apiContext = apiContext;
     }
 
-    public String get() {
+    public String getHotels(String city) {
 
-        return apiContext.get();
+        return apiContext.getHotels(city);
     }
 }

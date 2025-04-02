@@ -16,9 +16,8 @@ public class ApiController {
         this.apiService = apiService;
     }
 
-    @GetMapping("foo")
-    public ResponseEntity<String> foo(){
-        return new ResponseEntity<>(apiService.get(), HttpStatus.OK);
+    @GetMapping("hotels")
+    public ResponseEntity<String> hotels(String city){
+        return new ResponseEntity<>(apiService.getHotels(city), HttpStatus.OK);
     }
-
 }

@@ -10,13 +10,11 @@ import org.springframework.stereotype.Component;
 public class ApiContext {
     private ApiStrategy apiStrategy;
 
-    public ApiContext(ApiStrategy apiStrategy) {
-        this.apiStrategy = apiStrategy;
-    }
+    public ApiContext() {}
 
-    public String get() {
-        this.setStrategy(new ApiRepository(new JdbcTemplate()));
-        return apiStrategy.get();
+    public String getHotels(String city) {
+        this.setStrategy(new ApiRepository());
+        return apiStrategy.getHotels(city);
     }
 
     private void setStrategy(ApiStrategy apiStrategy) {

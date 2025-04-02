@@ -15,5 +15,5 @@ public class CacheRepository implements ApiStrategy {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public String get() { return "TODO"; }
+    public String getHotels(String city) { return jdbcTemplate.queryForObject("SELECT bar FROM foo", String.class); }
 }
