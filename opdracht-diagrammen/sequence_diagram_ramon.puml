@@ -1,0 +1,38 @@
+@startuml
+
+actor Reiziger as user
+
+participant "apiController:\nApiController" as controller
+participant "apiService:\nApiService" as service
+participant "apiContext:\nApiContext" as context
+participant "<<interface>>\napiStrategy:\nApiStrategy" as strategy
+participant "apiRepository:\nApiRepository" as api
+participant "cacheRepository:\nCacheRepository" as cache
+
+database CachedStore
+database RapidApi
+
+user -> controller: hotels("Arnhem")
+
+controller -> service: getHotels("Arnhem")
+service -> context: getHotels("Arnhem")
+context -> api: available = isAvailable()
+alt available == true
+    context -> context: setStrategy(apiRepository)
+else available == false
+    context -> context: setStrategy(cacheRepository)
+end
+context -> strategy: getHotels("Arnhem")
+alt RapidApi was available
+    strategy -> api: getHotels("Arnhem")
+    api -> RapidApi: hotels = GET "/api/v1/hotels/searchDestination?query=Arnhem"
+    api -> api: WriteToCache(hotels)
+    loop For //n// hotels
+        api -> CachedStore: "INSERT INTO hotel(...) VALUES(...)"
+    end
+else RapidApi was not available
+    strategy -> cache: getHotels("Arnhem")
+    cache -> CachedStore: hotels = "SELECT * FROM hotel"
+end
+
+@enduml

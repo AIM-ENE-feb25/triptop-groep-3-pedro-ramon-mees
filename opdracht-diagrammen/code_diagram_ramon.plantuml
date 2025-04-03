@@ -1,41 +1,51 @@
 @startuml
 
-!theme plain
 top to bottom direction
 skinparam linetype ortho
 
 class ApiContext {
-  + ApiContext(ApiStrategy): 
+  + ApiContext(CacheRepository, ApiRepository): 
+  - cacheRepository: CacheRepository
   - apiStrategy: ApiStrategy
+  - apiRepository: ApiRepository
+  + getHotels(String): String
   - setStrategy(ApiStrategy): void
-  + get(): String
 }
 class ApiController {
   + ApiController(ApiService): 
   - apiService: ApiService
-  + foo(): ResponseEntity<String>
+  + hotels(String): ResponseEntity<String>
 }
 class ApiRepository {
   + ApiRepository(JdbcTemplate): 
+  - Key: String
   - jdbcTemplate: JdbcTemplate
-  + get(): String
+  - Host: String
+  + getHotels(String): String
+  + isAvailable(): boolean
+  - writeToCache(JSONArray): void
 }
 class ApiService {
   + ApiService(ApiContext): 
   - apiContext: ApiContext
-  + get(): String
+  + getHotels(String): String
 }
 interface ApiStrategy << interface >> {
-  + get(): String
+  + getHotels(String): String
 }
 class CacheRepository {
   + CacheRepository(JdbcTemplate): 
   - jdbcTemplate: JdbcTemplate
-  + get(): String
+  + getHotels(String): String
+}
+class ProtoApplication {
+  + ProtoApplication(): 
+  + main(String[]): void
 }
 
-ApiContext        -[#595959,dashed]->  ApiRepository    : "«create»"
+ApiContext       "1" *-[#595959,plain]-> "apiRepository\n1" ApiRepository    
 ApiContext       "1" *-[#595959,plain]-> "apiStrategy\n1" ApiStrategy      
+ApiContext       "1" *-[#595959,plain]-> "cacheRepository\n1" CacheRepository  
 ApiController    "1" *-[#595959,plain]-> "apiService\n1" ApiService       
 ApiRepository     -[#008200,dashed]-^  ApiStrategy      
 ApiService       "1" *-[#595959,plain]-> "apiContext\n1" ApiContext       
