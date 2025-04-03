@@ -176,8 +176,6 @@ Het Facade patroon wordt gebruikt om een vereenvoudigde klasse te bieden aan de 
 
 #### 7.2.3 Component Diagram: Strategy
 
-![alt text](../opdracht-diagrammen/component_diagram_onderzoeksvraag1_ramon.svg)
-
 Voor de onderzoeksvraag behandeld in [ADR-002: Strategy pattern](#82-adr-002-strategy-pattern) ("Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn en toch verwacht wordt dat er waardevolle output gegeven wordt?"), willen we het strategy pattern toepassen. Dit resulteert in het volgende component diagram:
 
 ![component_diagram_onderzoeksvraag1_ramon.svg](../opdracht-diagrammen/component_diagram_onderzoeksvraag1_ramon.svg)
