@@ -1,16 +1,16 @@
 # Software Guidebook Triptop
 
 ## 1. Introduction
-Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat een samenvatting van het volgende: 
-1. De vereisten, beperkingen en principes. 
-1. De software-architectuur, met inbegrip van de technologiekeuzes op hoog niveau en de structuur van de software. 
-1. De ontwerp- en codebeslissingen die zijn genomen om de software te realiseren.
-1. De architectuur van de infrastructuur en hoe de software kan worden geinstalleerd.
+Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat een samenvatting van:
+1. De vereisten, beperkingen en principes.
+2. De software-architectuur, inclusief technologiekeuzes en softwarestructuur.
+3. De ontwerp- en codebeslissingen die zijn genomen om de software te realiseren.
+4. De infrastructuurarchitectuur en hoe de software kan worden geïnstalleerd.
 
 ---
 
 ## 2. Context
-![nieuwe context_diagram](New_diagrams/Context_diagram.png)
+![Context Diagram](New_diagrams/Context_diagram.png)
 
 Het contextdiagram bevat de volgende hoofdcomponenten:
 
@@ -21,8 +21,8 @@ Het contextdiagram bevat de volgende hoofdcomponenten:
    - **External FlightAPI**: Regelt het transport voor de reiziger.  
 
 3. **Relaties en datastromen:**  
-   - Triptop communiceert met de verschillende services om de processen te beheren, zoals boekingen, betalingen en identificatie.  
-   - Reizigers en reisagenten hebben interactie met Triptop, waarschijnlijk via een gebruikersinterface. 
+   - Triptop communiceert met verschillende services om processen zoals boekingen te beheren.  
+   - Reizigers en reisagenten hebben interactie met Triptop via een gebruikersinterface. 
 
 Toelichting op de context van de software inclusief System Context Diagram:
 * Functionaliteit
@@ -282,34 +282,27 @@ sequenceDiagram
     participant Client
     participant Facade 
     participant Factory
-    participant Adapter1 
-    participant ExternalAPI1
-    participant Adapter2 
-    participant ExternalAPI2
+    participant Adapter 
+    participant ExternalAPI
     participant Strategy 
 
     Client->>+Facade: findBestFlight(params)
     Facade->>+Factory: getAvailableAdapters()
     Factory-->>-Facade: List [Adapter1, Adapter2]
     loop For Each Adapter
-        Facade->>+Adapter1: getFlights(params)
-        Adapter1->>+ExternalAPI1: API Call
-        ExternalAPI1-->>-Adapter1: Results1
-        Adapter1-->>-Facade: List<Flight> flights1
-        Facade->>+Adapter2: getFlights(params)
-        Adapter2->>+ExternalAPI2: API Call
-        ExternalAPI2-->>-Adapter2: Results2
-        Adapter2-->>-Facade: List<Flight> flights2
+        Facade->>+Adapter: getFlights(params)
+        Adapter->>+ExternalAPI: API Call
+        ExternalAPI-->>-Adapter: Results
+        Adapter-->>-Facade: List<Flight> flights
     end
-    Note over Facade: Aggregates flights1 and flights2 into allFlights
+    Note over Facade: Aggregates all flights into a single list
     Facade->>+Strategy: findBestFlight(allFlights)
     Strategy-->>-Facade: bestFlight
     Facade-->>-Client: bestFlight
-
 ```
 
-**Begeleidende tekst Sequence Diagram (7.3.3):**
-Dit diagram toont de interacties tussen de verschillende componenten tijdens het zoeken naar de beste vlucht. De client roept de Facade aan, die vervolgens via de Factory beschikbare Adapters ophaalt. Elke Adapter communiceert met een externe API om vluchtgegevens op te halen. De Facade verzamelt de resultaten en gebruikt een Strategy om de beste vlucht te bepalen, die uiteindelijk aan de client wordt teruggegeven.
+**Begeleidende tekst Sequence Diagram (7.3.3):**  
+Dit diagram toont de interacties tussen de verschillende componenten tijdens het zoeken naar de beste vlucht. De client roept de Facade aan, die via de Factory beschikbare Adapters ophaalt. Elke Adapter communiceert met een externe API om vluchtgegevens op te halen. De Facade verzamelt de resultaten en gebruikt een Strategy om de beste vlucht te bepalen, die uiteindelijk aan de client wordt teruggegeven.
 
 ### 7.3.4 Class Diagram
 
@@ -743,7 +736,7 @@ Clientcode communiceert alleen met de **Facade-interface**, zonder afhankelijk t
 #### Toegepaste ontwerpprincipes
 - **Encapsulatie**: De interne werking van API-communicatie wordt verborgen achter een interface.
 - **Information Hiding**: Clients hoeven alleen te weten *wat* de Facade doet, niet *hoe*.
-- **Single Responsibility Principle (SRP)**: De Facade biedt een vereenvoudigde interface, terwijl de onderliggende logica in de implementatie zit. *(Let op: de Facade moet niet te veel verantwoordelijkheden krijgen!)*
+- **Single Responsibility Principle (SRP)**: De Facade biedt een vereenvoudigde interface, terwijl de onderliggende logica in de implementatie zit. *(Let op: de Facade moet niet te veel verantwoordelijkheden krijgen!)* 
 - **Law of Demeter**: Clientcode communiceert alleen met de Facade en niet direct met externe API's of de `Unirest`-bibliotheek.
 
 
@@ -760,10 +753,10 @@ _**Geaccepteerd**_
 #### Context
 Bij Triptop moet de betalingsverwerking betrouwbaar werken, zelfs wanneer externe betalingsproviders uitvallen of onbereikbaar zijn. Onze onderzoeksvraag naar "Fallback" technieken heeft uitgewezen dat we een robuust mechanisme nodig hebben dat:
 
-* Snel detecteren wanneer een primaire betalingsprovider (Stripe) niet beschikbaar is
-* Automatisch overschakelt naar een alternatieve provider (Paypal) zonder gebruikersinterventie
-* Periodiek controleert of de primaire provider weer beschikbaar is
-* Consistente dataformaten behoudt tussen verschillende providers
+- Snel detecteert wanneer een primaire betalingsprovider (Stripe) niet beschikbaar is.
+- Automatisch overschakelt naar een alternatieve provider (Paypal) zonder gebruikersinterventie.
+- Periodiek controleert of de primaire provider weer beschikbaar is.
+- Consistente dataformaten behoudt tussen verschillende providers.
 
 Voor het opzetten van de bovenstaande criteria is het ICT Research Pattern ['Choose fitting technologies'](https://ictresearchmethods.nl/patterns/choose-fitting-technology/) toegepast. Doormiddel van de 5xW en 1xH vragen op te stellen als onderdeel van het "Veld" onderzoek.
 
@@ -773,24 +766,25 @@ Voor het opzetten van de bovenstaande criteria is het ICT Research Pattern ['Cho
 
 Bij het implementeren van failover tussen betalings-API's komt het Circuit Breaker als beste optie naar voren.
 
-| Pattern → Criteria ↓ | Circuit Breaker | Retry met Exponential Backoff | Fallback Pattern | Service Discovery | Load Balancing met Health Checks | Bulkhead Pattern | API Gateway met Failover Logic |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 1. Detectie binnen 5 seconden | X | X | X | X | X |  | X |
-| 2. Automatische overschakeling | X | X | X | X | X |  | X |
-| 3. Maximaal 5 retries | X | X |  |  |  |  | X |
-| 4. Logging van failovers | X | X | X | X | X | X | X |
-| 5. Periodieke controle primaire dienst | X | X |  | X | X |  | X |
-| 6. Consistente dataformaten |  |  | X |  |  |  | X |
-| 7. Max 1 sec extra verwerkingstijd | X |  | X | X | X | X |  |
+| Pattern → Criteria ↓       | Circuit Breaker | Retry met Exponential Backoff | Fallback Pattern | Service Discovery | Load Balancing met Health Checks | Bulkhead Pattern | API Gateway met Failover Logic |
+|-----------------------------|-----------------|--------------------------------|-------------------|-------------------|-----------------------------------|------------------|---------------------------------|
+| 1. Detectie binnen 5 seconden | ✅             | ✅                            | ✅               | ✅               | ✅                               | ❌              | ✅                             |
+| 2. Automatische overschakeling | ✅             | ✅                            | ✅               | ✅               | ✅                               | ❌              | ✅                             |
+| 3. Maximaal 5 retries        | ✅             | ✅                            | ❌               | ❌               | ❌                               | ❌              | ✅                             |
+| 4. Logging van failovers     | ✅             | ✅                            | ✅               | ✅               | ✅                               | ✅              | ✅                             |
+| 5. Periodieke controle primaire dienst | ✅     | ✅                            | ❌               | ✅               | ✅                               | ❌              | ✅                             |
+| 6. Consistente dataformaten  | ❌             | ❌                            | ✅               | ❌               | ❌                               | ❌              | ✅                             |
+| 7. Max 1 sec extra verwerkingstijd | ✅       | ❌                            | ✅               | ✅               | ✅                               | ✅              | ❌                             |
 
 We implementeren een Circuit Breaker Pattern in combinatie met het Fallback Pattern voor onze betalingsverwerkingsmodule. Dit betekent:
 
-1. We bouwen een PaymentAdapterFactory die het circuit breaker mechanisme implementeert
-2. We definiëren een generieke IPaymentAdapter interface voor alle betalingsproviders
-3. We creëren concrete adapter-implementaties voor Stripe (primair) en Paypal (fallback)
-4. Het circuit "opent" wanneer Stripe een bepaald aantal fouten geeft binnen een tijdsperiode
-5. Wanneer het circuit open is, worden verzoeken direct doorgestuurd naar Paypal
+1. We bouwen een `PaymentAdapterFactory` die het circuit breaker mechanisme implementeert.
+2. We definiëren een generieke `IPaymentAdapter` interface voor alle betalingsproviders.
+3. We creëren concrete adapter-implementaties voor Stripe (primair) en Paypal (fallback).
+4. Het circuit "opent" wanneer Stripe een bepaald aantal fouten geeft binnen een tijdsperiode.
+5. Wanneer het circuit open is, worden verzoeken direct doorgestuurd naar Paypal.
 6. Het circuit "sluit" weer zodra een verbinding mogelijk is met Stripe.
+
 
 Zie klassendiagram:
 
