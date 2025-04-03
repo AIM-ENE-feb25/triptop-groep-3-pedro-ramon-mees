@@ -50,6 +50,10 @@ Als code zal dit er alsvolgt uitzien:
 
 ![code_diagram_ramon.svg](../../opdracht-diagrammen/code_diagram_ramon.svg)
 
+#### 7.2.4 Component Diagram: Alle patterns
+
+![alt text](../New_diagrams/Overarching.svg)
+
 ### 7.3 Design & Code
 
 #### 7.3.1 API Lijst
