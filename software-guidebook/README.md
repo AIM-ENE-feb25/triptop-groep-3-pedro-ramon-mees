@@ -1045,87 +1045,72 @@ We implementeren het Adapter Pattern voor alle betalingsintegraties. Dit beteken
 
 ## 9. Installatie, Werking en Ondersteuning
 
-### 9.1 Installatie
+In dit hoofdstuk wordt toegelicht hoe je de prototype(s) en het walking skeleton op je eigen (lokale) machine kunt uitvoeren.
+Er wordt vanuit gegaan dat je beschikt over een Linux/Unix omgeving met de volgende software:
 
-Om de Triptop applicatie lokaal te installeren, volg je de onderstaande stappen:
+  - Bash
+  - Git
+  - Maven
+  - Java JDK (Benodigde versie kan afhankelijk zijn van het prototype/walking skeleton)
+  - Docker
+  - PostgreSQL
 
-1. **Benodigde software installeren:**
-   - **Java JDK 17**: Zorg ervoor dat de juiste versie van de JDK is geïnstalleerd. Controleer dit met `java -version`.
-   - **Maven**: Installeer Maven voor het bouwen van de applicatie. Controleer dit met `mvn -version`.
-   - **Docker**: Installeer Docker voor het draaien van de database en andere services.
-   - **Git**: Zorg ervoor dat Git is geïnstalleerd om de repository te clonen.
+```bash
+git clone git@github.com:AIM-ENE-feb25/triptop-groep-3-pedro-ramon-mees.git
+cd triptop-groep-3-pedro-ramon-mees
+```
 
-2. **Repository clonen:**
-   ```bash
-   git clone https://github.com/AIM-ENE-feb25/triptop-groep-3-pedro-ramon-mees.git
-   cd triptop
-   ```
+### 9.1 Triptrop applicatie (walking skeleton)
 
-3. **Database configureren:**
-   - Start een PostgreSQL-container met Docker:
-     ```bash
-     docker run --name triptop-db -e POSTGRES_USER=triptop -e POSTGRES_PASSWORD=triptop -e POSTGRES_DB=triptop -p 5432:5432 -d postgres:latest
-     ```
-   - Controleer of de database draait:
-     ```bash
-     docker ps
-     ```
+#### 9.1.1 Bouwen
 
-4. **Applicatie configureren:**
-   - Pas de `application.properties` of `application.yml` aan in de map `src/main/resources` om de databaseverbinding te configureren:
-     ```properties
-     spring.datasource.url=jdbc:postgresql://localhost:5432/triptop
-     spring.datasource.username=triptop
-     spring.datasource.password=triptop
-     ```
+Zorg ervoor dat je Java JDK 21 of hoger hebt geinstalleerd en voer de volgende stappen uit:
 
-5. **Dependencies installeren:**
-   ```bash
-   mvn clean install
-   ```
+```bash
+cd triptop
+mvn clean package
+```
 
-### 9.2 Uitvoeren
+#### 9.1.2 Uitvoeren
 
-Om de applicatie lokaal uit te voeren, gebruik je de volgende stappen:
+```bash
+mvn spring-boot:run
+```
 
-1. **Applicatie starten:**
-   ```bash
-   mvn spring-boot:run
-   ```
+### 9.2 API Prototype Ramon
 
-2. **Toegang tot de API:**
-   - De API is standaard beschikbaar op `http://localhost:8080`.
-   - Controleer de gezondheid van de applicatie via de `/test`-endpoint:
-     ```bash
-     curl http://localhost:8080/test
-     ```
+#### 9.2.1 Bouwen
 
-3. **Debuggen:**
-   - Start de applicatie in debugmodus:
-     ```bash
-     mvn spring-boot:run -Dspring-boot.run.fork=false -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
-     ```
-   - Verbind een IDE zoals IntelliJ IDEA of VS Code met de debugger op poort `5005`.
+Zorg ervoor dat je Java JDK 24 hebt geinstalleerd en voer de volgende stappen uit:
 
-### 9.3 Deployment
+Voor het bouwen van de applicatie is het eerst nodig dat we de database aanmaken en opstarten:
 
-Voor productie-omgevingen raden we aan om de applicatie te containeriseren en te deployen met Docker of Kubernetes.
+```bash
+cd postgres
+sudo docker compose up
+./ins.sh # Alleen nodig voor de eerste keer om het database schema in te laden
+```
 
-1. **Docker-image bouwen:**
-   - Voeg een `Dockerfile` toe aan de root van het project:
-     ```dockerfile
-     FROM openjdk:17-jdk-slim
-     ARG JAR_FILE=target/triptop-0.0.1-SNAPSHOT.jar
-     COPY ${JAR_FILE} app.jar
-     ENTRYPOINT ["java", "-jar", "/app.jar"]
-     ```
-   - Bouw de Docker-image:
-     ```bash
-     mvn clean package -DskipTests
-     docker build -t triptop-api:latest .
-     ```
+Vervolgens kunnen we de applicatie bouwen door naar de root folder van de repository te navigeren en de volgende stappen uit te voeren:
 
-2. **Docker-container starten:**
-   ```bash
-   docker run -d -p 8080:8080 --name triptop-api triptop-api:latest
-   ```
+```bash
+cd api-proto-ramon
+mvn clean package # Deze stap zal falen als je postgres niet draaiende hebt staan
+```
+
+#### 9.2.2 Uitvoeren
+
+```bash
+mvn spring-boot:run
+```
+
+Als de applicatie is opgestart kan de API worden aangeroepen via `localhost:8080`
+
+Een voorbeeld in de vorm van een curl-script:
+
+```bash
+CITY="arnhem"
+
+curl -X GET \
+        "http://localhost:8080/hotels?city=$CITY"
+```
