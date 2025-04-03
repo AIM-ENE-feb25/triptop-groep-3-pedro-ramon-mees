@@ -44,7 +44,6 @@ Dit software guidebook bestaat uit de volgende hoofdstukken:
       - [6.1.7. DRY (Don't repeat yourself)](#617-dry-dont-repeat-yourself)
       - [6.1.8. Encapsulatie](#618-encapsulatie)
       - [6.1.9. Information Hiding](#619-information-hiding)
-
    - [6.2. Ontwerppatronen](#62-ontwerppatronen)
       - [6.2.1. Facade](#621-facade)
       - [6.2.2. Adapter](#622-adapter)
@@ -71,11 +70,12 @@ Dit software guidebook bestaat uit de volgende hoofdstukken:
    - [8.7 ADR-007: Adapter Pattern voor betalingsintegraties](#87-adr-007-implementatie-van-adapter-pattern-voor-betalingsintegraties)
 
 9. [**Installatie, Werking en Ondersteuning**](#9-installatie-werking-en-ondersteuning)
-   - 9.1 Installatie-instructies
-   - 9.2 Configuratie
-   - 9.3 Lokale ontwikkelomgeving
-   - 9.4 Productie-deployment
-   - 9.5 Monitoring en onderhoud
+   - [9.1. Triptop Applicatie Walking Skeleton](#91-triptrop-applicatie-walking-skeleton)
+      - [9.1.1. Bouwen](#911-bouwen)
+      - [9.1.2. Uitvoeren](#912-uitvoeren)
+   - [9.2. API Prototype Ramon](#92-api-prototype-ramon)
+      - [9.2.1. Bouwen](#921-bouwen)
+      - [9.2.2. Uitvoeren](#922-uitvoeren)
 
 ### 1.2 Leeswijzer
 
