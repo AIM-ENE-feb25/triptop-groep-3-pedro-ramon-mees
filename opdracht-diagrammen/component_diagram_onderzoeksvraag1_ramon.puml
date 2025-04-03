@@ -9,8 +9,8 @@ Container(frontend, "Frontend", "React", "Zorgt voor gebruiksvriendelijke interf
 Container_Boundary(boundary,   "TripTop Vakantieplan App - Backend") {
     Component(apicontroller,   "ApiController",   "Spring Controller", "Zorgt voor afhandeling van binnenkomende HTTP-requests")
     Component(apiservice,      "ApiService",      "Spring Service",         "Bevat eventuele businesslogica")
-    Component(apicontext,      "ApiContext",      "Spring Component",       "Zorgt voor automatische schakeling van realtime data naar gecachde data als booking.com niet beschikbaar is")
-    Component(apirepository,   "ApiRepository",   "Spring Repostiory",      "Verantwoordelijk voor het ophalen van informatie uit booking.com en het cachen daarvan")
+    Component(apicontext,      "ApiContext",      "Spring Component",       "Zorgt voor automatische schakeling van realtime data naar gecachde data als RapidApi niet beschikbaar is")
+    Component(apirepository,   "ApiRepository",   "Spring Repostiory",      "Verantwoordelijk voor het ophalen van informatie uit RapidApi en het cachen daarvan")
     Component(cacherepository, "CacheRepository", "Spring Repository",      "Haalt data op uit de cache")
     ComponentDb(db, "Cached Store", "postgres", "Bevat gecachde data afkomstig van RapidApi")
 }
