@@ -24,10 +24,6 @@ Het contextdiagram bevat de volgende hoofdcomponenten:
    - Triptop communiceert met verschillende services om processen zoals boekingen te beheren.  
    - Reizigers en reisagenten hebben interactie met Triptop via een gebruikersinterface. 
 
-Toelichting op de context van de software inclusief System Context Diagram:
-* Functionaliteit
-* Gebruikers
-* Externe systemen
 
 ---
 
