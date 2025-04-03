@@ -459,122 +459,14 @@ _Stripe endpoint addressen worden niet gegeven in de documentatie._
 
 #### 7.3.3 Sequenciediagram
 
-```mermaid
-sequenceDiagram
-    participant Client
-    participant Facade 
-    participant Factory
-    participant Adapter 
-    participant ExternalAPI
-    participant Strategy 
-
-    Client->>+Facade: findBestFlight(params)
-    Facade->>+Factory: getAvailableAdapters()
-    Factory-->>-Facade: List [Adapter1, Adapter2]
-    loop For Each Adapter
-        Facade->>+Adapter: getFlights(params)
-        Adapter->>+ExternalAPI: API Call
-        ExternalAPI-->>-Adapter: Results
-        Adapter-->>-Facade: List<Flight> flights
-    end
-    Note over Facade: Aggregates all flights into a single list
-    Facade->>+Strategy: findBestFlight(allFlights)
-    Strategy-->>-Facade: bestFlight
-    Facade-->>-Client: bestFlight
-```
+![Sequence Diagram](New_diagrams/sequence_diagram.svg)
 
 **Begeleidende tekst Sequence Diagram (7.3.3):**  
 Dit diagram toont de interacties tussen de verschillende componenten tijdens het zoeken naar de beste vlucht. De client roept de Facade aan, die via de Factory beschikbare Adapters ophaalt. Elke Adapter communiceert met een externe API om vluchtgegevens op te halen. De Facade verzamelt de resultaten en gebruikt een Strategy om de beste vlucht te bepalen, die uiteindelijk aan de client wordt teruggegeven.
 
 #### 7.3.4 Klassendiagram
 
-```mermaid
-classDiagram
-    %% --- Interfaces ---
-    class IFlightAdapter {
-        <<Adapter Interface>>
-        + List<Flight> getFlights(String origin, String destination, String departureDate, int adults)
-        + boolean isAvailable()
-    }
-
-    class IFlightSearchStrategy {
-        <<Strategy Interface>>
-        + Flight findBestFlight(List<Flight> availableFlights)
-    }
-
-    %% --- Concrete Adapters ---
-    class SkyscannerAdapter {
-        <<Adapter>>
-        - String SKYSCANNER_API_ENDPOINT
-        - String API_KEY
-        + List<Flight> getFlights(String origin, String destination, String departureDate, int adults)
-        + boolean isAvailable()
-    }
-    SkyscannerAdapter --|> IFlightAdapter : implements
-
-    class BookingComAdapter {
-        <<Adapter>>
-        ' + ... methods matching IFlightAdapter ...
-    }
-    BookingComAdapter --|> IFlightAdapter : implements
-
-    %% --- Concrete Strategies ---
-    class CheapestFlightStrategy {
-        <<Concrete Strategy>>
-        + Flight findBestFlight(List<Flight> availableFlights)
-    }
-    CheapestFlightStrategy --|> IFlightSearchStrategy : implements
-
-    class FastestFlightStrategy {
-        <<Concrete Strategy>>
-        + Flight findBestFlight(List<Flight> availableFlights)
-    }
-    FastestFlightStrategy --|> IFlightSearchStrategy : implements
-
-    %% --- Factories ---
-    class FlightAdapterFactory {
-        <<Factory>>
-        - List<IFlightAdapter> allAdapters
-        + FlightAdapterFactory(List<IFlightAdapter> allAdapters)
-        + List<IFlightAdapter> getAvailableAdapters()
-        + <T extends IFlightAdapter> T getAdapter(Class<T> adapterClass)
-    }
-    FlightAdapterFactory o-- "*" IFlightAdapter : provides
-
-    %% --- Facades ---
-    class FlightFacade {
-        <<Facade>>
-        - FlightAdapterFactory adapterFactory
-        - IFlightSearchStrategy currentSearchStrategy
-        + FlightFacade(FlightAdapterFactory factory, IFlightSearchStrategy defaultStrategy)
-        + void setSearchStrategy(IFlightSearchStrategy strategy)
-        + Flight findBestFlight(String origin, String destination, String departureDate, int adults)
-    }
-    FlightFacade --> FlightAdapterFactory : uses >
-    FlightFacade --> IFlightSearchStrategy : uses >
-
-    %% --- Client Example ---
-    class FlightController {
-        <<Client>>
-        - FlightFacade flightFacade
-        - IFlightSearchStrategy cheapestStrategy
-        - IFlightSearchStrategy fastestStrategy
-        + ResponseEntity<Flight> searchBestFlight(...)
-    }
-    FlightController --> FlightFacade : uses >
-    FlightController --> IFlightSearchStrategy : uses >
-
-    %% --- Domain Objects ---
-    class Flight {
-        <<Domain Object>>
-        + String provider
-        + String airline
-        + double price
-        + int durationMinutes
-        + Flight(String provider, String airline, double price, int durationMinutes)
-    }
-
-```
+![Class Diagram](New_diagrams/Class_Diagram.svg)
 
 **Begeleidende tekst Class Diagram (7.3.4):**
 Dit diagram geeft een overzicht van de klassenstructuur voor het zoeken naar vluchten. Het toont de interfaces (`IFlightAdapter`, `IFlightSearchStrategy`), concrete implementaties (zoals `SkyscannerAdapter` en `CheapestFlightStrategy`), en de Facade (`FlightFacade`) die de interactie tussen de client en de adapters/strategieën beheert. De Factory (`FlightAdapterFactory`) zorgt voor het leveren van beschikbare adapters, terwijl de Facade de strategie gebruikt om de beste vlucht te selecteren.
