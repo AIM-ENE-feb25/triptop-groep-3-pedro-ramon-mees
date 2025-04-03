@@ -7,10 +7,12 @@ import kong.unirest.core.JsonNode;
 import kong.unirest.core.Unirest;
 import kong.unirest.core.UnirestException;
 import kong.unirest.core.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class SkyscannerFlightAdapter implements IFlightAdapter {
 
     private static final String SKYSCANNER_URL = "https://skyscanner89.p.rapidapi.com/flights/one-way/list";
@@ -52,12 +54,6 @@ public class SkyscannerFlightAdapter implements IFlightAdapter {
                     .queryString("destinationId", "27544008")
                     .queryString("adults", 2)
                     .asJson();
-
-            if (response.getStatus() < 400) {
-                System.out.println(response.getBody().toString());
-            } else {
-                System.out.println(response.getStatus() + " - " + response.getBody());
-            }
 
             return response.getStatus() >= 200 && response.getStatus() < 300;
         } catch (UnirestException e) {

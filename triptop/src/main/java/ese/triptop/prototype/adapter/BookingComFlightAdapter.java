@@ -9,7 +9,6 @@ import kong.unirest.core.UnirestException;
 import kong.unirest.core.json.JSONObject;
 import org.springframework.stereotype.Component;
 
-import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.List;
 
