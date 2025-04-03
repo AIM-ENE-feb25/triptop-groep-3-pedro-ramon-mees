@@ -1,15 +1,114 @@
 # Software Guidebook Triptop
 
-## 1. Introduction
-Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat een samenvatting van:
-1. De vereisten, beperkingen en principes.
-2. De software-architectuur, inclusief technologiekeuzes en softwarestructuur.
-3. De ontwerp- en codebeslissingen die zijn genomen om de software te realiseren.
-4. De infrastructuurarchitectuur en hoe de software kan worden geïnstalleerd.
+## 1. Inleiding
+
+Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat een samenvatting van de vereisten, beperkingen en principes die als basis dienen voor het project.
+
+Daarnaast beschrijft het de software-architectuur, waarbij zowel de technologiekeuzes op hoog niveau als de structurele opbouw van de software worden toegelicht.
+
+Het document gaat ook in op de belangrijkste ontwerp- en codebeslissingen die genomen zijn om de software te realiseren zoals beoogd. Tot slot wordt de infrastructurele architectuur behandeld, inclusief een gedetailleerde uitleg over hoe de software geïnstalleerd, geconfigureerd en uitgevoerd kan worden voor gebruik.
+
+### 1.1 Inhoudsopgave
+
+Dit software guidebook bestaat uit de volgende hoofdstukken:
+
+1. [**Inleiding**](#1-inleiding)
+   - [1.1 Inhoudsopgave](#11-inhoudsopgave)
+   - [1.2 Leeswijzer](#12-leeswijzer)
+
+2. [**Context**](#2-context)
+   - [2.1 Contextdiagram](#21-contextdiagram)
+
+3. [**Functioneel Overzicht**](#3-functioneel-overzicht)
+   - [3.1 User stories](#31-user-stories)
+   - [3.2 Domain stories (AS-IS)](#32-domain-story-reis-boeken-as-is)
+   - [3.3 Domain stories (TO-BE)](#33-domain-story-reis-boeken-to-be)
+   - [3.4 Domeinmodel](#34-domeinmodel)
+
+4. [**Kwaliteitsattributen**](#4-kwaliteitsattributen)
+
+5. [**Beperkingen**](#5-beperkingen)
+   - [5.1 Prototype vragen](#51-prototype-vragen)
+      - [5.1.1 Interoperability](#511-interoperability)
+      - [5.1.2 Fault Tolerance](#512-fault-tolerance)
+      - [5.1.3 Fault Tolerance](#513-fault-tolerance)
+
+6. [**Principes**](#6-principes)
+   - 6.1 Ontwerpprincipes
+      - 6.1.1 Single Responsibility Principle
+      - 6.1.2 Open/Closed Principle
+      - 6.1.3 Dependency Inversion Principle
+   - 6.2 Ontwerppatronen
+      - 6.2.1 Facade Pattern
+      - 6.2.2 Adapter Pattern
+      - 6.2.3 Strategy Pattern
+      - 6.2.4 Factory Method Pattern
+
+7. **Software Architectuur**
+   - 7.1 Container diagram
+   - 7.2 Component diagram
+   - 7.3 Design & Code details
+      - 7.3.1 API Lijst
+      - 7.3.2 API Mapping Table
+   - 7.4 Sequence Diagram
+   - 7.5 Class Diagram
+   - 7.6 Uitbreidbaarheid met nieuwe API's
+
+8. **Architectuurbeslissingsrecords**
+   - 8.1 ADR-001: Postgres database
+   - 8.2 ADR-002: Strategy pattern
+   - 8.3 ADR-003: Stripe API Test Modus
+   - 8.4 ADR-004: API Gateway Pattern (deprecated)
+   - 8.5 ADR-005: Toepassen van het Facade-patroon
+   - 8.6 ADR-006: Passend pattern voor "Fallback"
+   - 8.7 ADR-007: Adapter Pattern voor betalingsintegraties
+
+9. **Installatie, Werking en Ondersteuning**
+   - 9.1 Installatie-instructies
+   - 9.2 Configuratie
+   - 9.3 Lokale ontwikkelomgeving
+   - 9.4 Productie-deployment
+   - 9.5 Monitoring en onderhoud
+
+### 1.2 Leeswijzer
+
+Dit software guidebook bestaat uit de volgende hoofdstukken:
+
+1. **Inleiding**: Een kort overzicht van het document en wat hierin te vinden is.
+
+2. **Context**: Beschrijft de context van het Triptop systeem met een contextdiagram dat de relaties toont tussen Triptop en externe systemen zoals HotelAPI en FlightAPI.
+
+3. **Functioneel Overzicht**: Geeft een functioneel overzicht via user stories, domain stories (zowel AS-IS als TO-BE) en een domeinmodel.
+
+4. **Kwaliteitsattributen**: Beschrijft de belangrijkste kwaliteitsattributen op basis van ISO 25010, waaronder Compatibility, Reliability, Maintainability en Security.
+
+5. **Beperkingen**: Beschrijft de beperkingen van het project, waaronder de vragen die het prototype moet beantwoorden met betrekking tot Interoperability en Fault Tolerance.
+
+6. **Principes**: Documenteert de ontwerpprincipes zoals Single Responsibility, Open/Closed, Dependency Inversion en de toegepaste ontwerppatronen (Facade, Adapter, Strategy, Factory method).
+
+7. **Software Architectuur**: Beschrijft de softwarearchitectuur via diverse diagrammen:
+   - Containers en Componenten
+   - Design & Code details inclusief API Lijst en API Mapping Table
+   - Sequence Diagram, Class Diagram
+   - Een uitleg over uitbreidbaarheid met nieuwe API's
+
+8. **Architectuurbeslissingsrecords**: Documenteert de architecturale beslissingen:
+   - ADR-001: Postgres database
+   - ADR-002: Strategy pattern
+   - ADR-003: Stripe API Test Modus
+   - ADR-004: API Gateway Pattern (deprecated)
+   - ADR-005: Toepassen van het Facade-patroon
+   - ADR-006: Passend pattern voor "Fallback"
+   - ADR-007: Adapter Pattern voor betalingsintegraties
+
+9. **Installatie, Werking en Ondersteuning**: Beschrijft hoe de applicatie geïnstalleerd, uitgevoerd en gedeployed kan worden, inclusief stappen voor lokale ontwikkeling en productie-omgevingen.
 
 ---
 
 ## 2. Context
+
+### 2.1 Contextdiagram
+
 ![Context Diagram](New_diagrams/Context_diagram.png)
 
 Het contextdiagram bevat de volgende hoofdcomponenten:
@@ -22,12 +121,11 @@ Het contextdiagram bevat de volgende hoofdcomponenten:
 
 3. **Relaties en datastromen:**  
    - Triptop communiceert met verschillende services om processen zoals boekingen te beheren.  
-   - Reizigers en reisagenten hebben interactie met Triptop via een gebruikersinterface. 
-
+   - Reizigers en reisagenten hebben interactie met Triptop via een gebruikersinterface.
 
 ---
 
-## 3. Functional Overview
+## 3. Functioneel Overzicht
 
 Om de belangrijkste features toe te lichten zijn er user stories en twee domain stories gemaakt en een overzicht van het domein in de vorm van een domeinmodel. Op deze plek staat typisch een user story map maar die ontbreekt in dit voorbeeld.
 
@@ -61,15 +159,16 @@ Als gebruiker wil ik de bouwstenen van mijn reis flexibel kunnen uitbreiden met 
 
 ![Domain Story Reis Boeken TO BE](../opdracht-diagrammen/reis-boeken-tobe-coursegrained_2024-06-11.egn.svg)
 
-### 3.4 Domain Model
+### 3.4 Domeinmodel
 
 ![Domain Model](../opdracht-diagrammen/Domain%20Model.png)
 
 ---
 
-## 4. Quality Attributes
+## 4. Kwaliteitsattributen
 
 Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgende ISO 25010 kwaliteitsattributen benoemd als belangrijk:
+
 * Compatibility -> Interoperability (Degree to which a system, product or component can exchange information with other products and mutually use the information that has been exchanged)
 * Reliability -> Fault Tolerance (Degree to which a system or component operates as intended despite the presence of hardware or software faults)
 * Maintainability -> Modularity (Degree to which a system or computer program is composed of discrete components such that a change to one component has minimal impact on other components)
@@ -79,62 +178,130 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ---
 
-## 5. Constraints
+## 5. Beperkingen
 
-- Het project moet met prototypes de volgende vragen kunnen beantwoorden:
-    - **Interoperability:** Hoe kunnen we verschillende externe vervoersservices (zoals Google Maps of een veerdienst API) integreren zonder afhankelijk te worden van hun specifieke implementaties?
-    (Zie [ADR-005](#85-adr-005-toepassen-van-het-facade-patroon))
-    - **Fault Tolerance:** Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn en toch verwacht wordt dat er waardevolle output gegeven wordt?
-    (zie [ADR-002](#82-adr-002-strategy-pattern))
-    - **Fault Tolerance:** Hoe kunnen we ervoor zorgen dat bepaalde bouwstenen automatisch een alternatieve dienst kiezen als de primaire dienst niet beschikbaar is?
-    (Zie [ADR-006](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag) en [ADR-007](#87-adr-007-implementatie-van-adapter-pattern-voor-betalingsintegraties) voor voorbeelden met de `PaymentAdapterFactory`).
-- De prototypes hierboven vormen samen een walking skeleton en moeten binnen 3 weken worden afgemaakt door 3 ontwikkelaars
----
+Initieel heeft het team uit een lijst met ontwerpvragen enkele kernvraagstukken geselecteerd die relevant zijn voor de beperkingen van het Triptop-systeem. Elk teamlid heeft één of meerdere van deze vragen onderzocht om passende oplossingen te vinden voor de architecturale uitdagingen. Deze onderzoeken hebben geleid tot concrete implementaties in het prototype en zijn gedocumenteerd in de vorm van [Architectuurbeslissingsrecords](#8-architectuurbeslissingsrecords) (Architectural Decision Records, ADRs).
 
-## 6. Principles
+### 5.1. Prototype vragen
 
-- **Single Responsibility Principle (SRP):**  
-   - Elke klasse heeft één enkele verantwoordelijkheid. Bijvoorbeeld:  
-     - `IFlightAdapter` definieert het contract voor vluchtadapters.  
-     - `SkyscannerAdapter` kapselt de logica in voor interactie met de Skyscanner API.  
-     - `FlightFacade` coördineert de interactie tussen adapters en strategieën.  
-     - `CheapestFlightStrategy` en `FastestFlightStrategy` richten zich op specifieke selectiecriteria.  
-- **Open/Closed Principle (OCP):**  
-   - Het systeem is open voor uitbreiding, maar gesloten voor wijzigingen. Bijvoorbeeld:  
-     - Nieuwe adapters kunnen worden toegevoegd door de `IFlightAdapter`-interface te implementeren zonder bestaande code aan te passen.  
-     - Nieuwe strategieën kunnen worden geïntroduceerd door de `IFlightSearchStrategy`-interface te implementeren.  
-- **Dependency Inversion Principle (DIP):**  
-   - Hoog-niveau modules (bijv. `FlightFacade`) zijn afhankelijk van abstracties (`IFlightAdapter`, `IFlightSearchStrategy`) in plaats van concrete implementaties.  
-- **Program to Interfaces, Not Implementations:**  
-   - Het systeem is gebaseerd op interfaces (`IFlightAdapter`, `IFlightSearchStrategy`) in plaats van concrete klassen, wat flexibiliteit en eenvoudiger testen mogelijk maakt.  
-- **Separation of Concerns (SoC):**  
-   - Verschillende verantwoordelijkheden worden afgehandeld door verschillende componenten:  
-     - Adapters verwerken API-specifieke logica.  
-     - Factories beheren de aanmaak en beschikbaarheid van adapters.  
-     - Strategieën regelen de selectielogica.  
-     - Facades bieden een vereenvoudigde interface voor clients.  
-- **Composition Over Inheritance:**  
-   - Het systeem maakt gebruik van compositie (bijv. `FlightFacade` combineert adapters en strategieën) in plaats van overerving.
-- **DRY (Don't Repeat Yourself):**  
-    - Gemeenschappelijke logica (bijv. beschikbaarheidscontroles van adapters) is gecentraliseerd in factories om duplicatie te voorkomen.  
-- **Encapsulatie**: Implementatiedetails van externe API-interacties zijn verborgen binnen adapterklassen en bieden alleen de interface aan.
-- **Information Hiding**: Clients hoeven alleen te weten *wat* de Facade doet, niet *hoe*.
+De prototypes vormen samen een walking skeleton en moeten binnen 3 weken worden afgemaakt door 3 ontwikkelaars.
 
+Het project moet met prototypes de volgende vragen kunnen beantwoorden:
 
-### Toegepaste Patterns
+#### 5.1.1. Interoperability
 
-**Facade:** domeinspecifieke interface (bijv. FlightFacade, HotelFacade) die de complexiteit verbergt van interactie met meerdere onderliggende adapters en selectie-logica toepast. Clients werken met Facades (Zie [ADR-005](#85-adr-005-toepassen-van-het-facade-patroon)).
+Hoe kunnen we verschillende externe vervoersservices (zoals Google Maps of een veerdienst API) integreren zonder afhankelijk te worden van hun specifieke implementaties?
+(Zie [ADR-005](#85-adr-005-toepassen-van-het-facade-patroon))
 
-**Adapter:** Zet de interface van een specifieke externe dienst (bijv. Skyscanner API, Booking.com API, Stripe API) om naar een standaardinterface binnen Triptop (bijv. IFlightAdapter, IHotelAdapter). Elke externe dienst krijgt een eigen Adapter. (Zie [ADR-007](#87-adr-007-implementatie-van-adapter-pattern-voor-betalingsintegraties)).
+#### 5.1.2. Fault Tolerance
 
-**Strategy:** Definieert een groep algoritmes voor het verwerken of selecteren van resultaten (bijv. het vinden van de goedkoopste vlucht, de snelste vlucht of het best beoordeelde hotel). De Facade bevat en gebruikt een specifieke Strategy-instantie om te werken met de verzamelde gegevens uit de Adapters (Zie [ADR-002](#82-adr-002-strategy-pattern)).
+Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn en toch verwacht wordt dat er waardevolle output gegeven wordt?
+(zie [ADR-002](#82-adr-002-strategy-pattern))
 
-**Factory method:** Verantwoordelijk voor het aanmaken van Adapter-instanties. Dit ontkoppelt de Facade van concrete adapterimplementaties en kan adapterconfiguraties of beschikbaarheid beheren (bijv. met een Circuit Breaker per adapter). (Zie het PaymentAdapterFactory-voorbeeld) (Zie [ADR-006](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag)) .
+#### 5.1.3. Fault Tolerance
 
+Hoe kunnen we ervoor zorgen dat bepaalde bouwstenen automatisch een alternatieve dienst kiezen als de primaire dienst niet beschikbaar is?
+(Zie [ADR-006](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag) en [ADR-007](#87-adr-007-implementatie-van-adapter-pattern-voor-betalingsintegraties) voor voorbeelden met de `PaymentAdapterFactory`).
 
 ---
 
-## 7. Software Architecture
+## 6. Principes
+
+Dit hoofdstuk beschrijft de belangrijkste ontwerpprincipes en ontwerppatronen die zijn toegepast in de Triptop-architectuur.
+Deze principes dienen als fundamentele richtlijnen voor onze softwareontwikkeling en zorgen voor een hoge kwaliteit, onderhoudbaarheid en uitbreidbaarheid van het systeem.
+
+### 6.1. Ontwerpprincipes
+
+Elk principe wordt toegelicht met concrete voorbeelden uit de codebase, samen met de belangrijkste ontwerpvoor- en nadelen die ze bevorderen.
+
+#### 6.1.1 Single Responsibility Principle (SRP)
+
+Elke klasse heeft één enkele verantwoordelijkheid. Bijvoorbeeld:
+
+- `IFlightAdapter` definieert het contract voor vluchtadapters.  
+- `SkyscannerAdapter` kapselt de logica in voor interactie met de Skyscanner API.  
+- `FlightFacade` coördineert de interactie tussen adapters en strategieën.  
+- `CheapestFlightStrategy` en `FastestFlightStrategy` richten zich op specifieke selectiecriteria.
+
+**Design Properties**: Dit principe bevordert **Cohesion** en **Separation of Concerns**, wat leidt tot betere onderhoudbaarheid en testbaarheid.
+
+#### 6.1.2 Open/Closed Principle (OCP)  
+
+Het systeem is open voor uitbreiding, maar gesloten voor wijzigingen. Bijvoorbeeld:  
+
+- Nieuwe adapters kunnen worden toegevoegd door de `IFlightAdapter`-interface te implementeren zonder bestaande code aan te passen.  
+- Nieuwe strategieën kunnen worden geïntroduceerd door de `IFlightSearchStrategy`-interface te implementeren.  
+
+**Design Properties**: Dit principe bevordert **Extensibility** en vermindert het risico van regressiefouten bij het toevoegen van nieuwe functionaliteit.
+
+#### 6.1.3 Dependency Inversion Principle (DIP)  
+
+Hoog-niveau modules (bijv. `FlightFacade`) zijn afhankelijk van abstracties (`IFlightAdapter`, `IFlightSearchStrategy`) in plaats van concrete implementaties.  
+
+**Design Properties**: Dit principe bevordert lage **Coupling**, wat leidt tot betere **Extensibility** en testbaarheid.
+
+#### 6.1.4 Program to Interfaces, Not Implementations
+
+Het systeem is gebaseerd op interfaces (`IFlightAdapter`, `IFlightSearchStrategy`) in plaats van concrete klassen, wat flexibiliteit en eenvoudiger testen mogelijk maakt.  
+
+**Design Properties**: Verhoogt **Extensibility** en vermindert **Coupling**.
+
+#### 6.1.5. Separation of Concerns (SoC)  
+
+Verschillende verantwoordelijkheden worden afgehandeld door verschillende componenten:  
+
+- Adapters verwerken API-specifieke logica.  
+- Factories beheren de aanmaak en beschikbaarheid van adapters.  
+- Strategieën regelen de selectielogica.  
+- Facades bieden een vereenvoudigde interface voor clients. 
+
+**Design Properties**: Verhoogt **Separation of Concerns**, **Cohesion** en verbetert onderhoudbaarheid.
+
+#### 6.1.6. Composition Over Inheritance  
+
+Het systeem maakt gebruik van compositie (bijv. `FlightFacade` combineert adapters en strategieën) in plaats van overerving.
+
+ **Design Properties**: Verbetert **Extensibility** en vermindert rigide hiërarchieën.
+
+#### 6.1.7. DRY (Don't Repeat Yourself)  
+
+Gemeenschappelijke logica (bijv. beschikbaarheidscontroles van adapters) is gecentraliseerd in factories om duplicatie te voorkomen.
+
+**Design Properties**: Verbetert **Cohesion** en vermindert inconsistenties.  
+
+#### 6.1.8. Encapsulatie
+
+Implementatiedetails van externe API-interacties zijn verborgen binnen adapterklassen en bieden alleen de interface aan.
+
+**Design Properties**: Verhoogt **Information Hiding** en vermindert **Coupling**.
+
+#### 6.1.9. Information Hiding
+
+Clients hoeven alleen te weten *wat* de Facade doet, niet *hoe*.
+
+**Design Properties**: Bevordert **Information Hiding** en vermindert complexiteit voor clients.
+
+### 6.2. Ontwerppatronen
+
+#### 6.2.1. Facade
+
+Domeinspecifieke interface (bijv. FlightFacade, HotelFacade) die de complexiteit verbergt van interactie met meerdere onderliggende adapters en selectie-logica toepast. Clients werken met Facades (Zie [ADR-005](#85-adr-005-toepassen-van-het-facade-patroon)).
+
+#### 6.2.2. Adapter
+
+Zet de interface van een specifieke externe dienst (bijv. Skyscanner API, Booking.com API, Stripe API) om naar een standaardinterface binnen Triptop (bijv. IFlightAdapter, IHotelAdapter). Elke externe dienst krijgt een eigen Adapter. (Zie [ADR-007](#87-adr-007-implementatie-van-adapter-pattern-voor-betalingsintegraties)).
+
+#### 6.2.3. Strategy
+
+Definieert een groep algoritmes voor het verwerken of selecteren van resultaten (bijv. het vinden van de goedkoopste vlucht, de snelste vlucht of het best beoordeelde hotel). De Facade bevat en gebruikt een specifieke Strategy-instantie om te werken met de verzamelde gegevens uit de Adapters (Zie [ADR-002](#82-adr-002-strategy-pattern)).
+
+#### 6.2.4. Factory method
+
+Verantwoordelijk voor het aanmaken van Adapter-instanties. Dit ontkoppelt de Facade van concrete adapterimplementaties en kan adapterconfiguraties of beschikbaarheid beheren (bijv. met een Circuit Breaker per adapter). (Zie het PaymentAdapterFactory-voorbeeld) (Zie [ADR-006](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag)) .
+
+---
+
+## 7. Software Architectuur
 
 ### 7.1. Containers
 
@@ -148,16 +315,16 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 - Tripadvisor
 
 
-#### 7.1.1. Dynamic Diagram: Haal beste vluchten op
+#### 7.1.1. Dynamische Diagram: Haal beste vluchten op
 
 > **Begeleidende tekst Dynamic Diagram (Reis Plannen):**
 Dit diagram laat de interacties zien tussen de gebruiker, de Triptop applicatie en externe services tijdens het plannen van een reis. De gebruiker start het proces, waarna Triptop via de Facade laag communiceert met verschillende Adapters (bijvoorbeeld voor vluchten, hotels) die op hun beurt externe API's aanroepen. De resultaten worden verzameld en via een Strategy (bijvoorbeeld 'goedkoopste eerst') gepresenteerd aan de gebruiker.
 
 ![alt text](New_diagrams/Dynamic_Diagram_Flights.svg)
 
-### 7.2. Components
+### 7.2. Componenten
 
-#### 7.2.1 Component Diagram: Adapter & Factory
+#### 7.2.1 Componentdiagram: Adapter & Factory
 
 ![alt text](New_diagrams/Factory/factory_component.svg)
 
@@ -167,14 +334,14 @@ Voor de onderzoeksvraag behandeld in [ADR-006: Passend pattern kiezen voor bij "
 > **Begeleidende tekst Component Diagram (Adapter & Factory):**  
 Dit diagram toont hoe het Adapter en Factory Method patroon samenwerken binnen de architectuur. De Factory Method zorgt voor het dynamisch leveren van de juiste Adapter-implementatie, afhankelijk van de context of beschikbaarheid. De Adapters zelf dienen als tussenlaag tussen de applicatie en externe API's, waardoor de complexiteit van API-specifieke logica wordt geïsoleerd. Dit maakt het systeem flexibel en uitbreidbaar, omdat nieuwe API's eenvoudig kunnen worden toegevoegd door nieuwe Adapters te implementeren.
 
-#### 7.2.2 Component Diagram: Facade
+#### 7.2.2 Componentdiagram: Facade
 
 ![alt text](New_diagrams/Facade/facade_Component.svg)
 
 > **Begeleidende tekst Component Diagram (Facade):**  
 Het Facade patroon wordt gebruikt om een vereenvoudigde klasse te bieden aan de subsystemen van de applicatie. In dit diagram zien we hoe de Facade werkt als een centrale toegangspoort voor de client, terwijl het de interacties met de onderliggende Adapters en Strategies beheerd. Dit patroon helpt bij het verminderen van de afhankelijkheden tussen de client en de interne structuur van het systeem.
 
-#### 7.2.3 Component Diagram: Strategy
+#### 7.2.3 Componentdiagram: Strategy
 
 Voor de onderzoeksvraag behandeld in [ADR-002: Strategy pattern](#82-adr-002-strategy-pattern) ("Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn en toch verwacht wordt dat er waardevolle output gegeven wordt?"), willen we het strategy pattern toepassen. Dit resulteert in het volgende component diagram:
 
@@ -189,14 +356,14 @@ Als we gaan inzoomen op het code niveau krijgen we het volgende code diagram:
 
 ![code_diagram_ramon.svg](../opdracht-diagrammen/code_diagram_ramon.svg)
 
-#### 7.2.5 Sequence diagram: Strategy
+#### 7.2.5 Sequentiediagram: Strategy
 
 ![sequence_diagram_ramon.svg](../opdracht-diagrammen/sequence_diagram_ramon.svg)
 
 Toelichting:
   - De aanroep voor `apiRepository.isAvailable()` wordt niet op de `ApiStrategy` interface uitgevoerd maar direct op de `ApiRepository`, dit is puur een persoonlijk voorkeur.
 
-#### 7.2.6 Component Diagram: alle patterns
+#### 7.2.6 Componentdiagram: alle patterns
 
 ![alt text](New_diagrams/Overarching.svg)
 
@@ -261,7 +428,7 @@ Toelichting:
 
 
 
-#### 7.3.2 API Mapping Table
+#### 7.3.2 API Mapping Tabel
 
 | Class::Attribuut           | Is input voor API+Endpoint         | Wordt gevuld door API+Eindpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
 |----------------------------|---------------------------------|--------------------------------|---------------------------------|---------------------------------|
@@ -283,7 +450,7 @@ Toelichting:
 | Invoice::create   | Stripe API /? | x                              |                                | x                               |
 _Stripe endpoint addressen worden niet gegeven in de documentatie._
 
-### 7.3.3 Sequence Diagram
+### 7.3.3 Sequenciediagram
 
 ```mermaid
 sequenceDiagram
@@ -312,7 +479,7 @@ sequenceDiagram
 **Begeleidende tekst Sequence Diagram (7.3.3):**  
 Dit diagram toont de interacties tussen de verschillende componenten tijdens het zoeken naar de beste vlucht. De client roept de Facade aan, die via de Factory beschikbare Adapters ophaalt. Elke Adapter communiceert met een externe API om vluchtgegevens op te halen. De Facade verzamelt de resultaten en gebruikt een Strategy om de beste vlucht te bepalen, die uiteindelijk aan de client wordt teruggegeven.
 
-### 7.3.4 Class Diagram
+### 7.3.4 Klassendiagram
 
 ```mermaid
 classDiagram
@@ -513,7 +680,7 @@ Na deze stappen zal de `HotelFacade` automatisch de nieuwe `ExpediaHotelAdapter`
 
 ---
 
-## 8. Architectural Decision Records
+## 8. Architectuurbeslissingsrecords
 
 ### 8.1. ADR-001 Postgres database
 
@@ -876,7 +1043,7 @@ We implementeren het Adapter Pattern voor alle betalingsintegraties. Dit beteken
 
 ---
 
-## 9. Deployment, Operation and Support
+## 9. Installatie, Werking en Ondersteuning
 
 ### 9.1 Installatie
 
