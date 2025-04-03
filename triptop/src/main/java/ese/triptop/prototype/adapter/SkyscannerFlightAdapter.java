@@ -98,10 +98,9 @@ public class SkyscannerFlightAdapter implements IFlightAdapter {
 
                         // Extract origin and destination
                         JSONObject origin = leg.getJSONObject("origin");
-                        JSONObject destination = leg.getJSONObject("destination");
 
                         String departureAirport = origin.getString("displayCode");
-                        String arrivalAirport = destination.getString("displayCode");
+                        Integer arrivalAirport = leg.getInt("durationInMinutes");
                         String departureTime = leg.getString("departure");
                         String arrivalTime = leg.getString("arrival");
 
