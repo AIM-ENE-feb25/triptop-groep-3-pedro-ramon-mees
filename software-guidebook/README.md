@@ -573,8 +573,8 @@ patterns overwogen:
 
 | Design pattern | Flexibiliteit | Onderhoudbaarheid | Testbaarheid |
 |-------|---------------|-------------------|--------------|
-| **If-Else Logica** | Laag | Laag - Kan erg onoverzichtelijk worden | Laag – moeilijk afzonderlijk te testen |
-| **Strategy Pattern** | Hoog – eenvoudig nieuwe strategieën toe te voegen | Hoog – scheidt verantwoordelijkheden in aparte klassen | Hoog – strategieën kunnen onafhankelijk worden getest |
+| **Adapter Pattern** | Hoog - Makkelijk uit te breiden zonder classes aan te passen | Gemiddeld - Het verkeerd toepassen ervan kan leiden tot moeilijk onderhoudbare code | Gemiddeld - Kan testbaarheid verhogen door gebruik te maken van mock objects of stubs |
+| **Strategy Pattern** | Hoog – Eenvoudig nieuwe strategieën toe te voegen | Hoog – Scheidt verantwoordelijkheden in aparte klassen | Hoog – Strategieën kunnen onafhankelijk worden getest |
 | **Factory Pattern** | Gemiddeld - Kan tot tight-coupling leiden | Gemiddeld - Kan complex worden als er veel classes worden toegevoegd | Gemiddeld - Code kan makkelijker te testen zijn |
 
 #### Keuze
@@ -583,6 +583,7 @@ We hebben gekozen voor het Strategy Pattern omdat dit biedt:
 - Een duidelijke scheiding van verantwoordelijkheden.
 - De mogelijkheid om gemakkelijk opties uit te breiden en te wijzigen.
 - Verbeterde testbaarheid.
+- Lage complexiteit ten opzichte van andere design patterns.
 
 #### Status
 
