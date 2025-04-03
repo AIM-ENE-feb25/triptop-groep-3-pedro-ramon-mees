@@ -180,6 +180,9 @@ Voor de onderzoeksvraag behandeld in [ADR-002: Strategy pattern](#82-adr-002-str
 
 ![component_diagram_onderzoeksvraag1_ramon.svg](../opdracht-diagrammen/component_diagram_onderzoeksvraag1_ramon.svg)
 
+Toelichting:
+  - CacheRepository en ApiRepositories zijn hier de 'strategies' die de ApiStrategy interface implementeren.
+
 #### 7.2.4 Code Diagram: Strategy
 
 Als we gaan inzoomen op het code niveau krijgen we het volgende code diagram:
