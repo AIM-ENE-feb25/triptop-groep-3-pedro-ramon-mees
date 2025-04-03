@@ -21,8 +21,6 @@ public class BookingComFlightAdapter implements IFlightAdapter {
 
     @Override
     public List<Flight> getFlights(String origin, String destination, String departureDate, int adults) {
-        System.out.println(isAvailable());
-
         try {
             HttpResponse<JsonNode> response = Unirest.get(BOOKING_URL)
                     .queryString("originLocationCode", origin)
