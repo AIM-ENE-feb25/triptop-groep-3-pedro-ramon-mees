@@ -229,6 +229,7 @@ Elke klasse heeft één enkele verantwoordelijkheid. Bijvoorbeeld:
 - `SkyscannerAdapter` kapselt de logica in voor interactie met de Skyscanner API.  
 - `FlightFacade` coördineert de interactie tussen adapters en strategieën.  
 - `CheapestFlightStrategy` en `FastestFlightStrategy` richten zich op specifieke selectiecriteria.
+- `ApiContext` zorgt voor schakeling tussen cache en realtime data als externe API niet beschikbaar is middels het strategy design pattern
 
 **Design Properties**: Dit principe bevordert **Cohesion** en **Separation of Concerns**, wat leidt tot betere onderhoudbaarheid en testbaarheid.
 
