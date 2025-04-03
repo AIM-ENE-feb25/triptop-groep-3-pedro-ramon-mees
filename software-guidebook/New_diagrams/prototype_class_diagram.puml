@@ -1,0 +1,108 @@
+@startuml Prototype Class Diagram
+
+!theme vibrant
+
+' Define common stereotypes
+skinparam class {
+    StereotypeFontColor #A9A9A9
+    StereotypeFontSize 11
+}
+
+' --- Interfaces ---
+interface IFlightAdapter <<Adapter Interface>> {
+  + List<Flight> getFlights(String origin, String destination, String departureDate, int adults)
+  + boolean isAvailable()
+}
+
+interface IFlightSearchStrategy <<Strategy Interface>> {
+  + Flight findBestFlight(List<Flight> availableFlights)
+}
+
+' --- Concrete Adapters ---
+class SkyscannerAdapter <<Adapter>> {
+  - String SKYSCANNER_API_ENDPOINT
+  - String API_KEY
+  + List<Flight> getFlights(String origin, String destination, String departureDate, int adults)
+  + boolean isAvailable()
+  ' - mapSkyscannerResponseToFlights(JsonNode body): List<Flight>
+}
+SkyscannerAdapter ..|> IFlightAdapter : implements
+
+class KLMApiAdapter <<Adapter>> {
+  ' + ... methods matching IFlightAdapter ...
+}
+KLMApiAdapter ..|> IFlightAdapter : implements
+class BookingComAdapter <<Adapter>> {
+  ' + ... methods matching IFlightAdapter ...
+}
+BookingComAdapter ..|> IFlightAdapter : implements
+
+
+' --- Concrete Strategies ---
+class CheapestFlightStrategy <<Concrete Strategy>> {
+  + Flight findBestFlight(List<Flight> availableFlights)
+}
+CheapestFlightStrategy ..|> IFlightSearchStrategy : implements
+
+class FastestFlightStrategy <<Concrete Strategy>> {
+  + Flight findBestFlight(List<Flight> availableFlights)
+}
+FastestFlightStrategy ..|> IFlightSearchStrategy : implements
+
+' --- Factories ---
+class FlightAdapterFactory <<Factory>> {
+  - List<IFlightAdapter> allAdapters
+  + FlightAdapterFactory(List<IFlightAdapter> allAdapters)
+  + List<IFlightAdapter> getAvailableAdapters()
+  + <T extends IFlightAdapter> T getAdapter(Class<T> adapterClass)
+}
+FlightAdapterFactory o--> "*" IFlightAdapter : provides
+
+
+' --- Facades ---
+class FlightFacade <<Facade>> {
+  - FlightAdapterFactory adapterFactory
+  - IFlightSearchStrategy currentSearchStrategy
+  + FlightFacade(FlightAdapterFactory factory, IFlightSearchStrategy defaultStrategy)
+  + void setSearchStrategy(IFlightSearchStrategy strategy)
+  + Flight findBestFlight(String origin, String destination, String departureDate, int adults)
+}
+FlightFacade --> FlightAdapterFactory : uses >
+FlightFacade --> IFlightSearchStrategy : uses >
+
+' --- Client Example ---
+class FlightController <<Client>> {
+  - FlightFacade flightFacade
+  - IFlightSearchStrategy cheapestStrategy
+  - IFlightSearchStrategy fastestStrategy
+  + ResponseEntity<Flight> searchBestFlight(...)
+}
+FlightController --> FlightFacade : uses >
+FlightController --> IFlightSearchStrategy : uses > ' (to set strategy)
+
+' --- Domain Objects ---
+
+class Flight <<Domain Object>> {
+  + String provider
+  + String airline
+  + double price
+  + int durationMinutes
+  + Flight(String provider, String airline, double price, int durationMinutes)
+  ' + getters/setters...
+}
+
+
+
+
+' --- Relationships ---
+' Facade uses Factory
+' Facade uses Strategy Interface
+' Factory provides Adapter Interface instances
+' Concrete Adapters implement Adapter Interface
+' Concrete Strategies implement Strategy Interface
+' Client uses Facade
+
+' Note: Dependencies on external APIs (Skyscanner, Stripe etc.) are handled *within* the concrete adapters
+' and are not explicitly shown as class dependencies here.
+
+@enduml
