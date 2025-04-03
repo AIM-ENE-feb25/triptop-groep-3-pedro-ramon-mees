@@ -7,27 +7,27 @@ title Component Diagram - TripTop Vakantieplan App
 Container(frontend, "Frontend", "React", "Zorgt voor gebruiksvriendelijke interface om de app te gebruiken")
 
 Container_Boundary(boundary,   "TripTop Vakantieplan App - Backend") {
-    Component(apicontroller,   "ApiController",   "Spring REST Controller")
-    Component(apiservice,      "ApiService",      "Spring Service",    "Bevat eventuele businesslogica")
-    Component(apicontext,      "ApiContext",      "",                  "Zorgt voor automatische schakeling van realtime data naar gecachde data als booking.com niet beschikbaar is")
-    Component(apirepository,   "ApiRepository",   "Spring Repostiory", "Verantwoordelijk voor het ophalen van informatie uit booking.com en het cachen daarvan")
-    Component(cacherepository, "CacheRepository", "Spring Repository", "Haalt data op uit de cache")
-    ComponentDb(db, "Cached Store", "postgres", "Bevat gecachde data afkomstig van booking.com")
+    Component(apicontroller,   "ApiController",   "Spring Controller", "Zorgt voor afhandeling van binnenkomende HTTP-requests")
+    Component(apiservice,      "ApiService",      "Spring Service",         "Bevat eventuele businesslogica")
+    Component(apicontext,      "ApiContext",      "Spring Component",       "Zorgt voor automatische schakeling van realtime data naar gecachde data als booking.com niet beschikbaar is")
+    Component(apirepository,   "ApiRepository",   "Spring Repostiory",      "Verantwoordelijk voor het ophalen van informatie uit booking.com en het cachen daarvan")
+    Component(cacherepository, "CacheRepository", "Spring Repository",      "Haalt data op uit de cache")
+    ComponentDb(db, "Cached Store", "postgres", "Bevat gecachde data afkomstig van RapidApi")
 }
 
-Rel(frontend, apicontroller, "Uses", "HTTPS")
+Rel(frontend, apicontroller, "Stuurt request", "HTTPS")
 
-Rel(apicontroller, apiservice,      "Uses")
-Rel(apiservice,    apicontext,      "Uses")
-Rel(apicontext,    apirepository,   "Uses")
-Rel(apicontext,    cacherepository, "Uses")
+Rel(apicontroller, apiservice,      "Methode aanroep")
+Rel(apiservice,    apicontext,      "Methode aanroep")
+Rel(apicontext,    apirepository,   "Methode aanroep")
+Rel(apicontext,    cacherepository, "Methode aanroep")
 
-System_Ext(booking, "Booking.com", "Om over overnachtingen in te plannen")
+System_Ext(booking, "RapidApi booking.com", "Om over overnachtingen in te plannen")
 
-Rel(apirepository, booking, "Uses", "JSON")
+Rel(apirepository, booking, "Haalt op", "JSON")
 
-Rel(apirepository,   db, "Writes", "JSON/SQL")
-Rel(cacherepository, db, "Reads",  "JSON/SQL")
+Rel(apirepository,   db, "Schrijft", "SQL")
+Rel(cacherepository, db, "Leest",    "SQL")
 
 SHOW_LEGEND(true)
 LAYOUT_WITH_LEGEND()

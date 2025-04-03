@@ -188,7 +188,6 @@ Als we gaan inzoomen op het code niveau krijgen we het volgende code diagram:
 
 ![code_diagram_ramon.svg](../opdracht-diagrammen/code_diagram_ramon.svg)
 
-
 #### 7.2.5 Sequence diagram: Strategy
 
 ![sequence_diagram_ramon.svg](../opdracht-diagrammen/sequence_diagram_ramon.svg)
