@@ -4,16 +4,23 @@
    - Doel van de presentatie en overzicht van de software guidebook incl. uitleg over checklist
 2. **Context**
    - System Context Diagram.
-5. **Beperkingen**
+3. **Beperkingen**
    - Prototypevragen en beperkingen.
-6. **Principes**
+4. **Principes**
    - Ontwerpprincipes en design patterns.
-7. **Software Architectuur**
+5. **Software Architectuur**
    - Containerdiagram, componentdiagrammen en dynamische diagrammen.
-8. **Architectuurbeslissingsrecords**
+6. **Architectuurbeslissingsrecords**
    - Belangrijke ADR's en hun impact.
-9. **Installatie, Werking en Ondersteuning**
+7. **Prototypes**
+   - Triptop & proto
+8. **Interne samenhang, Installatie, Werking en Ondersteuning**
+   - Zijn de toeligtingen zuiver
    - Hoe de applicatie te bouwen en uit te voeren.
+---
+
+
+
 ---
    ### **Checklist: System Context Diagram**
 - [ ] Is er een System Context diagram aanwezig?
