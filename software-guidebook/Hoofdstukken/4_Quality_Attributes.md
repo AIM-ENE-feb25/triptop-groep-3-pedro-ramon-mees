@@ -1,6 +1,7 @@
 ## 4. Kwaliteitsattributen
 
 Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgende ISO 25010 kwaliteitsattributen benoemd als belangrijk:
+
 * Compatibility -> Interoperability (Degree to which a system, product or component can exchange information with other products and mutually use the information that has been exchanged)
 * Reliability -> Fault Tolerance (Degree to which a system or component operates as intended despite the presence of hardware or software faults)
 * Maintainability -> Modularity (Degree to which a system or computer program is composed of discrete components such that a change to one component has minimal impact on other components)

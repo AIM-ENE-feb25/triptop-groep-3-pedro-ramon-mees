@@ -1,35 +1,138 @@
 # Software Guidebook Triptop
 
-## 1. Introduction
-Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat een samenvatting van het volgende: 
-1. De vereisten, beperkingen en principes. 
-1. De software-architectuur, met inbegrip van de technologiekeuzes op hoog niveau en de structuur van de software. 
-1. De ontwerp- en codebeslissingen die zijn genomen om de software te realiseren.
-1. De architectuur van de infrastructuur en hoe de software kan worden geinstalleerd. 
+## 1. Inleiding
+
+Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat een samenvatting van de vereisten, beperkingen en principes die als basis dienen voor het project.
+
+Daarnaast beschrijft het de software-architectuur, waarbij zowel de technologiekeuzes op hoog niveau als de structurele opbouw van de software worden toegelicht.
+
+Het document gaat ook in op de belangrijkste ontwerp- en codebeslissingen die genomen zijn om de software te realiseren zoals beoogd. Tot slot wordt de infrastructurele architectuur behandeld, inclusief een gedetailleerde uitleg over hoe de software geïnstalleerd, geconfigureerd en uitgevoerd kan worden voor gebruik.
+
+### 1.1 Inhoudsopgave
+
+Dit software guidebook bestaat uit de volgende hoofdstukken:
+
+1. [**Inleiding**](#1-inleiding)
+   - [1.1 Inhoudsopgave](#11-inhoudsopgave)
+   - [1.2 Leeswijzer](#12-leeswijzer)
+
+2. [**Context**](#2-context)
+   - [2.1 Contextdiagram](#21-contextdiagram)
+
+3. [**Functioneel Overzicht**](#3-functioneel-overzicht)
+   - [3.1 User stories](#31-user-stories)
+   - [3.2 Domain stories (AS-IS)](#32-domain-story-reis-boeken-as-is)
+   - [3.3 Domain stories (TO-BE)](#33-domain-story-reis-boeken-to-be)
+   - [3.4 Domeinmodel](#34-domeinmodel)
+
+4. [**Kwaliteitsattributen**](#4-kwaliteitsattributen)
+
+5. [**Beperkingen**](#5-beperkingen)
+   - [5.1. Prototype vragen](#51-prototype-vragen)
+      - [5.1.1. Interoperability](#511-interoperability)
+      - [5.1.2. Fault Tolerance](#512-fault-tolerance)
+      - [5.1.3. Fault Tolerance](#513-fault-tolerance)
+
+6. [**Principes**](#6-principes)
+   - [6.1. Ontwerpprincipes](#61-ontwerpprincipes)
+      - [6.1.1. Single Responsibility Principle](#611-single-responsibility-principle-srp)
+      - [6.1.2. Open/Closed Principle](#612-openclosed-principle-ocp)
+      - [6.1.3. Dependency Inversion Principle](#613-dependency-inversion-principle-dip)
+      - [6.1.4. Program to interfaces, not implementations](#614-program-to-interfaces-not-implementations)
+      - [6.1.5. Seperation of Concerns](#615-separation-of-concerns-soc)
+      - [6.1.6. Composition over inheritance](#616-composition-over-inheritance)
+      - [6.1.7. DRY (Don't repeat yourself)](#617-dry-dont-repeat-yourself)
+      - [6.1.8. Encapsulatie](#618-encapsulatie)
+      - [6.1.9. Information Hiding](#619-information-hiding)
+   - [6.2. Ontwerppatronen](#62-ontwerppatronen)
+      - [6.2.1. Facade](#621-facade)
+      - [6.2.2. Adapter](#622-adapter)
+      - [6.2.3. Strategy](#623-strategy)
+      - [6.2.4. Factory Method](#624-factory-method)
+
+7. [**Software Architectuur**](#7-software-architectuur)
+   - [7.1. Containerdiagram](#71-containerdiagram)
+   - [7.2. Componentdiagram](#72-componenten)
+   - [7.3. Design & Code details](#73-design--code)
+      - [7.3.1. API Lijst](#731-api-lijst)
+      - [7.3.2. API Mapping Tabel](#732-api-mapping-tabel)
+      - [7.3.3. Sequentiediagram](#733-sequenciediagram)
+      - [7.3.4. Klassendiagram](#734-klassendiagram)
+      - [7.3.5 Uitbreidbaarheid met Nieuwe API's](#735-uitbreidbaarheid-met-nieuwe-apis)
+
+8. [**Architectuurbeslissingsrecords**](#8-architectuurbeslissingsrecords)
+   - [8.1 ADR-001: Postgres database](#81-adr-001-postgres-database)
+   - [8.2 ADR-002: Strategy pattern](#82-adr-002-strategy-pattern)
+   - [8.3 ADR-003: Stripe API Test Modus](#83-adr-003-stripe-api-test-modus)
+   - [8.4 ADR-004: API Gateway Pattern (deprecated)](#84-adr-004-api-gateway-pattern-voor-externe-api-integratie)
+   - [8.5 ADR-005: Toepassen van het Facade-patroon](#85-adr-005-toepassen-van-het-facade-patroon)
+   - [8.6 ADR-006: Passend pattern voor "Fallback"](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag)
+   - [8.7 ADR-007: Adapter Pattern voor betalingsintegraties](#87-adr-007-implementatie-van-adapter-pattern-voor-betalingsintegraties)
+
+9. [**Installatie, Werking en Ondersteuning**](#9-installatie-werking-en-ondersteuning)
+   - [9.1. Triptop Applicatie Walking Skeleton](#91-triptrop-applicatie-walking-skeleton)
+      - [9.1.1. Bouwen](#911-bouwen)
+      - [9.1.2. Uitvoeren](#912-uitvoeren)
+   - [9.2. API Prototype Ramon](#92-api-prototype-ramon)
+      - [9.2.1. Bouwen](#921-bouwen)
+      - [9.2.2. Uitvoeren](#922-uitvoeren)
+
+### 1.2 Leeswijzer
+
+Dit software guidebook bestaat uit de volgende hoofdstukken:
+
+1. **Inleiding**: Een kort overzicht van het document en wat hierin te vinden is.
+
+2. **Context**: Beschrijft de context van het Triptop systeem met een contextdiagram dat de relaties toont tussen Triptop en externe systemen zoals HotelAPI en FlightAPI.
+
+3. **Functioneel Overzicht**: Geeft een functioneel overzicht via user stories, domain stories (zowel AS-IS als TO-BE) en een domeinmodel.
+
+4. **Kwaliteitsattributen**: Beschrijft de belangrijkste kwaliteitsattributen op basis van ISO 25010, waaronder Compatibility, Reliability, Maintainability en Security.
+
+5. **Beperkingen**: Beschrijft de beperkingen van het project, waaronder de vragen die het prototype moet beantwoorden met betrekking tot Interoperability en Fault Tolerance.
+
+6. **Principes**: Documenteert de ontwerpprincipes zoals Single Responsibility, Open/Closed, Dependency Inversion en de toegepaste ontwerppatronen (Facade, Adapter, Strategy, Factory method).
+
+7. **Software Architectuur**: Beschrijft de softwarearchitectuur via diverse diagrammen:
+   - Containers en Componenten
+   - Design & Code details inclusief API Lijst en API Mapping Table
+   - Sequence Diagram, Class Diagram
+   - Een uitleg over uitbreidbaarheid met nieuwe API's
+
+8. **Architectuurbeslissingsrecords**: Documenteert de architecturale beslissingen:
+   - ADR-001: Postgres database
+   - ADR-002: Strategy pattern
+   - ADR-003: Stripe API Test Modus
+   - ADR-004: API Gateway Pattern (deprecated)
+   - ADR-005: Toepassen van het Facade-patroon
+   - ADR-006: Passend pattern voor "Fallback"
+   - ADR-007: Adapter Pattern voor betalingsintegraties
+
+9. **Installatie, Werking en Ondersteuning**: Beschrijft hoe de applicatie geïnstalleerd, uitgevoerd en gedeployed kan worden, inclusief stappen voor lokale ontwikkeling en productie-omgevingen.
+
+---
 
 ## 2. Context
-![Context_Diagram_groep_3_Pedro.svg](..%2Fopdracht-diagrammen%2FContext_Diagram_groep_3_Pedro.svg)
+
+### 2.1 Contextdiagram
+
+![Context Diagram](New_diagrams/Context_diagram.png)
 
 Het contextdiagram bevat de volgende hoofdcomponenten:
 
 1. **Centraal systeem: "Triptop"**  
 
 2. **Externe entiteiten:**  
-   - **IdentityProvider**: Zorgt voor authenticatie en autorisatie.  
-   - **BoekingService**: Verwerkt boekingen binnen het systeem.  
-   - **TransportService**: Regelt het transport voor de reiziger.  
-   - **BetaalService**: Afhandeling van betalingen binnen het systeem.
+   - **External HotelAPI**: Verwerkt boekingen binnen het systeem.  
+   - **External FlightAPI**: Regelt het transport voor de reiziger.  
 
 3. **Relaties en datastromen:**  
-   - Triptop communiceert met de verschillende services om de processen te beheren, zoals boekingen, betalingen en identificatie.  
-   - Reizigers en reisagenten hebben interactie met Triptop, waarschijnlijk via een gebruikersinterface. 
+   - Triptop communiceert met verschillende services om processen zoals boekingen te beheren.  
+   - Reizigers en reisagenten hebben interactie met Triptop via een gebruikersinterface.
 
-Toelichting op de context van de software inclusief System Context Diagram:
-* Functionaliteit
-* Gebruikers
-* Externe systemen
+---
 
-## 3. Functional Overview
+## 3. Functioneel Overzicht
 
 Om de belangrijkste features toe te lichten zijn er user stories en twee domain stories gemaakt en een overzicht van het domein in de vorm van een domeinmodel. Op deze plek staat typisch een user story map maar die ontbreekt in dit voorbeeld.
 
@@ -63,13 +166,16 @@ Als gebruiker wil ik de bouwstenen van mijn reis flexibel kunnen uitbreiden met 
 
 ![Domain Story Reis Boeken TO BE](../opdracht-diagrammen/reis-boeken-tobe-coursegrained_2024-06-11.egn.svg)
 
-### 3.4 Domain Model
+### 3.4 Domeinmodel
 
 ![Domain Model](../opdracht-diagrammen/Domain%20Model.png)
 
-## 4. Quality Attributes
+---
+
+## 4. Kwaliteitsattributen
 
 Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgende ISO 25010 kwaliteitsattributen benoemd als belangrijk:
+
 * Compatibility -> Interoperability (Degree to which a system, product or component can exchange information with other products and mutually use the information that has been exchanged)
 * Reliability -> Fault Tolerance (Degree to which a system or component operates as intended despite the presence of hardware or software faults)
 * Maintainability -> Modularity (Degree to which a system or computer program is composed of discrete components such that a change to one component has minimal impact on other components)
@@ -77,142 +183,214 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 * Security -> Integrity (Degree to which a system, product or component ensures that the state of its system and data are protected from unauthorized modification or deletion either by malicious action or computer error)
 * Security -> Confidentiality (Degree to which a system, product or component ensures that data are accessible only to those authorized to have access)
 
-## 5. Constraints
+---
 
-> [!IMPORTANT]
-> Beschrijf zelf de beperkingen die op voorhand bekend zijn die invloed hebben op keuzes die wel of niet gemaakt kunnen of mogen worden.
+## 5. Beperkingen
 
-## 6. Principles
+Initieel heeft het team uit een lijst met ontwerpvragen enkele kernvraagstukken geselecteerd die relevant zijn voor de beperkingen van het Triptop-systeem. Elk teamlid heeft één of meerdere van deze vragen onderzocht om passende oplossingen te vinden voor de architecturale uitdagingen. Deze onderzoeken hebben geleid tot concrete implementaties in het prototype en zijn gedocumenteerd in de vorm van [Architectuurbeslissingsrecords](#8-architectuurbeslissingsrecords) (Architectural Decision Records, ADRs).
 
-- **Encapsulatie**: De interne werking van API-communicatie wordt verborgen achter een interface.
-- **Information Hiding**: Clients hoeven alleen te weten *wat* de Facade doet, niet *hoe*.
-- **Single Responsibility Principle (SRP)**: De Facade biedt een vereenvoudigde interface, terwijl de onderliggende logica in de implementatie zit. *(Let op: de Facade moet niet te veel verantwoordelijkheden krijgen!)*
-> [!IMPORTANT]
-> Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
+### 5.1. Prototype vragen
 
-### Toegepaste Patterns
+De prototypes vormen samen een walking skeleton en moeten binnen 3 weken worden afgemaakt door 3 ontwikkelaars.
 
-**Facade:** domeinspecifieke interface (bijv. FlightFacade, HotelFacade) die de complexiteit verbergt van interactie met meerdere onderliggende adapters en selectie-logica toepast. Clients werken voornamelijk met Facades.
+Het project moet met prototypes de volgende vragen kunnen beantwoorden:
 
-**Adapter:** Zet de interface van een specifieke externe dienst (bijv. Skyscanner API, Booking.com API, Stripe API) om naar een standaardinterface binnen Triptop (bijv. IFlightAdapter, IHotelAdapter). Elke externe dienst krijgt een eigen Adapter. (Zie ADR-007 voor Payment Adapters).
+#### 5.1.1. Interoperability
 
-**Strategy:** Definieert een groep algoritmes voor het verwerken of selecteren van resultaten (bijv. het vinden van de goedkoopste vlucht, de snelste vlucht of het best beoordeelde hotel). De Facade bevat en gebruikt een specifieke Strategy-instantie om te werken met de verzamelde gegevens uit de Adapters.
+Hoe kunnen we verschillende externe vervoersservices (zoals Google Maps of een veerdienst API) integreren zonder afhankelijk te worden van hun specifieke implementaties?
+(Zie [ADR-005](#85-adr-005-toepassen-van-het-facade-patroon))
 
-**Factory method:** Verantwoordelijk voor het aanmaken van Adapter-instanties. Dit ontkoppelt de Facade van concrete adapterimplementaties en kan adapterconfiguraties of beschikbaarheid beheren (bijv. met een Circuit Breaker per adapter). (Zie het PaymentAdapterFactory-voorbeeld).
+#### 5.1.2. Fault Tolerance
 
-## 7. Software Architecture
+Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn en toch verwacht wordt dat er waardevolle output gegeven wordt?
+(zie [ADR-002](#82-adr-002-strategy-pattern))
 
-### 7.1. Containers
+#### 5.1.3. Fault Tolerance
+
+Hoe kunnen we ervoor zorgen dat bepaalde bouwstenen automatisch een alternatieve dienst kiezen als de primaire dienst niet beschikbaar is?
+(Zie [ADR-006](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag) en [ADR-007](#87-adr-007-implementatie-van-adapter-pattern-voor-betalingsintegraties) voor voorbeelden met de `PaymentAdapterFactory`).
+
+---
+
+## 6. Principes
+
+Dit hoofdstuk beschrijft de belangrijkste ontwerpprincipes en ontwerppatronen die zijn toegepast in de Triptop-architectuur.
+Deze principes dienen als fundamentele richtlijnen voor onze softwareontwikkeling en zorgen voor een hoge kwaliteit, onderhoudbaarheid en uitbreidbaarheid van het systeem.
+
+### 6.1. Ontwerpprincipes
+
+Elk principe wordt toegelicht met concrete voorbeelden uit de codebase, samen met de belangrijkste ontwerpvoor- en nadelen die ze bevorderen.
+
+#### 6.1.1 Single Responsibility Principle (SRP)
+
+Elke klasse heeft één enkele verantwoordelijkheid. Bijvoorbeeld:
+
+- `IFlightAdapter` definieert het contract voor vluchtadapters.  
+- `SkyscannerAdapter` kapselt de logica in voor interactie met de Skyscanner API.  
+- `FlightFacade` coördineert de interactie tussen adapters en strategieën.  
+- `CheapestFlightStrategy` en `FastestFlightStrategy` richten zich op specifieke selectiecriteria.
+- `ApiContext` zorgt voor schakeling tussen cache en realtime data als externe API niet beschikbaar is middels het strategy design pattern
+
+**Design Properties**: Dit principe bevordert **Cohesion** en **Separation of Concerns**, wat leidt tot betere onderhoudbaarheid en testbaarheid.
+
+#### 6.1.2 Open/Closed Principle (OCP)  
+
+Het systeem is open voor uitbreiding, maar gesloten voor wijzigingen. Bijvoorbeeld:  
+
+- Nieuwe adapters kunnen worden toegevoegd door de `IFlightAdapter`-interface te implementeren zonder bestaande code aan te passen.  
+- Nieuwe strategieën kunnen worden geïntroduceerd door de `IFlightSearchStrategy`-interface te implementeren.  
+
+**Design Properties**: Dit principe bevordert **Extensibility** en vermindert het risico van regressiefouten bij het toevoegen van nieuwe functionaliteit.
+
+#### 6.1.3 Dependency Inversion Principle (DIP)  
+
+Hoog-niveau modules (bijv. `FlightFacade`) zijn afhankelijk van abstracties (`IFlightAdapter`, `IFlightSearchStrategy`) in plaats van concrete implementaties.  
+
+**Design Properties**: Dit principe bevordert lage **Coupling**, wat leidt tot betere **Extensibility** en testbaarheid.
+
+#### 6.1.4 Program to Interfaces, Not Implementations
+
+Het systeem is gebaseerd op interfaces (`IFlightAdapter`, `IFlightSearchStrategy`) in plaats van concrete klassen, wat flexibiliteit en eenvoudiger testen mogelijk maakt.  
+
+**Design Properties**: Verhoogt **Extensibility** en vermindert **Coupling**.
+
+#### 6.1.5. Separation of Concerns (SoC)  
+
+Verschillende verantwoordelijkheden worden afgehandeld door verschillende componenten:  
+
+- Adapters verwerken API-specifieke logica.  
+- Factories beheren de aanmaak en beschikbaarheid van adapters.  
+- Strategieën regelen de selectielogica.  
+- Facades bieden een vereenvoudigde interface voor clients. 
+
+**Design Properties**: Verhoogt **Separation of Concerns**, **Cohesion** en verbetert onderhoudbaarheid.
+
+#### 6.1.6. Composition Over Inheritance  
+
+Het systeem maakt gebruik van compositie (bijv. `FlightFacade` combineert adapters en strategieën) in plaats van overerving.
+
+ **Design Properties**: Verbetert **Extensibility** en vermindert rigide hiërarchieën.
+
+#### 6.1.7. DRY (Don't Repeat Yourself)  
+
+Gemeenschappelijke logica (bijv. beschikbaarheidscontroles van adapters) is gecentraliseerd in factories om duplicatie te voorkomen.
+
+**Design Properties**: Verbetert **Cohesion** en vermindert inconsistenties.  
+
+#### 6.1.8. Encapsulatie
+
+Implementatiedetails van externe API-interacties zijn verborgen binnen adapterklassen en bieden alleen de interface aan.
+
+**Design Properties**: Verhoogt **Information Hiding** en vermindert **Coupling**.
+
+#### 6.1.9. Information Hiding
+
+Clients hoeven alleen te weten *wat* de Facade doet, niet *hoe*.
+
+**Design Properties**: Bevordert **Information Hiding** en vermindert complexiteit voor clients.
+
+### 6.2. Ontwerppatronen
+
+#### 6.2.1. Facade
+
+Domeinspecifieke interface (bijv. FlightFacade, HotelFacade) die de complexiteit verbergt van interactie met meerdere onderliggende adapters en selectie-logica toepast. Clients werken met Facades (Zie [ADR-005](#85-adr-005-toepassen-van-het-facade-patroon)).
+
+#### 6.2.2. Adapter
+
+Zet de interface van een specifieke externe dienst (bijv. Skyscanner API, Booking.com API, Stripe API) om naar een standaardinterface binnen Triptop (bijv. IFlightAdapter, IHotelAdapter). Elke externe dienst krijgt een eigen Adapter. (Zie [ADR-007](#87-adr-007-implementatie-van-adapter-pattern-voor-betalingsintegraties)).
+
+#### 6.2.3. Strategy
+
+Definieert een groep algoritmes voor het verwerken of selecteren van resultaten (bijv. het vinden van de goedkoopste vlucht, de snelste vlucht of het best beoordeelde hotel). De Facade bevat en gebruikt een specifieke Strategy-instantie om te werken met de verzamelde gegevens uit de Adapters (Zie [ADR-002](#82-adr-002-strategy-pattern)).
+
+#### 6.2.4. Factory method
+
+Verantwoordelijk voor het aanmaken van Adapter-instanties. Dit ontkoppelt de Facade van concrete adapterimplementaties en kan adapterconfiguraties of beschikbaarheid beheren (bijv. met een Circuit Breaker per adapter). (Zie het PaymentAdapterFactory-voorbeeld) (Zie [ADR-006](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag)) .
+
+---
+
+## 7. Software Architectuur
+
+### 7.1. Containerdiagram
+
+![alt text](New_diagrams/Container_diagram.svg)
 
 >Elke aanbieder heeft zijn eigen API-specificaties, wat leidt tot complexiteit en verlies van overaciht.
 > 
-> In het model hebben we Identity Provider en Vervoer API als samengestelde entiteiten gedefinieerd. Dit is gedaan om de complexiteit van het systeem te vereenvoudigen en de overzichtelijkheid te behouden. In werkelijkheid bestaan deze services uit meerdere afzonderlijke API’s van verschillende providers.
-> 1. Identity Provider (OAuth2 Login Services)
->
->
->   De Identity Provider in het model vertegenwoordigt meerdere login-diensten waarmee gebruikers zich kunnen authenticeren bij Triptop. In werkelijkheid zou Triptop zich verbinden met verschillende externe OAuth2-providers, zoals:
->    - Google OAuth → Gebruikers kunnen inloggen met hun Google-account.
->    - Microsoft Identity Platform → Ondersteunt inloggen met Microsoft- en Azure AD-accounts
-> 
-> 2. Vervoer API (Aggregatie van Reisaanbieders) 
-> 
-> De Vervoer API in het model vertegenwoordigt een aggregatie van meerdere reis- en transportaanbieders. In werkelijkheid haalt Triptop reisopties op uit verschillende externe bronnen:
->    - NS API → Real-time treinroutes en prijzen van Nederlandse Spoorwegen.
->    - KLM API → Vluchtinformatie, prijzen en boekingen via KLM.
+> In het model hebben we verschillende Vervoer API als samengestelde entiteiten gedefinieerd. Dit is gedaan om de complexiteit van het systeem te vereenvoudigen en de overzichtelijkheid te behouden. In werkelijkheid bestaan deze services uit meerdere afzonderlijke API’s van verschillende providers.
+>   De FlightAPI in het model vertegenwoordigt meerdere reis-diensten waarmee gebruikers tickets kunnen boeken bij Triptop. In werkelijkheid zou Triptop zich verbinden met verschillende externe APIs Zie ![7.3.1 API Lijst](#731-api-lijst), zoals:
+- Booking.com 
+- Tripadvisor
 
 
-![container-diagram-Pedro.svg](..%2Fopdracht-diagrammen%2Fcontainer-diagram-Pedro.svg)
+#### 7.1.1. Dynamische Diagram: Haal beste vluchten op
 
-#### 7.1.1. Dynamic Diagram: Inloggen
+> **Begeleidende tekst Dynamic Diagram (Reis Plannen):**
+Dit diagram laat de interacties zien tussen de gebruiker, de Triptop applicatie en externe services tijdens het plannen van een reis. De gebruiker start het proces, waarna Triptop via de Facade laag communiceert met verschillende Adapters (bijvoorbeeld voor vluchten, hotels) die op hun beurt externe API's aanroepen. De resultaten worden verzameld en via een Strategy (bijvoorbeeld 'goedkoopste eerst') gepresenteerd aan de gebruiker.
 
-![Dynamic_Diagram_Inloggen_Pedro.svg](..%2Fopdracht-diagrammen%2FDynamic_Diagram_Inloggen_Pedro.svg)
+![alt text](New_diagrams/Dynamic_Diagram_Flights.svg)
 
-#### 7.1.1. Dynamic Diagram: Reis Plannen
+### 7.2. Componenten
 
-![Dynamic_Diagram_ReisPlannen_Pedro.svg](..%2Fopdracht-diagrammen%2FDynamic_Diagram_ReisPlannen_Pedro.svg)
-> [!IMPORTANT]
-> Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
+#### 7.2.1 Componentdiagram: Adapter & Factory
 
-### 7.2. Components
+![alt text](New_diagrams/Factory/factory_component.svg)
 
-#### 7.2.1 Component Diagram: Betaling
+![alt text](New_diagrams/Adapter/adapter_Component.svg)
+Voor de onderzoeksvraag behandeld in [ADR-006: Passend pattern kiezen voor bij "Fallback" onderzoeksvraag](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag), willen we het Factory Method & Adapter patroon toepassen in het volgende component diagram:
 
-Voor de onderzoeksvraag: ["Hoe kunnen we ervoor zorgen dat bepaalde bouwstenen automatisch een alternatieve dienst kiezen als de primaire dienst niet beschikbaar is?"](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag) willen we het Factory Method & Adapter patroon toepassen in het volgende component diagram:
+> **Begeleidende tekst Component Diagram (Adapter & Factory):**  
+Dit diagram toont hoe het Adapter en Factory Method patroon samenwerken binnen de architectuur. De Factory Method zorgt voor het dynamisch leveren van de juiste Adapter-implementatie, afhankelijk van de context of beschikbaarheid. De Adapters zelf dienen als tussenlaag tussen de applicatie en externe API's, waardoor de complexiteit van API-specifieke logica wordt geïsoleerd. Dit maakt het systeem flexibel en uitbreidbaar, omdat nieuwe API's eenvoudig kunnen worden toegevoegd door nieuwe Adapters te implementeren.
 
-![Betaling_Component_Diagram.svg](../opdracht-diagrammen/component-diagrammen/MEES/BetalingComponentDiagram.svg)
+#### 7.2.2 Componentdiagram: Facade
 
-#### 7.2.2 Component Diagram: Reizen
+![alt text](New_diagrams/Facade/facade_Component.svg)
 
-![alt text](Component_Diagram_Pedro_Old.svg)
+> **Begeleidende tekst Component Diagram (Facade):**  
+Het Facade patroon wordt gebruikt om een vereenvoudigde klasse te bieden aan de subsystemen van de applicatie. In dit diagram zien we hoe de Facade werkt als een centrale toegangspoort voor de client, terwijl het de interacties met de onderliggende Adapters en Strategies beheerd. Dit patroon helpt bij het verminderen van de afhankelijkheden tussen de client en de interne structuur van het systeem.
 
-#### 7.2.3 Component Diagram: API
+#### 7.2.3 Componentdiagram: Strategy
 
-Voor de onderzoeksvraag: "Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn en toch verwacht wordt dat er waardevolle output gegeven
-wordt?" willen we het strategy pattern toepassen, dit resulteert in het
-volgende component diagram:
+Voor de onderzoeksvraag behandeld in [ADR-002: Strategy pattern](#82-adr-002-strategy-pattern) ("Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn en toch verwacht wordt dat er waardevolle output gegeven wordt?"), willen we het strategy pattern toepassen. Dit resulteert in het volgende component diagram:
 
 ![component_diagram_onderzoeksvraag1_ramon.svg](../opdracht-diagrammen/component_diagram_onderzoeksvraag1_ramon.svg)
 
-Als code zal dit er alsvolgt uitzien:
+Toelichting:
+  - CacheRepository en ApiRepositories zijn hier de 'strategies' die de ApiStrategy interface implementeren.
+
+#### 7.2.4 Code Diagram: Strategy
+
+Als we gaan inzoomen op het code niveau krijgen we het volgende code diagram:
 
 ![code_diagram_ramon.svg](../opdracht-diagrammen/code_diagram_ramon.svg)
 
-### 7.3. Design & Code
+#### 7.2.5 Sequentiediagram: Strategy
 
-#### 7.3.1. API Lijst
+![sequence_diagram_ramon.svg](../opdracht-diagrammen/sequence_diagram_ramon.svg)
 
-**Betalingen**
+Toelichting:
+  - De aanroep voor `apiRepository.isAvailable()` wordt niet op de `ApiStrategy` interface uitgevoerd maar direct op de `ApiRepository`, dit is puur een persoonlijk voorkeur.
 
-* **Stripe API**
-  * **Base URL**: https://api.stripe.com/v1
-  * **Pricing**:  
-    * **EU**: Card: 1.5% + €0.25, iDEAL: €0.29, Klarna: Starting at 2.99% + €0.35  
-    * **UK**: Card: 2.5% + €0.25  
-    * **International**: 3.25% + €0.25  
-  * **Payment methods**:  
-    * Card  
-    * Link  
-    * Local payment methods (iDEAL, WeChat Pay)  
-    * Buy Now Pay Later  
+#### 7.2.6 Componentdiagram: alle patterns
 
-* **Paypal**
-  * **Base URL (sandbox)**: https://api-m.sandbox.paypal.com/
-  * **Base URL (live)**: https://api-m.paypal.com/ 
+![alt text](New_diagrams/Overarching.svg)
 
-* **Beanstream Payments**
-  * **Base URL**: https://www.beanstream.com/api/v1  
+### 7.3 Design & Code
+
+#### 7.3.1 API Lijst
+
+> [!NOTE]
+> De onderstaande lijst toont een overzicht van potentiële externe API's die geïntegreerd *kunnen* worden met Triptop via de Adapter-structuur. Voor het huidige prototype zijn voornamelijk **Booking.com** (voor overnachtingen) en **TripAdvisor** (voor activiteiten) actief geïmplementeerd als voorbeeld. De architectuur is echter ontworpen om eenvoudig uitbreidbaar te zijn met andere aanbieders. Zie [Sectie 7.3.3](#733-uitbreidbaarheid-met-nieuwe-apis) voor hoe je een nieuwe API toevoegt.
+
 
 **Overnachtingen**
-
-* **Booking.com - Demand API**
-  * **Base URL**: https://developers.booking.com/api  
-  * **Requirements**:  
-    * Booking.com Affiliate Partnership needed ([free signup](https://spadmin.booking.com/pc/sign-up.html?lang=en))  
 
 * **Trawix Hotel API**
   * **Requirements**:  
     * (Affiliate) Application needed  
 
-**Huurautos**
 
-* **Sixt SHARE API**
-  * **Base URL**: https://api.sixt.com/v1  
-  * **Description**:  
-    * Car sharing services  
-
-* **Sixt RENT API**
-  * **Base URL**: https://api.sixt.com/v1  
-  * **Description**:  
-    * Car rental services  
-
-* **Trawix Car API**
-  * **Requirements**:  
-    * (Affiliate) Application needed  
-
-* **Furkot Trips**
-  * **Base URL**: https://trips.furkot.com/api/v1  
-
-**Activiteiten**
+**Vervoer**
 
 * **TripAdvisor API**
   * **Base URL**: https://api.tripadvisor.com/api  
@@ -228,6 +406,16 @@ Als code zal dit er alsvolgt uitzien:
     * (Affiliate) Application needed  
 
 **Vervoer**
+
+* **TripAdvisor API**
+  * **Base URL**: https://api.tripadvisor.com/api  
+  * **Pricing**:  
+    * 5k API calls per month for free, overages will be charged  
+
+* **Booking.com - Demand API**
+  * **Base URL**: https://developers.booking.com/api  
+  * **Requirements**:  
+    * Booking.com Affiliate Partnership needed ([free signup](https://spadmin.booking.com/pc/sign-up.html?lang=en))  
 
 * **Google Maps - Routes API**
   * **Base URL**: https://maps.googleapis.com/maps/api  
@@ -246,39 +434,9 @@ Als code zal dit er alsvolgt uitzien:
   * **Description**:  
     * Flight information and booking  
 
-**Eten & Drinken**
 
-* **Allset API**
-  * **Base URL**: https://api.allset.com  
-  * **Limitations**:  
-    * US Market only  
 
-* **MealMe API**
-  * **Base URL**: https://api.mealme.ai  
-  * **Limitations**:  
-    * US & Canada only  
-
-**Authenticatie & Autorisatie**
-
-* **WireMock API**
-  * **Base URL**: https://wiremock.org/docs/api  
-  * **Description**:  
-    * Mock API for testing  
-
-* **OAuth 2.0**
-  * **Description**:  
-    * Industry standard protocol for authorization  
-
-**Email**
-
-* **ClickSend REST API v3**
-  * **Base URL**: https://rest.clicksend.com/v3  
-  * **Authentication**:  
-    * Basic HTTP authentication  
-    * **Username**: Your API username  
-    * **Password**: Your API key  
-
-#### 7.3.2. API Mapping Table
+#### 7.3.2 API Mapping Tabel
 
 | Class::Attribuut           | Is input voor API+Endpoint         | Wordt gevuld door API+Eindpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
 |----------------------------|---------------------------------|--------------------------------|---------------------------------|---------------------------------|
@@ -300,10 +458,129 @@ Als code zal dit er alsvolgt uitzien:
 | Invoice::create   | Stripe API /? | x                              |                                | x                               |
 _Stripe endpoint addressen worden niet gegeven in de documentatie._
 
-> [!IMPORTANT]
-> Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
+#### 7.3.3 Sequenciediagram
 
-## 8. Architectural Decision Records
+![Sequence Diagram](New_diagrams/sequence_diagram.svg)
+
+**Begeleidende tekst Sequence Diagram (7.3.3):**  
+Dit diagram toont de interacties tussen de verschillende componenten tijdens het zoeken naar de beste vlucht. De client roept de Facade aan, die via de Factory beschikbare Adapters ophaalt. Elke Adapter communiceert met een externe API om vluchtgegevens op te halen. De Facade verzamelt de resultaten en gebruikt een Strategy om de beste vlucht te bepalen, die uiteindelijk aan de client wordt teruggegeven.
+
+#### 7.3.4 Klassendiagram
+
+![Class Diagram](New_diagrams/Class_Diagram.svg)
+
+**Begeleidende tekst Class Diagram (7.3.4):**
+Dit diagram geeft een overzicht van de klassenstructuur voor het zoeken naar vluchten. Het toont de interfaces (`IFlightAdapter`, `IFlightSearchStrategy`), concrete implementaties (zoals `SkyscannerAdapter` en `CheapestFlightStrategy`), en de Facade (`FlightFacade`) die de interactie tussen de client en de adapters/strategieën beheert. De Factory (`FlightAdapterFactory`) zorgt voor het leveren van beschikbare adapters, terwijl de Facade de strategie gebruikt om de beste vlucht te selecteren.
+
+#### 7.3.5 Uitbreidbaarheid met Nieuwe API's
+
+Een belangrijk doel van de gekozen architectuur (met Facades, Adapters en Factories) is de **uitbreidbaarheid**. Het toevoegen van een nieuwe externe dienst (bijvoorbeeld een extra hotelprovider zoals Expedia, of een andere vluchtaanbieder) is relatief eenvoudig en vereist minimale aanpassingen aan de bestaande code buiten de nieuwe Adapter zelf.
+
+**Stappen voor het toevoegen van een nieuwe API (bijv. Expedia voor hotels):**
+
+1.  **Identificeer/Gebruik de Standaard Interface:** Bepaal welke bestaande interface de nieuwe dienst moet implementeren. Voor hotels is dit `IHotelAdapter`. Als er nog geen interface bestaat voor het domein (bijv. autoverhuur), definieer dan eerst een nieuwe interface (bv. `IRentalCarAdapter`).
+    ```java
+    // Voorbeeld: Bestaande interface (vereenvoudigd)
+    package ese.triptop.features.hotels.adapter;
+    import ese.triptop.features.hotels.domain.Hotel;
+    import java.util.List;
+
+    public interface IHotelAdapter {
+        List<Hotel> getHotels(String location, String checkInDate, String checkOutDate, int guests);
+        boolean isAvailable();
+    }
+    ```
+
+2.  **Implementeer de Concrete Adapter:** Maak een nieuwe klasse die de interface implementeert. Deze klasse bevat alle logica specifiek voor de nieuwe API (authenticatie, request opbouw, response parsing, mapping naar Triptop's domeinmodel).
+    ```java
+    package ese.triptop.features.hotels.adapter; // Plaats in de juiste package
+
+    import ese.triptop.features.hotels.domain.Hotel;
+    import org.springframework.stereotype.Component; // Belangrijk voor Spring DI / Factory
+    import java.util.List;
+    import java.util.ArrayList;
+    // Importeer je HTTP client (bv. kong.unirest.core.*)
+
+    @Component // Maakt de adapter vindbaar voor de HotelAdapterFactory (via Spring DI)
+    public class ExpediaHotelAdapter implements IHotelAdapter {
+
+        private static final String EXPEDIA_API_ENDPOINT = "https://api.expedia.com/v2/hotels"; // Fictief endpoint
+        private static final String API_KEY = System.getenv("EXPEDIA_API_KEY"); // Laad API key veilig (bv. via environment variable)
+
+        @Override
+        public List<Hotel> getHotels(String location, String checkInDate, String checkOutDate, int guests) {
+            List<Hotel> hotels = new ArrayList<>();
+            System.out.println("[ExpediaHotelAdapter] Searching hotels via Expedia API for: " + location);
+
+            if (API_KEY == null || API_KEY.isEmpty()) {
+                 System.err.println("[ExpediaHotelAdapter] API Key not configured.");
+                 return hotels; // Return empty list if key is missing
+            }
+
+            try {
+                // === Logica specifiek voor Expedia API ===
+                // 1. Bouw het request (parameters, headers met API Key)
+                // HttpResponse<JsonNode> response = Unirest.get(EXPEDIA_API_ENDPOINT)
+                //         .header("Authorization", "Bearer " + API_KEY)
+                //         .queryString("location", location)
+                //         .queryString("checkIn", checkInDate)
+                //         .queryString("checkOut", checkOutDate)
+                //         .queryString("guests", guests)
+                //         .asJson();
+
+                // 2. Verwerk de response
+                // if (response.getStatus() == 200) {
+                //     System.out.println("[ExpediaHotelAdapter] Expedia API call successful.");
+                //     // 3. Map de JSON response naar Triptop's List<Hotel> objecten
+                //     // hotels = mapExpediaResponseToHotels(response.getBody());
+                       // Dummy data voor dit voorbeeld:
+                       hotels.add(new Hotel("Expedia", "Marriott", 180.0, 4.7));
+                       hotels.add(new Hotel("Expedia", "Ibis Budget", 85.0, 3.9));
+                // } else {
+                //     System.err.println("[ExpediaHotelAdapter] Expedia API call failed: " + response.getStatus() + " " + response.getStatusText());
+                // }
+                 System.out.println("[ExpediaHotelAdapter] Simulated search complete."); // Simulatie voor guidebook
+
+            } catch (Exception e) { // Vang specifieke exceptions (bv. UnirestException)
+                System.err.println("[ExpediaHotelAdapter] Error during Expedia API call: " + e.getMessage());
+                // Optioneel: log de stack trace
+            }
+            return hotels;
+        }
+
+        @Override
+        public boolean isAvailable() {
+            // Implementeer een health check specifiek voor de Expedia API
+            // Dit kan een simpele ping zijn of een check op een status endpoint
+            System.out.println("[ExpediaHotelAdapter] Checking availability (simulated: true).");
+            // Voorbeeld: probeer een simpele request
+            // try {
+            //    HttpResponse<String> response = Unirest.get("https://api.expedia.com/status").asString(); // Fictief status endpoint
+            //    return response.getStatus() == 200;
+            // } catch (Exception e) {
+            //    return false;
+            // }
+            return true; // Simpel voorbeeld voor guidebook
+        }
+
+        // Helper methode voor het mappen van de API response naar domein objecten
+        // private List<Hotel> mapExpediaResponseToHotels(JsonNode responseBody) {
+        //     List<Hotel> mappedHotels = new ArrayList<>();
+        //     // ... Logica om JSON te parsen en Hotel objecten te maken ...
+        //     return mappedHotels;
+        // }
+    }
+    ```
+
+3.  **Registratie (Automatisch via `@Component`):** Door de nieuwe adapterklasse te annoteren met `@Component` (of een vergelijkbare Spring-stereotype zoals `@Service`), zal Spring's dependency injection mechanisme deze automatisch detecteren. De `HotelAdapterFactory` (of een vergelijkbare factory die alle `IHotelAdapter` beans injecteert) zal de nieuwe adapter dan automatisch meenemen wanneer `getAvailableAdapters()` wordt aangeroepen. Er zijn geen handmatige registratiestappen nodig in de Factory zelf.
+
+4.  **Configuratie:** Zorg ervoor dat eventuele benodigde configuratie (zoals API keys) beschikbaar is voor de nieuwe adapter (bijvoorbeeld via environment variables of een configuratiebestand).
+
+Na deze stappen zal de `HotelFacade` automatisch de nieuwe `ExpediaHotelAdapter` gebruiken (indien beschikbaar volgens de `isAvailable()` check) bij het zoeken naar hotels, zonder dat de code van de Facade of de client aangepast hoeft te worden. Dit demonstreert de kracht van de gekozen architectuur voor schaalbaarheid en onderhoudbaarheid.
+
+---
+
+## 8. Architectuurbeslissingsrecords
 
 ### 8.1. ADR-001 Postgres database
 
@@ -373,8 +650,8 @@ patterns overwogen:
 
 | Design pattern | Flexibiliteit | Onderhoudbaarheid | Testbaarheid |
 |-------|---------------|-------------------|--------------|
-| **If-Else Logica** | Laag | Laag - Kan erg onoverzichtelijk worden | Laag – moeilijk afzonderlijk te testen |
-| **Strategy Pattern** | Hoog – eenvoudig nieuwe strategieën toe te voegen | Hoog – scheidt verantwoordelijkheden in aparte klassen | Hoog – strategieën kunnen onafhankelijk worden getest |
+| **Adapter Pattern** | Hoog - Makkelijk uit te breiden zonder classes aan te passen | Gemiddeld - Het verkeerd toepassen ervan kan leiden tot moeilijk onderhoudbare code | Gemiddeld - Kan testbaarheid verhogen door gebruik te maken van mock objects of stubs |
+| **Strategy Pattern** | Hoog – Eenvoudig nieuwe strategieën toe te voegen | Hoog – Scheidt verantwoordelijkheden in aparte klassen | Hoog – Strategieën kunnen onafhankelijk worden getest |
 | **Factory Pattern** | Gemiddeld - Kan tot tight-coupling leiden | Gemiddeld - Kan complex worden als er veel classes worden toegevoegd | Gemiddeld - Code kan makkelijker te testen zijn |
 
 #### Keuze
@@ -383,6 +660,7 @@ We hebben gekozen voor het Strategy Pattern omdat dit biedt:
 - Een duidelijke scheiding van verantwoordelijkheden.
 - De mogelijkheid om gemakkelijk opties uit te breiden en te wijzigen.
 - Verbeterde testbaarheid.
+- Lage complexiteit ten opzichte van andere design patterns.
 
 #### Status
 
@@ -515,7 +793,7 @@ De implementatie **`TravelApiServiceFacadeImpl`** zal deze interface gebruiken o
 - Specifieke API-eindpunten en parameters afhandelen.
 - Basisfouten verwerken en API-reacties omzetten.
 
-![Facade_Patter.svg](Facade_Pattern.svg)
+![alt text](New_diagrams/Facade/facade_Component.svg)
 
 Clientcode communiceert alleen met de **Facade-interface**, zonder afhankelijk te zijn van de onderliggende API’s.
 
@@ -534,7 +812,7 @@ Clientcode communiceert alleen met de **Facade-interface**, zonder afhankelijk t
 #### Toegepaste ontwerpprincipes
 - **Encapsulatie**: De interne werking van API-communicatie wordt verborgen achter een interface.
 - **Information Hiding**: Clients hoeven alleen te weten *wat* de Facade doet, niet *hoe*.
-- **Single Responsibility Principle (SRP)**: De Facade biedt een vereenvoudigde interface, terwijl de onderliggende logica in de implementatie zit. *(Let op: de Facade moet niet te veel verantwoordelijkheden krijgen!)*
+- **Single Responsibility Principle (SRP)**: De Facade biedt een vereenvoudigde interface, terwijl de onderliggende logica in de implementatie zit. *(Let op: de Facade moet niet te veel verantwoordelijkheden krijgen!)* 
 - **Law of Demeter**: Clientcode communiceert alleen met de Facade en niet direct met externe API's of de `Unirest`-bibliotheek.
 
 
@@ -551,10 +829,10 @@ _**Geaccepteerd**_
 #### Context
 Bij Triptop moet de betalingsverwerking betrouwbaar werken, zelfs wanneer externe betalingsproviders uitvallen of onbereikbaar zijn. Onze onderzoeksvraag naar "Fallback" technieken heeft uitgewezen dat we een robuust mechanisme nodig hebben dat:
 
-* Snel detecteren wanneer een primaire betalingsprovider (Stripe) niet beschikbaar is
-* Automatisch overschakelt naar een alternatieve provider (Paypal) zonder gebruikersinterventie
-* Periodiek controleert of de primaire provider weer beschikbaar is
-* Consistente dataformaten behoudt tussen verschillende providers
+- Snel detecteert wanneer een primaire betalingsprovider (Stripe) niet beschikbaar is.
+- Automatisch overschakelt naar een alternatieve provider (Paypal) zonder gebruikersinterventie.
+- Periodiek controleert of de primaire provider weer beschikbaar is.
+- Consistente dataformaten behoudt tussen verschillende providers.
 
 Voor het opzetten van de bovenstaande criteria is het ICT Research Pattern ['Choose fitting technologies'](https://ictresearchmethods.nl/patterns/choose-fitting-technology/) toegepast. Doormiddel van de 5xW en 1xH vragen op te stellen als onderdeel van het "Veld" onderzoek.
 
@@ -564,24 +842,25 @@ Voor het opzetten van de bovenstaande criteria is het ICT Research Pattern ['Cho
 
 Bij het implementeren van failover tussen betalings-API's komt het Circuit Breaker als beste optie naar voren.
 
-| Pattern → Criteria ↓ | Circuit Breaker | Retry met Exponential Backoff | Fallback Pattern | Service Discovery | Load Balancing met Health Checks | Bulkhead Pattern | API Gateway met Failover Logic |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 1. Detectie binnen 5 seconden | X | X | X | X | X |  | X |
-| 2. Automatische overschakeling | X | X | X | X | X |  | X |
-| 3. Maximaal 5 retries | X | X |  |  |  |  | X |
-| 4. Logging van failovers | X | X | X | X | X | X | X |
-| 5. Periodieke controle primaire dienst | X | X |  | X | X |  | X |
-| 6. Consistente dataformaten |  |  | X |  |  |  | X |
-| 7. Max 1 sec extra verwerkingstijd | X |  | X | X | X | X |  |
+| Pattern → Criteria ↓       | Circuit Breaker | Retry met Exponential Backoff | Fallback Pattern | Service Discovery | Load Balancing met Health Checks | Bulkhead Pattern | API Gateway met Failover Logic |
+|-----------------------------|-----------------|--------------------------------|-------------------|-------------------|-----------------------------------|------------------|---------------------------------|
+| 1. Detectie binnen 5 seconden | ✅             | ✅                            | ✅               | ✅               | ✅                               | ❌              | ✅                             |
+| 2. Automatische overschakeling | ✅             | ✅                            | ✅               | ✅               | ✅                               | ❌              | ✅                             |
+| 3. Maximaal 5 retries        | ✅             | ✅                            | ❌               | ❌               | ❌                               | ❌              | ✅                             |
+| 4. Logging van failovers     | ✅             | ✅                            | ✅               | ✅               | ✅                               | ✅              | ✅                             |
+| 5. Periodieke controle primaire dienst | ✅     | ✅                            | ❌               | ✅               | ✅                               | ❌              | ✅                             |
+| 6. Consistente dataformaten  | ❌             | ❌                            | ✅               | ❌               | ❌                               | ❌              | ✅                             |
+| 7. Max 1 sec extra verwerkingstijd | ✅       | ❌                            | ✅               | ✅               | ✅                               | ✅              | ❌                             |
 
 We implementeren een Circuit Breaker Pattern in combinatie met het Fallback Pattern voor onze betalingsverwerkingsmodule. Dit betekent:
 
-1. We bouwen een PaymentAdapterFactory die het circuit breaker mechanisme implementeert
-2. We definiëren een generieke IPaymentAdapter interface voor alle betalingsproviders
-3. We creëren concrete adapter-implementaties voor Stripe (primair) en Paypal (fallback)
-4. Het circuit "opent" wanneer Stripe een bepaald aantal fouten geeft binnen een tijdsperiode
-5. Wanneer het circuit open is, worden verzoeken direct doorgestuurd naar Paypal
+1. We bouwen een `PaymentAdapterFactory` die het circuit breaker mechanisme implementeert.
+2. We definiëren een generieke `IPaymentAdapter` interface voor alle betalingsproviders.
+3. We creëren concrete adapter-implementaties voor Stripe (primair) en Paypal (fallback).
+4. Het circuit "opent" wanneer Stripe een bepaald aantal fouten geeft binnen een tijdsperiode.
+5. Wanneer het circuit open is, worden verzoeken direct doorgestuurd naar Paypal.
 6. Het circuit "sluit" weer zodra een verbinding mogelijk is met Stripe.
+
 
 Zie klassendiagram:
 
@@ -662,7 +941,77 @@ We implementeren het Adapter Pattern voor alle betalingsintegraties. Dit beteken
 * Mappings tussen ons interne datamodel en het provider-specifieke formaat
 * Provider-specifieke authenticatie en API-aanroepen
 
-## 9. Deployment, Operation and Support
+---
 
-> [!TIP]
-> Zelf beschrijven van wat je moet doen om de software te installeren en te kunnen runnen.
+## 9. Installatie, Werking en Ondersteuning
+
+In dit hoofdstuk wordt toegelicht hoe je de prototype(s) en het walking skeleton op je eigen (lokale) machine kunt uitvoeren.
+Er wordt vanuit gegaan dat je beschikt over een Linux/Unix omgeving met de volgende software:
+
+  - Bash
+  - Git
+  - Maven
+  - Java JDK (Benodigde versie kan afhankelijk zijn van het prototype/walking skeleton)
+  - Docker
+  - PostgreSQL
+
+```bash
+git clone git@github.com:AIM-ENE-feb25/triptop-groep-3-pedro-ramon-mees.git
+cd triptop-groep-3-pedro-ramon-mees
+```
+
+### 9.1 Triptrop applicatie (walking skeleton)
+
+#### 9.1.1 Bouwen
+
+Zorg ervoor dat je Java JDK 21 of hoger hebt geinstalleerd en voer de volgende stappen uit:
+
+```bash
+cd triptop
+mvn clean package
+```
+
+#### 9.1.2 Uitvoeren
+
+```bash
+mvn spring-boot:run
+```
+
+### 9.2 API Prototype Ramon
+
+#### 9.2.1 Bouwen
+
+Zorg ervoor dat je Java JDK 24 hebt geinstalleerd en voer de volgende stappen uit:
+
+Voor het bouwen van de applicatie is het eerst nodig dat we de database aanmaken en opstarten:
+
+```bash
+cd postgres
+# Inloggevens staan in compose.yaml
+sudo docker compose up
+./ins.sh # Alleen nodig voor de eerste keer om het database schema in te laden
+```
+
+Vervolgens kunnen we de applicatie bouwen door naar de root folder van de repository te navigeren en de volgende stappen uit te voeren:
+
+```bash
+cd api-proto-ramon
+mvn clean package # Deze stap zal falen als je postgres niet draaiende hebt staan
+```
+
+#### 9.2.2 Uitvoeren
+
+```bash
+mvn spring-boot:run
+```
+
+Als de applicatie is opgestart kan de API worden aangeroepen via `localhost:8080`
+
+Een voorbeeld in de vorm van een curl-script:
+
+```bash
+CITY="arnhem"
+
+curl -X GET \
+        "http://localhost:8080/hotels?city=$CITY"
+```

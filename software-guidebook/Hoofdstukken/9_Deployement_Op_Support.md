@@ -84,4 +84,3 @@ Voor productie-omgevingen raden we aan om de applicatie te containeriseren en te
    ```bash
    docker run -d -p 8080:8080 --name triptop-api triptop-api:latest
    ```
-

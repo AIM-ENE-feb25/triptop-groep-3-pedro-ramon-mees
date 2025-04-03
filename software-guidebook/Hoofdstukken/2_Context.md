@@ -11,4 +11,4 @@ Het contextdiagram bevat de volgende hoofdcomponenten:
 
 3. **Relaties en datastromen:**  
    - Triptop communiceert met de verschillende services om de processen te beheren, zoals boekingen, betalingen en identificatie.  
-   - Reizigers en reisagenten hebben interactie met Triptop, waarschijnlijk via een gebruikersinterface. 
+   - Reizigers en reisagenten hebben interactie met Triptop, waarschijnlijk via een gebruikersinterface.

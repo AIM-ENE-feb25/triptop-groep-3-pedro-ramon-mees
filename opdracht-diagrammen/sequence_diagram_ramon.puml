@@ -17,6 +17,7 @@ user -> controller: hotels("Arnhem")
 controller -> service: getHotels("Arnhem")
 service -> context: getHotels("Arnhem")
 context -> api: available = isAvailable()
+api -> RapidApi: GET "/api/v1/test"
 alt available == true
     context -> context: setStrategy(apiRepository)
 else available == false

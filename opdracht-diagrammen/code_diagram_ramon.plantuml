@@ -38,10 +38,6 @@ class CacheRepository {
   - jdbcTemplate: JdbcTemplate
   + getHotels(String): String
 }
-class ProtoApplication {
-  + ProtoApplication(): 
-  + main(String[]): void
-}
 
 ApiContext       "1" *-[#595959,plain]-> "apiRepository\n1" ApiRepository    
 ApiContext       "1" *-[#595959,plain]-> "apiStrategy\n1" ApiStrategy      
