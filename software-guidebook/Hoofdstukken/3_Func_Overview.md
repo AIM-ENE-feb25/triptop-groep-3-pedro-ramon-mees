@@ -1,4 +1,4 @@
-## 3. Functional Overview
+## 3. Functioneel Overzicht
 
 Om de belangrijkste features toe te lichten zijn er user stories en twee domain stories gemaakt en een overzicht van het domein in de vorm van een domeinmodel. Op deze plek staat typisch een user story map maar die ontbreekt in dit voorbeeld.
 

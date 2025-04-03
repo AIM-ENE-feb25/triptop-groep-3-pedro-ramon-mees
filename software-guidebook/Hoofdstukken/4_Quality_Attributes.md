@@ -1,4 +1,4 @@
-## 4. Quality Attributes
+## 4. Kwaliteitsattributen
 
 Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgende ISO 25010 kwaliteitsattributen benoemd als belangrijk:
 * Compatibility -> Interoperability (Degree to which a system, product or component can exchange information with other products and mutually use the information that has been exchanged)

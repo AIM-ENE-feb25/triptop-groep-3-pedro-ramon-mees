@@ -1,4 +1,4 @@
-## 6. Principles
+## 6. Principes
 
 - **Single Responsibility Principle (SRP):**  
    - Elke klasse heeft één enkele verantwoordelijkheid. Bijvoorbeeld:  

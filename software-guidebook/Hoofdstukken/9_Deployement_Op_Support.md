@@ -1,4 +1,4 @@
-## 9. Deployment, Operation and Support
+## 9. Installatie, Werking en Ondersteuning
 
 ### 9.1 Installatie
 

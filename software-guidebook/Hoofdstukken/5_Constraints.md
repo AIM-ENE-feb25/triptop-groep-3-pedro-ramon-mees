@@ -1,4 +1,4 @@
-## 5. Constraints
+## 5. Beperkingen
 
 - Het project moet met prototypes de volgende vragen kunnen beantwoorden:
     - **Interoperability:** Hoe kunnen we verschillende externe vervoersservices (zoals Google Maps of een veerdienst API) integreren zonder afhankelijk te worden van hun specifieke implementaties?
