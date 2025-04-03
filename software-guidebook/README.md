@@ -986,6 +986,7 @@ Voor het bouwen van de applicatie is het eerst nodig dat we de database aanmaken
 
 ```bash
 cd postgres
+# Inloggevens staan in compose.yaml
 sudo docker compose up
 ./ins.sh # Alleen nodig voor de eerste keer om het database schema in te laden
 ```
