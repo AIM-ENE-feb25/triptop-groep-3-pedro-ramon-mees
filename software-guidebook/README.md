@@ -182,11 +182,18 @@ Voor de onderzoeksvraag behandeld in [ADR-002: Strategy pattern](#82-adr-002-str
 
 ![component_diagram_onderzoeksvraag1_ramon.svg](../opdracht-diagrammen/component_diagram_onderzoeksvraag1_ramon.svg)
 
-Als code zal dit er alsvolgt uitzien:
+#### 7.2.4 Code Diagram: Strategy
+
+Als we gaan inzoomen op het code niveau krijgen we het volgende code diagram:
 
 ![code_diagram_ramon.svg](../opdracht-diagrammen/code_diagram_ramon.svg)
 
-#### 7.2.4 Component Diagram: alle patterns
+
+#### 7.2.5 Sequence diagram: Strategy
+
+![sequence_diagram_ramon.svg](../opdracht-diagrammen/sequence_diagram_ramon.svg)
+
+#### 7.2.6 Component Diagram: alle patterns
 
 ![alt text](New_diagrams/Overarching.svg)
 
