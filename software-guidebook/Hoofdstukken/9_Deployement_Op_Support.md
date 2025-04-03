@@ -1,4 +1,4 @@
-## 9. Deployment, Operation and Support
+## 9. Installatie, Werking en Ondersteuning
 
 ### 9.1 Installatie
 
@@ -84,4 +84,3 @@ Voor productie-omgevingen raden we aan om de applicatie te containeriseren en te
    ```bash
    docker run -d -p 8080:8080 --name triptop-api triptop-api:latest
    ```
-

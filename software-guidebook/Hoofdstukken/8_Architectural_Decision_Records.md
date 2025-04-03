@@ -1,4 +1,4 @@
-## 8. Architectural Decision Records
+## 8. Architectuurbeslissingsrecords
 
 ### 8.1. ADR-001 Postgres database
 

@@ -1,4 +1,4 @@
-## 7. Software Architecture
+## 7. Software Architectuur
 
 ### 7.1. Containers
 
