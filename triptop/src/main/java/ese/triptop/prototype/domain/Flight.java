@@ -2,12 +2,12 @@ package ese.triptop.prototype.domain;
 
 public class Flight {
     private String departureAirport;
-    private String arrivalAirport;
+    private Integer arrivalAirport;
     private String departureTime;
     private String arrivalTime;
     private double price;
 
-    public Flight(String departureAirport, String arrivalAirport, String departureTime, String arrivalTime, double price) {
+    public Flight(String departureAirport, Integer arrivalAirport, String departureTime, String arrivalTime, double price) {
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
         this.departureTime = departureTime;
@@ -23,11 +23,11 @@ public class Flight {
         this.departureAirport = departureAirport;
     }
 
-    public String getArrivalAirport() {
+    public Integer getArrivalAirport() {
         return arrivalAirport;
     }
 
-    public void setArrivalAirport(String arrivalAirport) {
+    public void setArrivalAirport(Integer arrivalAirport) {
         this.arrivalAirport = arrivalAirport;
     }
 
@@ -59,9 +59,9 @@ public class Flight {
     public String toString() {
         return "Flight{" +
                 "departureAirport='" + departureAirport + '\'' +
-                ", arrivalAirport='" + arrivalAirport + '\'' +
+                ", arrivalAirport='" + arrivalTime + '\'' +
                 ", departureTime='" + departureTime + '\'' +
-                ", arrivalTime='" + arrivalTime + '\'' +
+                ", arrivalTime='" + arrivalAirport + '\'' +
                 ", price=" + price +
                 '}';
     }
