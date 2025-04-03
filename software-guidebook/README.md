@@ -193,6 +193,9 @@ Als we gaan inzoomen op het code niveau krijgen we het volgende code diagram:
 
 ![sequence_diagram_ramon.svg](../opdracht-diagrammen/sequence_diagram_ramon.svg)
 
+Toelichting:
+  - De aanroep voor `apiRepository.isAvailable()` wordt niet op de `ApiStrategy` interface uitgevoerd maar direct op de `ApiRepository`, dit is puur een persoonlijk voorkeur.
+
 #### 7.2.6 Component Diagram: alle patterns
 
 ![alt text](New_diagrams/Overarching.svg)
