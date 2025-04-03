@@ -1,29 +1,18 @@
 package ese.triptop.prototype.domain;
 
 public class Flight {
-    private String flightNumber;
     private String departureAirport;
     private String arrivalAirport;
     private String departureTime;
     private String arrivalTime;
     private double price;
 
-    public Flight(String flightNumber, String departureAirport, String arrivalAirport, String departureTime, String arrivalTime, double price) {
-        this.flightNumber = flightNumber;
+    public Flight(String departureAirport, String arrivalAirport, String departureTime, String arrivalTime, double price) {
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.price = price;
-    }
-
-    // Getters and setters
-    public String getFlightNumber() {
-        return flightNumber;
-    }
-
-    public void setFlightNumber(String flightNumber) {
-        this.flightNumber = flightNumber;
     }
 
     public String getDepartureAirport() {
@@ -66,4 +55,14 @@ public class Flight {
         this.price = price;
     }
 
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "departureAirport='" + departureAirport + '\'' +
+                ", arrivalAirport='" + arrivalAirport + '\'' +
+                ", departureTime='" + departureTime + '\'' +
+                ", arrivalTime='" + arrivalTime + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

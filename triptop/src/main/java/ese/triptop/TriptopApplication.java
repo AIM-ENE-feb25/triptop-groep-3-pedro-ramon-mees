@@ -2,10 +2,6 @@ package ese.triptop;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
-import ese.triptop.features.Patterns.Factory.FactoryRunner;
-import ese.triptop.features.payments.PaymentRunner;
-import ese.triptop.features.payments.services.PaymentServiceImpl;
-import ese.triptop.features.Patterns.facade.FacadePatternRunner;
 import ese.triptop.features.stripe.StripeTesting;
 import ese.triptop.features.wiremock.WiremockTesting;
 import ese.triptop.prototype.PrototypeRunner;
@@ -18,12 +14,10 @@ public class TriptopApplication {
 
 	private final StripeTesting stripeTesting;
 	private final WiremockTesting wiremockTesting;
-	private final FacadePatternRunner runner;
 	private final PrototypeRunner prototypeRunner;
 
 	@Autowired
-	public TriptopApplication(StripeTesting stripeTesting, WiremockTesting wiremockTesting, FacadePatternRunner runner, PrototypeRunner prototypeRunner) {
-		this.runner = runner;
+	public TriptopApplication(StripeTesting stripeTesting, WiremockTesting wiremockTesting, PrototypeRunner prototypeRunner) {
 		this.stripeTesting = stripeTesting;
 		this.wiremockTesting = wiremockTesting;
 		this.prototypeRunner = prototypeRunner;
@@ -53,14 +47,7 @@ public class TriptopApplication {
 		return this;
 	}
 
-	private TriptopApplication runFacadeDemo() {
-		System.out.println("Running Facade Demonstration...");
-		runner.runDemo();
-		return this;
-	}
-
 	private TriptopApplication runME() {
-
 		prototypeRunner.run();
 		return this;
 	}

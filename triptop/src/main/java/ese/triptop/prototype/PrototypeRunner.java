@@ -1,14 +1,15 @@
 package ese.triptop.prototype;
 
 import ese.triptop.prototype.adapter.BookingComFlightAdapter;
+import ese.triptop.prototype.adapter.contracts.IFlightAdapter;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PrototypeRunner {
 
-    BookingComFlightAdapter bookingComFlightAdapter = new BookingComFlightAdapter();
+    IFlightAdapter adapter = new BookingComFlightAdapter();
 
     public void run () {
-        bookingComFlightAdapter.getFlights("AMS", "LHR", "2024-02-01Z", 2);
+        adapter.getFlights("AMS", "LHR", "2024-02-01Z", 2);
     }
 }
