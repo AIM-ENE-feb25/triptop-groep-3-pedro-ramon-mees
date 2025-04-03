@@ -28,42 +28,49 @@ Dit software guidebook bestaat uit de volgende hoofdstukken:
 4. [**Kwaliteitsattributen**](#4-kwaliteitsattributen)
 
 5. [**Beperkingen**](#5-beperkingen)
-   - [5.1 Prototype vragen](#51-prototype-vragen)
-      - [5.1.1 Interoperability](#511-interoperability)
-      - [5.1.2 Fault Tolerance](#512-fault-tolerance)
-      - [5.1.3 Fault Tolerance](#513-fault-tolerance)
+   - [5.1. Prototype vragen](#51-prototype-vragen)
+      - [5.1.1. Interoperability](#511-interoperability)
+      - [5.1.2. Fault Tolerance](#512-fault-tolerance)
+      - [5.1.3. Fault Tolerance](#513-fault-tolerance)
 
 6. [**Principes**](#6-principes)
-   - 6.1 Ontwerpprincipes
-      - 6.1.1 Single Responsibility Principle
-      - 6.1.2 Open/Closed Principle
-      - 6.1.3 Dependency Inversion Principle
-   - 6.2 Ontwerppatronen
-      - 6.2.1 Facade Pattern
-      - 6.2.2 Adapter Pattern
-      - 6.2.3 Strategy Pattern
-      - 6.2.4 Factory Method Pattern
+   - [6.1. Ontwerpprincipes](#61-ontwerpprincipes)
+      - [6.1.1. Single Responsibility Principle](#611-single-responsibility-principle-srp)
+      - [6.1.2. Open/Closed Principle](#612-openclosed-principle-ocp)
+      - [6.1.3. Dependency Inversion Principle](#613-dependency-inversion-principle-dip)
+      - [6.1.4. Program to interfaces, not implementations](#614-program-to-interfaces-not-implementations)
+      - [6.1.5. Seperation of Concerns](#615-separation-of-concerns-soc)
+      - [6.1.6. Composition over inheritance](#616-composition-over-inheritance)
+      - [6.1.7. DRY (Don't repeat yourself)](#617-dry-dont-repeat-yourself)
+      - [6.1.8. Encapsulatie](#618-encapsulatie)
+      - [6.1.9. Information Hiding](#619-information-hiding)
 
-7. **Software Architectuur**
-   - 7.1 Container diagram
-   - 7.2 Component diagram
-   - 7.3 Design & Code details
-      - 7.3.1 API Lijst
-      - 7.3.2 API Mapping Table
-   - 7.4 Sequence Diagram
-   - 7.5 Class Diagram
-   - 7.6 Uitbreidbaarheid met nieuwe API's
+   - [6.2. Ontwerppatronen](#62-ontwerppatronen)
+      - [6.2.1. Facade](#621-facade)
+      - [6.2.2. Adapter](#622-adapter)
+      - [6.2.3. Strategy](#623-strategy)
+      - [6.2.4. Factory Method](#624-factory-method)
 
-8. **Architectuurbeslissingsrecords**
-   - 8.1 ADR-001: Postgres database
-   - 8.2 ADR-002: Strategy pattern
-   - 8.3 ADR-003: Stripe API Test Modus
-   - 8.4 ADR-004: API Gateway Pattern (deprecated)
-   - 8.5 ADR-005: Toepassen van het Facade-patroon
-   - 8.6 ADR-006: Passend pattern voor "Fallback"
-   - 8.7 ADR-007: Adapter Pattern voor betalingsintegraties
+7. [**Software Architectuur**](#7-software-architectuur)
+   - [7.1. Containerdiagram](#71-containerdiagram)
+   - [7.2. Componentdiagram](#72-componenten)
+   - [7.3. Design & Code details](#73-design--code)
+      - [7.3.1. API Lijst](#731-api-lijst)
+      - [7.3.2. API Mapping Tabel](#732-api-mapping-tabel)
+      - [7.3.3. Sequentiediagram](#733-sequenciediagram)
+      - [7.3.4. Klassendiagram](#734-klassendiagram)
+      - [7.3.5 Uitbreidbaarheid met Nieuwe API's](#735-uitbreidbaarheid-met-nieuwe-apis)
 
-9. **Installatie, Werking en Ondersteuning**
+8. [**Architectuurbeslissingsrecords**](#8-architectuurbeslissingsrecords)
+   - [8.1 ADR-001: Postgres database](#81-adr-001-postgres-database)
+   - [8.2 ADR-002: Strategy pattern](#82-adr-002-strategy-pattern)
+   - [8.3 ADR-003: Stripe API Test Modus](#83-adr-003-stripe-api-test-modus)
+   - [8.4 ADR-004: API Gateway Pattern (deprecated)](#84-adr-004-api-gateway-pattern-voor-externe-api-integratie)
+   - [8.5 ADR-005: Toepassen van het Facade-patroon](#85-adr-005-toepassen-van-het-facade-patroon)
+   - [8.6 ADR-006: Passend pattern voor "Fallback"](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag)
+   - [8.7 ADR-007: Adapter Pattern voor betalingsintegraties](#87-adr-007-implementatie-van-adapter-pattern-voor-betalingsintegraties)
+
+9. [**Installatie, Werking en Ondersteuning**](#9-installatie-werking-en-ondersteuning)
    - 9.1 Installatie-instructies
    - 9.2 Configuratie
    - 9.3 Lokale ontwikkelomgeving
@@ -303,7 +310,7 @@ Verantwoordelijk voor het aanmaken van Adapter-instanties. Dit ontkoppelt de Fac
 
 ## 7. Software Architectuur
 
-### 7.1. Containers
+### 7.1. Containerdiagram
 
 ![alt text](New_diagrams/Container_diagram.svg)
 
@@ -450,7 +457,7 @@ Toelichting:
 | Invoice::create   | Stripe API /? | x                              |                                | x                               |
 _Stripe endpoint addressen worden niet gegeven in de documentatie._
 
-### 7.3.3 Sequenciediagram
+#### 7.3.3 Sequenciediagram
 
 ```mermaid
 sequenceDiagram
@@ -479,7 +486,7 @@ sequenceDiagram
 **Begeleidende tekst Sequence Diagram (7.3.3):**  
 Dit diagram toont de interacties tussen de verschillende componenten tijdens het zoeken naar de beste vlucht. De client roept de Facade aan, die via de Factory beschikbare Adapters ophaalt. Elke Adapter communiceert met een externe API om vluchtgegevens op te halen. De Facade verzamelt de resultaten en gebruikt een Strategy om de beste vlucht te bepalen, die uiteindelijk aan de client wordt teruggegeven.
 
-### 7.3.4 Klassendiagram
+#### 7.3.4 Klassendiagram
 
 ```mermaid
 classDiagram
@@ -572,7 +579,7 @@ classDiagram
 **Begeleidende tekst Class Diagram (7.3.4):**
 Dit diagram geeft een overzicht van de klassenstructuur voor het zoeken naar vluchten. Het toont de interfaces (`IFlightAdapter`, `IFlightSearchStrategy`), concrete implementaties (zoals `SkyscannerAdapter` en `CheapestFlightStrategy`), en de Facade (`FlightFacade`) die de interactie tussen de client en de adapters/strategieën beheert. De Factory (`FlightAdapterFactory`) zorgt voor het leveren van beschikbare adapters, terwijl de Facade de strategie gebruikt om de beste vlucht te selecteren.
 
-### 7.3.5 Uitbreidbaarheid met Nieuwe API's
+#### 7.3.5 Uitbreidbaarheid met Nieuwe API's
 
 Een belangrijk doel van de gekozen architectuur (met Facades, Adapters en Factories) is de **uitbreidbaarheid**. Het toevoegen van een nieuwe externe dienst (bijvoorbeeld een extra hotelprovider zoals Expedia, of een andere vluchtaanbieder) is relatief eenvoudig en vereist minimale aanpassingen aan de bestaande code buiten de nieuwe Adapter zelf.
 
