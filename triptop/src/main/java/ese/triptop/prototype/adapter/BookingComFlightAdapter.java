@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.Duration;
 
 @Component
 public class BookingComFlightAdapter implements IFlightAdapter {
@@ -79,9 +81,14 @@ public class BookingComFlightAdapter implements IFlightAdapter {
             String departureTime = departure.getString("at");
             String arrivalTime = arrival.getString("at");
 
+            LocalDateTime date1 = LocalDateTime.parse(departureTime);
+            LocalDateTime date2 = LocalDateTime.parse(arrivalTime);
+
+            Integer minutesDiff = (int) Duration.between(date2, date1).toMinutes();
+
             Flight flight = new Flight(
                     originCode,
-                    destinationCode,
+                    minutesDiff,
                     departureTime,
                     arrivalTime,
                     price
