@@ -54,7 +54,7 @@ public class FlightFacade {
         Flight bestFlight = currentSearchStrategy.findBestFlight(allFlights);
 
         if (bestFlight != null) {
-             System.out.println("FlightFacade Best flight found: " + bestFlight);
+             System.out.println("FlightFacade found the best flight! from adapter: " + bestFlight.getAdapterName());
         } else {
              System.out.println("FlightFacade Strategy could not determine a best flight.");
         }
