@@ -88,10 +88,12 @@ public class BookingComFlightAdapter implements IFlightAdapter {
 
             Flight flight = new Flight(
                     originCode,
-                    minutesDiff,
+                    destinationCode,
                     departureTime,
                     arrivalTime,
-                    price
+                    price,
+                    minutesDiff,
+                    this.getClass().getSimpleName()
             );
             flights.add(flight);
         });
