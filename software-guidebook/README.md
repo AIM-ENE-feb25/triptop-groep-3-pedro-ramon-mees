@@ -1072,3 +1072,60 @@ CITY="arnhem"
 curl -X GET \
         "http://localhost:8080/hotels?city=$CITY"
 ```
+
+### 9.3. API Prototype Mees
+
+#### 9.3.1. Payment Prototype
+
+Zorg ervoor dat je Java JDK 24 & Postman hebt geinstalleerd en voer de volgende stappen uit:
+
+Voor het bouwen van de applicatie is het eerst nodig dat we de database aanmaken en opstarten:
+
+```bash
+cd triptop
+mvn clean package
+```
+
+**Controller**
+
+Nu is het payment endpoint toegankelijk. Pak Postman, voer daar de volgende data in:
+
+URL: `localhost:8080`
+
+```json
+userId: "cus_S1MthklVNcSUB6", -- User bound to Stripe 
+amount: 200L,
+currency: "EUR" -- Drie letter currency code
+```
+
+User gebonden aan Stripe zijn gemockt voor nu.
+
+**Runner**
+
+Ook is een Runner binnen de main toegankelijk. Voor toegang daar naar verander de main naar de onderstaande code. En uncomment de runPayment methode.
+
+```java
+public static void main(String[] args) {
+		SpringApplication.run(TriptopApplication.class, args)
+ 				.getBean(TriptopApplication.class)
+				.runPayment();
+	}
+
+```
+
+
+
+#### 9.3.2. Factory Oefening Prototype
+
+**Runner**
+
+Ook is een Runner binnen de main toegankelijk. Voor toegang daar naar verander de main naar de onderstaande code. En uncomment de runPayment methode.
+
+```java
+public static void main(String[] args) {
+		SpringApplication.run(TriptopApplication.class, args)
+ 				.getBean(TriptopApplication.class)
+				.runFactory();
+	}
+
+```
