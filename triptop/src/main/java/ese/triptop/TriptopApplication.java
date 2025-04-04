@@ -41,7 +41,7 @@ public class TriptopApplication {
 		flightFacade.setSearchStrategy(flightStrategies.get("cheapestFlightStrategy"));
 		Flight bestFlight = flightFacade.findBestFlight("AMS", "LHR", "2024-02-01Z", 2);
 		if (bestFlight != null) {
-			System.out.println("Best flight found: " + bestFlight);
+			System.out.println("Best flight found: \n" + bestFlight);
 		} else {
 			System.out.println("No flights found.");
 		}
