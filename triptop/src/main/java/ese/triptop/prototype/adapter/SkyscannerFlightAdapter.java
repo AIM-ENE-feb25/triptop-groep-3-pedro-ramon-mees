@@ -98,9 +98,11 @@ public class SkyscannerFlightAdapter implements IFlightAdapter {
 
                         // Extract origin and destination
                         JSONObject origin = leg.getJSONObject("origin");
+                        JSONObject destination = leg.getJSONObject("destination");
 
                         String departureAirport = origin.getString("displayCode");
-                        Integer arrivalAirport = leg.getInt("durationInMinutes");
+                        Integer duration = leg.getInt("durationInMinutes");
+                        String arrivalAirport = destination.getString("displayCode");
                         String departureTime = leg.getString("departure");
                         String arrivalTime = leg.getString("arrival");
 
@@ -109,7 +111,9 @@ public class SkyscannerFlightAdapter implements IFlightAdapter {
                                 arrivalAirport,
                                 departureTime,
                                 arrivalTime,
-                                price
+                                price,
+                                duration,
+                                this.getClass().getSimpleName()
                         );
                         flights.add(flight);
                     });
