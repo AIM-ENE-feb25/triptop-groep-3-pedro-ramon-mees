@@ -13,7 +13,7 @@ public class FastestFlightStrategy implements IFlightSearchStrategy {
     public Flight findBestFlight(List<Flight> availableFlights) {
          System.out.println("Strategy: Applying Fastest Flight Strategy.");
          return availableFlights.stream()
-                .min(Comparator.comparingInt(Flight::getArrivalAirport))
+                .min(Comparator.comparingInt(Flight::getFlightDuration))
                 .orElse(null);
     }
 }
