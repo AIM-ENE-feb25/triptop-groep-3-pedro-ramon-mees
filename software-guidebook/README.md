@@ -12,70 +12,127 @@ Het document gaat ook in op de belangrijkste ontwerp- en codebeslissingen die ge
 
 Dit software guidebook bestaat uit de volgende hoofdstukken:
 
-1. [**Inleiding**](#1-inleiding)
-   - [1.1 Inhoudsopgave](#11-inhoudsopgave)
-   - [1.2 Leeswijzer](#12-leeswijzer)
-
-2. [**Context**](#2-context)
-   - [2.1 Contextdiagram](#21-contextdiagram)
-
-3. [**Functioneel Overzicht**](#3-functioneel-overzicht)
-   - [3.1 User stories](#31-user-stories)
-   - [3.2 Domain stories (AS-IS)](#32-domain-story-reis-boeken-as-is)
-   - [3.3 Domain stories (TO-BE)](#33-domain-story-reis-boeken-to-be)
-   - [3.4 Domeinmodel](#34-domeinmodel)
-
-4. [**Kwaliteitsattributen**](#4-kwaliteitsattributen)
-
-5. [**Beperkingen**](#5-beperkingen)
-   - [5.1. Prototype vragen](#51-prototype-vragen)
-      - [5.1.1. Interoperability](#511-interoperability)
+- [Software Guidebook Triptop](#software-guidebook-triptop)
+  - [1. Inleiding](#1-inleiding)
+    - [1.1 Inhoudsopgave](#11-inhoudsopgave)
+    - [1.2 Leeswijzer](#12-leeswijzer)
+  - [2. Context](#2-context)
+    - [2.1 Contextdiagram](#21-contextdiagram)
+  - [3. Functioneel Overzicht](#3-functioneel-overzicht)
+    - [3.1 User Stories](#31-user-stories)
+      - [3.1.1 User Story 1: Reis plannen](#311-user-story-1-reis-plannen)
+      - [3.1.2 User Story 2: Reis boeken](#312-user-story-2-reis-boeken)
+      - [3.1.3 User Story 3: Reis cancelen](#313-user-story-3-reis-cancelen)
+      - [3.1.4 User Story 4: Reisstatus bewaren](#314-user-story-4-reisstatus-bewaren)
+      - [3.1.5 User Story 5: Bouwstenen flexibel uitbreiden](#315-user-story-5-bouwstenen-flexibel-uitbreiden)
+    - [3.2 Domain Story Reis Boeken (AS IS)](#32-domain-story-reis-boeken-as-is)
+    - [3.3 Domain Story Reis Boeken (TO BE)](#33-domain-story-reis-boeken-to-be)
+    - [3.4 Domeinmodel](#34-domeinmodel)
+  - [4. Kwaliteitsattributen](#4-kwaliteitsattributen)
+  - [5. Beperkingen](#5-beperkingen)
+    - [5.1. Prototype vragen](#51-prototype-vragen)
+      - [5.1.1. Modularity](#511-modularity)
       - [5.1.2. Fault Tolerance](#512-fault-tolerance)
       - [5.1.3. Fault Tolerance](#513-fault-tolerance)
-
-6. [**Principes**](#6-principes)
-   - [6.1. Ontwerpprincipes](#61-ontwerpprincipes)
-      - [6.1.1. Single Responsibility Principle](#611-single-responsibility-principle-srp)
-      - [6.1.2. Open/Closed Principle](#612-openclosed-principle-ocp)
-      - [6.1.3. Dependency Inversion Principle](#613-dependency-inversion-principle-dip)
-      - [6.1.4. Program to interfaces, not implementations](#614-program-to-interfaces-not-implementations)
-      - [6.1.5. Seperation of Concerns](#615-separation-of-concerns-soc)
-      - [6.1.6. Composition over inheritance](#616-composition-over-inheritance)
-      - [6.1.7. DRY (Don't repeat yourself)](#617-dry-dont-repeat-yourself)
+  - [6. Principes](#6-principes)
+    - [6.1. Ontwerpprincipes](#61-ontwerpprincipes)
+      - [6.1.1 Single Responsibility Principle (SRP)](#611-single-responsibility-principle-srp)
+      - [6.1.2 Open/Closed Principle (OCP)](#612-openclosed-principle-ocp)
+      - [6.1.3 Dependency Inversion Principle (DIP)](#613-dependency-inversion-principle-dip)
+      - [6.1.4 Program to Interfaces, Not Implementations](#614-program-to-interfaces-not-implementations)
+      - [6.1.5. Separation of Concerns (SoC)](#615-separation-of-concerns-soc)
+      - [6.1.6. Composition Over Inheritance](#616-composition-over-inheritance)
+      - [6.1.7. DRY (Don't Repeat Yourself)](#617-dry-dont-repeat-yourself)
       - [6.1.8. Encapsulatie](#618-encapsulatie)
       - [6.1.9. Information Hiding](#619-information-hiding)
-   - [6.2. Ontwerppatronen](#62-ontwerppatronen)
+    - [6.2. Ontwerppatronen](#62-ontwerppatronen)
       - [6.2.1. Facade](#621-facade)
       - [6.2.2. Adapter](#622-adapter)
       - [6.2.3. Strategy](#623-strategy)
-      - [6.2.4. Factory Method](#624-factory-method)
-
-7. [**Software Architectuur**](#7-software-architectuur)
-   - [7.1. Containerdiagram](#71-containerdiagram)
-   - [7.2. Componentdiagram](#72-componenten)
-   - [7.3. Design & Code details](#73-design--code)
-      - [7.3.1. API Lijst](#731-api-lijst)
-      - [7.3.2. API Mapping Tabel](#732-api-mapping-tabel)
-      - [7.3.3. Sequentiediagram](#733-sequenciediagram)
-      - [7.3.4. Klassendiagram](#734-klassendiagram)
+      - [6.2.4. Factory method](#624-factory-method)
+  - [7. Software Architectuur](#7-software-architectuur)
+    - [7.1. Containerdiagram](#71-containerdiagram)
+      - [7.1.1. Dynamische Diagram: Haal beste vluchten op](#711-dynamische-diagram-haal-beste-vluchten-op)
+    - [7.2. Componenten](#72-componenten)
+      - [7.2.1 Componentdiagram: Adapter \& Factory](#721-componentdiagram-adapter--factory)
+      - [7.2.2 Componentdiagram: Facade](#722-componentdiagram-facade)
+      - [7.2.3 Componentdiagram: Strategy](#723-componentdiagram-strategy)
+      - [7.2.4 Code Diagram: Strategy](#724-code-diagram-strategy)
+      - [7.2.5 Sequentiediagram: Strategy](#725-sequentiediagram-strategy)
+      - [7.2.6 Componentdiagram: alle patterns](#726-componentdiagram-alle-patterns)
+    - [7.3 Design \& Code](#73-design--code)
+      - [7.3.1 API Lijst](#731-api-lijst)
+      - [7.3.2 API Mapping Tabel](#732-api-mapping-tabel)
+      - [7.3.3 Sequenciediagram](#733-sequenciediagram)
+      - [7.3.4 Klassendiagram](#734-klassendiagram)
       - [7.3.5 Uitbreidbaarheid met Nieuwe API's](#735-uitbreidbaarheid-met-nieuwe-apis)
-
-8. [**Architectuurbeslissingsrecords**](#8-architectuurbeslissingsrecords)
-   - [8.1 ADR-001: Postgres database](#81-adr-001-postgres-database)
-   - [8.2 ADR-002: Strategy pattern](#82-adr-002-strategy-pattern)
-   - [8.3 ADR-003: Stripe API Test Modus](#83-adr-003-stripe-api-test-modus)
-   - [8.4 ADR-004: API Gateway Pattern (deprecated)](#84-adr-004-api-gateway-pattern-voor-externe-api-integratie)
-   - [8.5 ADR-005: Toepassen van het Facade-patroon](#85-adr-005-toepassen-van-het-facade-patroon)
-   - [8.6 ADR-006: Passend pattern voor "Fallback"](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag)
-   - [8.7 ADR-007: Adapter Pattern voor betalingsintegraties](#87-adr-007-implementatie-van-adapter-pattern-voor-betalingsintegraties)
-
-9. [**Installatie, Werking en Ondersteuning**](#9-installatie-werking-en-ondersteuning)
-   - [9.1. Triptop Applicatie Walking Skeleton](#91-triptrop-applicatie-walking-skeleton)
-      - [9.1.1. Bouwen](#911-bouwen)
-      - [9.1.2. Uitvoeren](#912-uitvoeren)
-   - [9.2. API Prototype Ramon](#92-api-prototype-ramon)
-      - [9.2.1. Bouwen](#921-bouwen)
-      - [9.2.2. Uitvoeren](#922-uitvoeren)
+  - [8. Architectuurbeslissingsrecords](#8-architectuurbeslissingsrecords)
+    - [8.1. ADR-001 Postgres database](#81-adr-001-postgres-database)
+      - [Auteur](#auteur)
+      - [Context](#context)
+      - [Overwogen opties](#overwogen-opties)
+      - [Keuze](#keuze)
+      - [Status](#status)
+      - [Gevolgen](#gevolgen)
+    - [8.2. ADR-002 Strategy pattern](#82-adr-002-strategy-pattern)
+      - [Auteur](#auteur-1)
+      - [Context](#context-1)
+      - [Overwogen opties](#overwogen-opties-1)
+      - [Keuze](#keuze-1)
+      - [Status](#status-1)
+      - [Gevolgen](#gevolgen-1)
+    - [8.3. ADR-003 Stripe API Test Modus](#83-adr-003-stripe-api-test-modus)
+      - [Auteur:](#auteur-2)
+      - [Status](#status-2)
+      - [Context](#context-2)
+      - [Besluit](#besluit)
+    - [Gevolgen](#gevolgen-2)
+      - [Positief:](#positief)
+      - [Negatief:](#negatief)
+      - [Implementatiedetails](#implementatiedetails)
+    - [8.4. ADR-004 API Gateway Pattern voor externe API-integratie](#84-adr-004-api-gateway-pattern-voor-externe-api-integratie)
+      - [Auteur](#auteur-3)
+      - [Status](#status-3)
+      - [Context](#context-3)
+      - [Besluit](#besluit-1)
+    - [Gevolgen](#gevolgen-3)
+      - [Positief:](#positief-1)
+      - [Negatief:](#negatief-1)
+      - [Implementatiedetails](#implementatiedetails-1)
+    - [8.5. ADR-005 Toepassen van het Facade-patroon](#85-adr-005-toepassen-van-het-facade-patroon)
+      - [Auteur](#auteur-4)
+      - [Status](#status-4)
+      - [Context](#context-4)
+      - [Beslissing](#beslissing)
+      - [Gevolgen](#gevolgen-4)
+        - [Positief:](#positief-2)
+        - [Negatief:](#negatief-2)
+      - [Toegepaste ontwerpprincipes](#toegepaste-ontwerpprincipes)
+    - [8.6. ADR-006 Passend pattern kiezen voor bij "Fallback" onderzoeksvraag](#86-adr-006-passend-pattern-kiezen-voor-bij-fallback-onderzoeksvraag)
+      - [Auteur](#auteur-5)
+      - [Status](#status-5)
+      - [Context](#context-5)
+      - [Besluit](#besluit-2)
+      - [Gevolgen](#gevolgen-5)
+        - [Positief:](#positief-3)
+        - [Negatief:](#negatief-3)
+      - [Implementatiedetails](#implementatiedetails-2)
+    - [8.7. ADR-007 Implementatie van Adapter Pattern voor betalingsintegraties](#87-adr-007-implementatie-van-adapter-pattern-voor-betalingsintegraties)
+      - [Auteur](#auteur-6)
+      - [Status](#status-6)
+      - [Context](#context-6)
+      - [Besluit](#besluit-3)
+      - [Gevolgen](#gevolgen-6)
+        - [Positief:](#positief-4)
+        - [Negatief:](#negatief-4)
+      - [Implementatiedetails](#implementatiedetails-3)
+  - [9. Installatie, Werking en Ondersteuning](#9-installatie-werking-en-ondersteuning)
+    - [9.1 Triptrop applicatie (walking skeleton)](#91-triptrop-applicatie-walking-skeleton)
+      - [9.1.1 Bouwen](#911-bouwen)
+      - [9.1.2 Uitvoeren](#912-uitvoeren)
+    - [9.2 API Prototype Ramon](#92-api-prototype-ramon)
+      - [9.2.1 Bouwen](#921-bouwen)
+      - [9.2.2 Uitvoeren](#922-uitvoeren)
 
 ### 1.2 Leeswijzer
 
@@ -195,9 +252,9 @@ De prototypes vormen samen een walking skeleton en moeten binnen 3 weken worden 
 
 Het project moet met prototypes de volgende vragen kunnen beantwoorden:
 
-#### 5.1.1. Interoperability
+#### 5.1.1. Modularity
 
-Hoe kunnen we verschillende externe vervoersservices (zoals Google Maps of een veerdienst API) integreren zonder afhankelijk te worden van hun specifieke implementaties?
+Hoe zorg je ervoor dat je makkelijk de ene externe service kan vervangen door een andere die ongeveer hetzelfde doet?
 (Zie [ADR-005](#85-adr-005-toepassen-van-het-facade-patroon))
 
 #### 5.1.2. Fault Tolerance
@@ -765,13 +822,12 @@ _**Deprecated**_
 #### Auteur
 Pedro van Douveren
 
->**Interoperability:** Hoe kunnen we verschillende externe vervoersservices (zoals Google Maps of een veerdienst API) integreren zonder afhankelijk te worden van hun specifieke implementaties?
-
+>**Modularity:** Hoe zorg je ervoor dat je makkelijk de ene externe service kan vervangen door een andere die ongeveer hetzelfde doet?
 #### Status
 _**Geaccepteerd**_
 
 #### Context
-> De huidige code in het pakket `ese.triptop.features.wiremock` communiceert direct met meerdere externe APIs (Identity, Flight Offers, Booking, TripAdvisor) via de `Unirest`-bibliotheek. Dit leidt tot de volgende problemen:  
+> De huidige code in het pakket `ese.triptop.prototype` communiceert direct met meerdere externe APIs (Identity, Flight Offers, Booking, TripAdvisor) via de `Unirest`-bibliotheek. Dit leidt tot de volgende problemen:  
 > - **Verspreide logica**: De details van API-communicatie (URL-opbouw, verzoeken maken, reacties verwerken, foutafhandeling) zijn verspreid over meerdere klassen.
 > - **Herhaling**
 > - **Hoge koppeling**: Clientcode is direct afhankelijk van de specifieke externe API’s en de `Unirest`-bibliotheek.
@@ -783,15 +839,16 @@ Het doel is om de interactie met deze externe diensten te vereenvoudigen en de a
 #### Beslissing
 We passen het **Facade-patroon** toe om de complexiteit van communicatie met de externe reis-API’s te verbergen.  
 
-Daarom introduceren we een **`TravelApiServiceFacade`-interface** die eenvoudige methodes aanbiedt, zoals:
+Daarom introduceren we een **`FlightFacade`** die eenvoudige methodes aanbiedt, zoals:
 - `findFlights`
-- `findHotels`
+- `findBestFlights`
+Met een **`RestaurantFacade`** volgens dezelfde principes zou je dan bijvoorbeeld:
 - `findRestaurants`
 
-De implementatie **`TravelApiServiceFacadeImpl`** zal deze interface gebruiken om de volgende details te verbergen:
+De **`FlightFacade`** zal de volgende details te verbergen:
 - HTTP-verzoeken uitvoeren via `Unirest`.
-- Specifieke API-eindpunten en parameters afhandelen.
-- Basisfouten verwerken en API-reacties omzetten.
+- service-level logica
+- specifieke implementaties foor polymorphisme
 
 ![alt text](New_diagrams/Facade/facade_Component.svg)
 
