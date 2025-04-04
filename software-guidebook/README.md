@@ -133,6 +133,9 @@ Dit software guidebook bestaat uit de volgende hoofdstukken:
     - [9.2 API Prototype Ramon](#92-api-prototype-ramon)
       - [9.2.1 Bouwen](#921-bouwen)
       - [9.2.2 Uitvoeren](#922-uitvoeren)
+    - [9.3. API Prototype Mees](#93-api-prototype-mees)
+      - [9.3.1. Payment Prototype](#931-payment-prototype)
+      - [9.3.2. Payment Prototype](#932-factory-oefening-prototype)
 
 ### 1.2 Leeswijzer
 
